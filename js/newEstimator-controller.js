@@ -2,10 +2,62 @@
 let step0Storage = {};
 let step1Storage = {};
 let step2Storage = {};
+let step3Storage = {};
+let step4Storage = {};
+let step5Storage = {};
 
 
 
 createStep2LuceDiretta();
+
+function createStep5LuceDiretta()
+{
+  let selector = ".step5";
+
+  let field1 = "Illuminazione";
+
+  labelActivation(".labelStep5");
+
+  createTitle(selector, "illuminazione", "Tipo illuminazione :");
+  createCustomDiv(selector, "customDiv1IlluminazioneStep5");
+  selector = '#customDiv1IlluminazioneStep5';
+
+  checkboxInputGeneratorOnChange(selector,"illuminazione1",field1,"Modulo led IP67 bianco freddo 6500 k",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione2",field1,"Modulo led IP67 bianco naturale 4000 k",saveFieldsStep5Event);
+
+  createCustomDiv(".step5", "customDiv2lluminazioneStep5");
+  selector = '#customDiv2lluminazioneStep5';
+
+  checkboxInputGeneratorOnChange(selector,"illuminazione3",field1,"Modulo led IP67 colorato rosso",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione4",field1,"Modulo led IP67 colorato giallo",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione5",field1,"Modulo led IP67 colorato blu",saveFieldsStep5Event);
+
+}
+
+
+
+function createStep4LuceDiretta()
+{
+  let selector = ".step4";
+
+  let field1 = "fondello";
+
+  labelActivation(".labelStep4");
+
+  createTitle(selector, "categoriaFondello", "Categoria costa laterale :");
+  createCustomDiv(selector, "customDivCategoriaFondelloStep4");
+  selector = '#customDivCategoriaFondelloStep4';
+
+  checkboxInputGeneratorOnChange(selector,"fondello1",field1,"PVC 10 MM Bianco",saveFieldsStep4Event);
+  checkboxInputGeneratorOnChange(selector,"fondello2",field1,"Alluminio composito 3MM",saveFieldsStep4Event);
+
+}
+
+function resetStep4LuceDiretta()
+{
+  $("#categoriaFondello").remove();
+  $("#customDivCategoriaFondelloStep4").remove();
+}
 
 function createStep2LuceDiretta()
 {
@@ -35,25 +87,105 @@ function createConsequenceCategoriaCostaLateraleEvent()
   switch(this.value)
   {
     case 'Flat':
-      createMaterialeCostaLateraleStep2()
+      createMaterialeCostaLateraleFlatStep2();
       break;
     case 'Flange':
-
+      createMaterialeCostaLateraleFlangeStep2();
       break;
 
     case 'Profilo estroso':
-
-        break;
+      createMaterialeCostaLateraleProfiloEstrosoStep2();
+      break;
   }
 }
 
 
-function createMaterialeCostaLateraleStep2()
+
+
+function createMaterialeCostaLateraleProfiloEstrosoStep2()
 {
+  resetFieldsStep2();
+  removeMaterialeCostaLaterale();
+
   let field2 = "Materiale costa laterale";
-  let field3 = "Bordatura Outline";
+  let field3 = "Tipologia profilo";
+
+  step2Storage[field2] = "Alluminio";
+  step2Storage[field3] = null;
+
+
+  createTitle('.step2', "materialeCostaLaterale", "Materiale costa laterale :");
+  createCustomDiv('.step2', "customDivMaterialeCostaLateraleStep2");
+  let selector = '#customDivMaterialeCostaLateraleStep2';
+
+  radioButtonInputGeneratorOnChage(selector,'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
+
+
+  createTitle('.step2', "bordaturaCostaLaterale", "Tipologia profilo (OPZIONALE) :");
+  createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
+  selector = '#customDivBordaturaCostaLateraleStep2';
+  checkboxInputGeneratorOnChange(selector,'letterForm', field3, "Letter form", createConsequenceMaterialeCostaLateraleEvent);
+  checkboxInputGeneratorOnChange(selector,'letterBox', field3, "Letter box", createConsequenceMaterialeCostaLateraleEvent);
+
+
+  $("#alluminio").trigger("click");
+
+
+}
+
+
+
+function createMaterialeCostaLateraleFlangeStep2()
+{
+  resetFieldsStep2();
+  removeMaterialeCostaLaterale();
+
+  let field2 = "Materiale costa laterale";
+  let field3 = "Cornice perimetrale";
+
+  step2Storage[field2] = "Alluminio";
+  step2Storage[field3] = null;
+
+
+  createTitle('.step2', "materialeCostaLaterale", "Materiale costa laterale :");
+  createCustomDiv('.step2', "customDivMaterialeCostaLateraleStep2");
+  let selector = '#customDivMaterialeCostaLateraleStep2';
+
+  radioButtonInputGeneratorOnChage(selector,'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
+
+
+  createTitle('.step2', "bordaturaCostaLaterale", "cornice perimetrale (OPZIONALE) :");
+  createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
+  selector = '#customDivBordaturaCostaLateraleStep2';
+  checkboxInputGeneratorOnChange(selector,'bordaturaOutline', field3, "cornice perimetrale", saveOptionalFieldsStep2Event);
+  $("#alluminio").trigger("click");
+
+
+}
+
+function removeMaterialeCostaLaterale()
+{
+  $("#materialeCostaLaterale").remove();
+  $("#bordaturaOutline").remove();
+  $("#customDivBordaturaCostaLateraleStep2").remove();
+  $("#bordaturaCostaLaterale").remove();
+  $("#customDivMaterialeCostaLateraleStep2").remove();
+  $("#letterForm").remove();
+  $("#letterBox").remove();
+  removeMisuraCostaLaterale();
+}
+
+function createMaterialeCostaLateraleFlatStep2()
+{
+
+  resetFieldsStep2();
+  removeMaterialeCostaLaterale();
+
+  let field2 = "Materiale costa laterale";
+  let field3 = "Bordatura outline saldata su fronte";
 
   step2Storage[field3] = null;
+
 
   createTitle('.step2', "materialeCostaLaterale", "Materiale costa laterale :");
   createCustomDiv('.step2', "customDivMaterialeCostaLateraleStep2");
@@ -64,39 +196,188 @@ function createMaterialeCostaLateraleStep2()
   radioButtonInputGeneratorOnChage(selector,'ottone', field2, "Ottone", createConsequenceMaterialeCostaLateraleEvent);
 
 
-  createTitle('.step2', "bordaturaCostaLaterale", "Bordatura outline costa laterale (OPZIONALE) :");
+  createTitle('.step2', "bordaturaCostaLaterale", "Bordatura outline saldata su fronte costa laterale (OPZIONALE) :");
   createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
   selector = '#customDivBordaturaCostaLateraleStep2';
-  checkboxInputGeneratorOnChange(selector,'bordaturaOutline', field3, "Bordatura outline", saveOptionalFieldsStep2Event);
+  checkboxInputGeneratorOnChange(selector,'bordaturaOutline', field3, "Bordatura outline saldata su fronte", saveOptionalFieldsStep2Event);
+
 
 }
 
 function createConsequenceMaterialeCostaLateraleEvent()
 {
+  resetFieldsStep2();
+
   saveFieldsStep2Event(this.name,this.value);
+
+
   if($('#misuraCostaLaterale').length === 0) {
+    createTitle('.step2', "misuraCostaLaterale", "Misura costa laterale :");
+    createCustomDiv('.step2', "customDivMisuraCostaLateraleStep2");
+  }
+  else
+  {
+    removeMisuraCostaLaterale();
     createTitle('.step2', "misuraCostaLaterale", "Misura costa laterale :");
     createCustomDiv('.step2', "customDivMisuraCostaLateraleStep2");
   }
 
     let options = [];
-    options.push("25MM");
-    options.push("40MM");
-    options.push("60MM");
-    options.push("80MM");
-    options.push("100MM");
-    options.push("150MM");
-    options.push("200MM");
 
 
-  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2',"selectMeasureCostaLaterale",options,createConsequenceMisuraCostaLateraleEvent)
+  if(this.name === "Tipologia profilo")
+  {
+    switch (this.value) {
+      case 'Letter form':
+        options.push("37MM");
+        options.push("60MM");
+        saveOptionalFieldsStep2EventLetterFormLetterBox(this.name,this.value);
+
+        break;
+      case 'Letter box':
+        options.push("60MM");
+        options.push("100MM");
+        saveOptionalFieldsStep2EventLetterFormLetterBox(this.name,this.value);
+        break;
+    }
+  }
+  else {
+    switch (this.value) {
+      case 'Alluminio':
+        options.push("25MM");
+        options.push("40MM");
+        options.push("60MM");
+        options.push("80MM");
+        options.push("100MM");
+        options.push("150MM");
+        options.push("200MM");
+        break;
+      case 'Inox':
+      case 'Ottone':
+        options.push("25MM");
+        options.push("40MM");
+        options.push("60MM");
+        options.push("80MM");
+        break;
+
+    }
+  }
+
+  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2',"selectMeasureCostaLaterale",options,createConsequenceVerniciaturaEvent)
 
 }
 
+function resetStep2LuceDiretta()
+{
+  $("#categoriaCostaLaterale").remove();
+  $("#customDivCategoriaCostaLateraleStep2").remove();
+  $("#materialeCostaLaterale").remove();
+  $("#customDivMaterialeCostaLateraleStep2").remove();
+  $("#misuraCostaLaterale").remove();
+  $("#customDivMisuraCostaLateraleStep2").remove();
+}
+
+
+function createConsequenceVerniciaturaEvent()
+{
+  saveFieldsStep2Event(this.name,this.value);
+
+  createStep3LuceDiretta();
+
+}
+
+
+function createStep3LuceDiretta()
+{
+  labelActivation(".labelStep3");
+  let selector = ".step3";
+
+  let field1 ="materiale frontalino";
+
+  createTitle(selector, 'materialeFrontalino', 'Materiale frontalino :');
+  createCustomDiv(selector, "customDivMaterialeFrontalinoStep3");
+
+  selector = '#customDivMaterialeFrontalinoStep3';
+  radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1,  "Plexi-glass opale", createConsequenceMaterialeFrontalinoEvent);
+  radioButtonInputGeneratorOnChage(selector,'plexiGlassColorato', field1, "Plexi-glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
+
+
+
+}
+
+function createConsequenceMaterialeFrontalinoEvent()
+{
+  resetFieldsStep3();
+
+  saveFieldsStep3Event(this.name,this.value);
+
+  let selector = ".step3";
+  if(this.value === 'Plexi-glass opale') {
+    if($('#spessoreFrontalino').length === 0) {
+      createTitle(selector, 'spessoreFrontalino', 'Spessore frontalino :');
+      createCustomDiv(selector, "customDivSpessoreFrontalinoStep3");
+    }
+    selector = "#customDivSpessoreFrontalinoStep3";
+    let options = [];
+    options.push("3MM");
+    options.push("5MM");
+    options.push("8MM");
+    createOptionsSelectInputGeneratorOnChange(selector, "selectSpessoreFrontalino", options,createConsequenceSpessoreFrontalinoEvent)
+  }
+  else
+  {
+    if($('#spessoreFrontalino').length !== 0) {
+      $('#spessoreFrontalino').remove();
+      $('#customDivSpessoreFrontalinoStep3').remove();
+    }
+    }
+}
+
+function createConsequenceSpessoreFrontalinoEvent()
+{
+  saveFieldsStep3Event(this.name, this.value);
+  createStep4LuceDiretta();
+}
+
+function removeMisuraCostaLaterale()
+{
+  $("#misuraCostaLaterale").remove();
+  $("#customDivMisuraCostaLateraleStep2").remove();
+  removeVerniciaturaCostaLaterale();
+}
+
+function removeVerniciaturaCostaLaterale()
+{
+  $("#verniciaturaCostaLaterale").remove();
+  $("#customDivVerniciaturaCostaLateraleStep2").remove();
+}
 function createConsequenceMisuraCostaLateraleEvent()
 {
   saveFieldsStep2Event(this.name,this.value);
 
+  let field4 = "verniciatura costa laterale"
+  let selector = '#customDivVerniciaturaCostaLateraleStep2';
+
+  if($('#verniciaturaCostaLaterale').length === 0) {
+    createTitle('.step2', "verniciaturaCostaLaterale", "Verniciatura costa laterale :");
+    createCustomDiv('.step2', "customDivVerniciaturaCostaLateraleStep2");
+
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceMaterialeCostaLateraleEvent);
+    radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceMaterialeCostaLateraleEvent);
+  }
+
+  if(step2Storage['Materiale costa laterale'] !== 'Alluminio') {
+    if($('#galvanico').length === 0)
+      radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceMaterialeCostaLateraleEvent);
+  }
+  else
+  {
+    if($('#galvanico').length !== 0) {
+      $('#galvanico').remove();
+      $('label[for=galvanico]').remove();
+    }
+
+  }
 }
 
 
@@ -526,14 +807,35 @@ function saveFieldsStep2Event(name,value)
 function saveOptionalFieldsStep2Event()
 {
 
-  if(this.checked)
-  step2Storage[this.name] = this.value;
-  else
+
+  if(this.checked) {
+
+    if( $('input[value="'+step2Storage[this.name]+'"]') != null)
+      $('input[value="'+step2Storage[this.name]+'"]').prop('checked' , false);
+    step2Storage[this.name] = this.value;
+
+  }
+  else {
     step2Storage[this.name] = null;
+  }
 
-  console.log(step2Storage[this.name])
 }
+function saveOptionalFieldsStep2EventLetterFormLetterBox(name, value)
+{
 
+
+  if($('input[value="'+value+'"]').checked) {
+
+    if( $('input[value="'+value+'"]') != null)
+      $('input[value="'+value+'"]').prop('checked' , false);
+    step2Storage[name] = value;
+
+  }
+  else {
+    step2Storage[name] = null;
+  }
+
+}
 
 function resetFieldsStep2()
 {
@@ -541,6 +843,80 @@ function resetFieldsStep2()
   for (let property in step2Storage) {
 
     delete step2Storage[property];
+
+  }
+
+}
+
+function saveFieldsStep3Event(name,value)
+{
+
+  step3Storage[name] = value;
+  console.log(step3Storage[name])
+}
+
+function resetFieldsStep3()
+{
+
+  for (let property in step3Storage) {
+
+    delete step3Storage[property];
+
+  }
+
+}
+
+function saveFieldsStep4Event()
+{
+
+  if(this.checked) {
+
+   if( $('input[value="'+step4Storage[this.name]+'"]') != null)
+    $('input[value="'+step4Storage[this.name]+'"]').prop('checked' , false);
+    step4Storage[this.name] = this.value;
+
+  }
+  else {
+    step4Storage[this.name] = null;
+  }
+
+}
+
+function resetFieldsStep4()
+{
+
+  for (let property in step4Storage) {
+
+    delete step4Storage[property];
+
+  }
+
+}
+
+function saveFieldsStep5Event()
+{
+
+  if(this.checked) {
+
+    if( $('input[value="'+step5Storage[this.name]+'"]') != null)
+      $('input[value="'+step5Storage[this.name]+'"]').prop('checked' , false);
+    step5Storage[this.name] = this.value;
+
+  }
+  else {
+    step5Storage[this.name] = null;
+  }
+
+
+  console.log(step5Storage[this.name]);
+}
+
+function resetFieldsStep5()
+{
+
+  for (let property in step5Storage) {
+
+    delete step5Storage[property];
 
   }
 
