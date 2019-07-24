@@ -8,8 +8,8 @@ let step5Storage = {};
 
 
 
+createStep0();
 createStep1();
-
 
 
 function createStep5LuceDiretta()
@@ -678,6 +678,7 @@ function createStep1()
 
 function consequenceStep1()
 {
+  $(".step2").empty();
 
   step1Storage[this.name] = this.value;
   if(this.value === "Massello spento")
@@ -688,27 +689,223 @@ function consequenceStep1()
   createStep2LuceDirettaAndRiflessa();
 
 }
+function removeMasselloStep2()
+{
+  $('#titleTipoMasello').remove();
+  $('#divTipoMasello').remove();
+  $('#titleScrittaMasello').remove();
+  $('#divScrittaMasello').remove();
+
+}
 
 function masselloStep2()
 {
+  removeMasselloStep2();
   let selector = ".step2";
+  let field0 = "Scritta Massello"
+
+
+  createTitle(selector,"titleScrittaMassello","Scritta massello: ");
+  createCustomDiv(selector,"divScrittaMassello");
+  selector = "#divScrittaMassello";
+
+  radioButtonInputGeneratorOnChage(selector,'sempliceSpenta', field0, "Semplice spenta", consequenceStepScrittaMasello);
+  radioButtonInputGeneratorOnChage(selector,'retroilluminazione', field0, "Con retroilluminazione", consequenceStepScrittaMasello);
+
+
+}
+
+function consequenceStepScrittaMasello()
+{
   let field1 = "Tipo materiale";
 
-  createTitle(selector,"titleTipoMasello","Tipo materiale: ");
-  createCustomDiv(selector,"divTipoMasello");
+  let selector = ".step2";
 
-  selector = "#divTipoMasello";
+  saveFieldsStep2Event(this.name,this.value);
 
-  radioButtonInputGeneratorOnChage(selector,'plexiGlass', field1, "Plexi-glass", consequenceStep1Masello);
-  radioButtonInputGeneratorOnChage(selector,'pVC', field1, "PVC", consequenceStep1Masello);
-  radioButtonInputGeneratorOnChage(selector,'alluminioComposto', field1, "Alluminio composto", consequenceStep1Masello);
+  createTitle(selector,"titleTipoMassello","Tipo materiale: ");
+  createCustomDiv(selector,"divTipoMassello");
 
+  selector = "#divTipoMassello";
+
+  if( this.value === 'Semplice spenta') {
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi-glass", consequenceStep1Masello);
+    radioButtonInputGeneratorOnChage(selector, 'pVC', field1, "PVC", consequenceStep1Masello);
+    radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composto", consequenceStep1Masello);
+  }
+  else
+  {
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi-glass", consequenceStep1MaselloRetroilluminato);
+    $("#plexiGlass").trigger("click");
+  }
+}
+
+
+function consequenceStep1MaselloRetroilluminato() {
+  removeStep1Masello();
+  let field2 = "colore";
+  saveFieldsStep2Event(this.name, this.value);
+
+  let selector = ".step2";
+
+  createTitle(selector, "titleColoreMassello", "Colore: ");
+  createCustomDiv(selector, "divColoreMassello");
+
+  selector = "#divColoreMassello";
+
+  radioButtonInputGeneratorOnChage(selector, 'trasparente', field2, "Trasparente", consequenceStep1ColoreMaselloRetroilluminato);
+  radioButtonInputGeneratorOnChage(selector, 'opale', field2, "Opale", consequenceStep1ColoreMaselloRetroilluminato);
+}
+
+function consequenceStep1ColoreMaselloRetroilluminato() {
+
+  saveFieldsStep2Event(this.name, this.value);
+
+  let selector = ".step2";
+
+  createTitle(selector, "titleSpessoreMassello", "Spessore: ");
+  createCustomDiv(selector, "divSpessoreMassello");
+
+  selector = "#divSpessoreMassello";
+
+  let options = [];
+
+
+  if (step2Storage['Tipo materiale'] === 'Plexi-glass') {
+    options.push("15MM");
+    options.push("20MM");
+    options.push("30MM");
+
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraMasello);
+
+  }
+}
+
+function createConsequenceMisuraMasello()
+{
+  saveFieldsStep2Event(this.name,this.value);
+
+  let selector = ".step3";
+
+  let field1 = "Illuminazione";
+  let field2 = "alimentatore"
+
+  labelActivation(".labelStep3");
+
+  createTitle(selector, "illuminazione", "Tipo illuminazione :");
+  createCustomDiv(selector, "customDiv1IlluminazioneStep5");
+  selector = '#customDiv1IlluminazioneStep5';
+
+  checkboxInputGeneratorOnChange(selector,"illuminazione1",field1,"Modulo led IP67 bianco freddo 6500 k",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione2",field1,"Modulo led IP67 bianco naturale 4000 k",saveFieldsStep5Event);
+
+  createCustomDiv(".step3", "customDiv2IlluminazioneStep5");
+  selector = '#customDiv2IlluminazioneStep5';
+
+  checkboxInputGeneratorOnChange(selector,"illuminazione3",field1,"Modulo led IP67 colorato rosso",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione4",field1,"Modulo led IP67 colorato verde",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione5",field1,"Modulo led IP67 colorato blu",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione6",field1,"Modulo led IP67 colorato RGB (Con controller RGB)",saveFieldsStep5Event);
+
+  createTitle('.step3', "alimentatoreTitle", "Alimentatore :");
+  createCustomDiv(".step3", "divina");
+
+  checkboxInputGeneratorOnChange("#divina","alimentatore",field2,"Alimentatore IP67",saveFieldsStep5Event);
+
+  createTitle('.step3', "masselloOpzionale", "Secondo Massello in sovrapposizione (OPZIONALE) :");
+  createCustomDiv(".step3", "divina1");
+  checkboxInputGeneratorOnChange("#divina1","secondoMassello",field2,"Secondo massello", consequenceSecondoMassello);
+
+}
+
+function consequenceSecondoMassello()
+{
+  removeStep1Masello();
+  let field2 = "colore";
+  saveFieldsStep2Event(this.name, this.value);
+
+  let selector = ".step4";
+
+  createTitle(selector, "titleColoreMassello", "Colore: ");
+  createCustomDiv(selector, "divColoreMassello");
+
+  selector = "#divColoreMassello";
+
+  radioButtonInputGeneratorOnChage(selector, 'trasparente', field2, "Trasparente", consequenceStep1ColoreMaselloRetroilluminatoOptional);
+  radioButtonInputGeneratorOnChage(selector, 'opale', field2, "Opale", consequenceStep1ColoreMaselloRetroilluminatoOptional);
+}
+
+function consequenceStep1ColoreMaselloRetroilluminatoOptional() {
+
+  saveFieldsStep3Event(this.name, this.value);
+
+  let selector = ".step4";
+
+  createTitle(selector, "titleSpessore2Massello", "Spessore: ");
+  createCustomDiv(selector, "divSpessore2Massello");
+
+  selector = "#divSpessore2Massello";
+
+  let options = [];
+
+
+    options.push("15MM");
+    options.push("20MM");
+    options.push("30MM");
+
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, createConsequenceMisuraMaselloOptional);
+
+
+}
+
+function createConsequenceMisuraMaselloOptional()
+{
+  saveFieldsStep2Event(this.name,this.value);
+
+  let selector = ".step5";
+
+  let field1 = "Illuminazione";
+  let field2 = "alimentatore"
+
+  labelActivation(".labelStep5");
+
+  createTitle(selector, "illuminazione2", "Tipo illuminazione :");
+  createCustomDiv(selector, "customDiv1Illuminazione2Step5");
+  selector = '#customDiv1Illuminazione2Step5';
+
+  checkboxInputGeneratorOnChange(selector,"illuminazione12",field1,"Modulo led IP67 bianco freddo 6500 k",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione22",field1,"Modulo led IP67 bianco naturale 4000 k",saveFieldsStep5Event);
+
+  createCustomDiv(".step5", "customDiv2Illuminazione2Step5");
+  selector = '#customDiv2Illuminazione2Step5';
+
+  checkboxInputGeneratorOnChange(selector,"illuminazione33",field1,"Modulo led IP67 colorato rosso",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione43",field1,"Modulo led IP67 colorato verde",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione53",field1,"Modulo led IP67 colorato blu",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector,"illuminazione63",field1,"Modulo led IP67 colorato RGB (Con controller RGB)",saveFieldsStep5Event);
+
+  createTitle('.step5', "alimentatore2Title", "Alimentatore :");
+  createCustomDiv(".step5", "divina2");
+
+  checkboxInputGeneratorOnChange("#divina2","alimentatore2",field2,"Alimentatore IP67",saveFieldsStep5Event);
+
+
+}
+function removeStep1Masello()
+{
+  $('#titleColoreMassello').remove();
+  $('#divColoreMassello').remove();
+  $('#colorDIV').remove();
+  $('#colorDIV1').remove();
+  $('#colorDIV2').remove();
+  $('#colorDIV3').remove();
 }
 
 function consequenceStep1Masello()
 {
-
+  removeStep1Masello();
   let field2 = "colore";
+
 
   saveFieldsStep2Event(this.name,this.value);
 
@@ -721,17 +918,58 @@ function consequenceStep1Masello()
 
   if(this.value === 'Plexi-glass')
   {
-    radioButtonInputGeneratorOnChage(selector,'trasparente', field2, "trasparente", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'opale', field2, "opale", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'colorato', field2, "colorato composto", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'trasparente', field2, "Trasparente", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'opale', field2, "Opale", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'colorato', field2, "Colorato composto", consequenceStep1ColoreMasello);
 
   }
+  else if(this.value === 'PVC')
+  {
+    radioButtonInputGeneratorOnChage(selector,'bianco', field2, "Bianco", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'nero', field2, "Nero", consequenceStep1ColoreMasello);
+    createCustomDiv(".step2", "colorDIV");
+    selector = "#colorDIV";
+    radioButtonInputGeneratorOnChage(selector,'rosso', field2, "Rosso", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'blu', field2, "Blu", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'giallo', field2, "Giallo", consequenceStep1ColoreMasello);
+
+  }
+  else {
+    radioButtonInputGeneratorOnChage(selector,'rosso', field2, "Rosso", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'bianco', field2, "Bianco", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'blu', field2, "Blu", consequenceStep1ColoreMasello);
+    createCustomDiv(".step2", "colorDIV1");
+    selector = "#colorDIV1";
+    radioButtonInputGeneratorOnChage(selector,'argentoSpazzolato', field2, "Argento spazzolato", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'argentoSpecchio', field2, "Argento specchio", consequenceStep1ColoreMasello);
+    createCustomDiv(".step2", "colorDIV2");
+    selector = "#colorDIV2";
+    radioButtonInputGeneratorOnChage(selector,'oroSpecchio', field2, "Oro specchio", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'oroSpazzolato', field2, "Oro spazzolato", consequenceStep1ColoreMasello);
+    createCustomDiv(".step2", "colorDIV3");
+    selector = "#colorDIV3";
+    radioButtonInputGeneratorOnChage(selector,'giallo', field2, "Giallo", consequenceStep1ColoreMasello);
+    radioButtonInputGeneratorOnChage(selector,'rameSpazzolato', field2, "Rame spazzolato", consequenceStep1ColoreMasello);
+  }
 }
+
+function removeConsequenceStep1ColoreMasello(){
+  $('#titleSpessoreMassello').remove();
+  $('#divSpessoreMassello').remove();
+  $('#titleColore2Massello').remove();
+  $('#divColore2Massello').remove();
+
+}
+
+function createConsequenceMisuraCostaLateraleEvent2()
+{
+  console.log("send");
+}
+
 function consequenceStep1ColoreMasello()
 {
 
-  let field3 = "spessore";
-
+  removeConsequenceStep1ColoreMasello();
   let field4 = "Colore desiderato";
 
   saveFieldsStep2Event(this.name,this.value);
@@ -745,45 +983,68 @@ function consequenceStep1ColoreMasello()
 
   let options = [];
 
-  if(this.value === "trasparente")
-  {
-    options.push("3MM");
-    options.push("5MM");
-    options.push("8MM");
-    options.push("10MM");
-    options.push("15MM");
-    options.push("20MM");
 
-    createOptionsSelectInputGeneratorOnChange(selector,"selectMeasureSpessoreMassello",options,createConsequenceMisuraCostaLateraleEvent)
+
+  if(step2Storage['Tipo materiale'] === 'Plexi-glass') {
+    if (this.value === "Trasparente") {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("8MM");
+      options.push("10MM");
+      options.push("15MM");
+      options.push("20MM");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
+
+    } else if (this.value === "Opale") {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("10MM");
+      options.push("15MM");
+      options.push("20MM");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
+
+    } else {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("10MM");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
+
+      createTitle(".step2", "titleColore2Massello", "Colore desiderato: ");
+
+      createCustomDiv(".step2", "divColore2Massello");
+
+      selector = "#divColore2Massello";
+
+
+      textInputGeneratorOnChange(selector, field4, "Colore desiderato", createConsequenceMisuraCostaLateraleEvent2)
+    }
 
   }
-  else if(this.value === "opale")
+  else if(step2Storage['Tipo materiale'] === 'PVC')
   {
-    options.push("3MM");
-    options.push("5MM");
-    options.push("10MM");
-    options.push("15MM");
-    options.push("20MM");
+    if(this.value === "Bianco") {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("10MM");
+      options.push("19MM");
+    }
+    else
+    {
+      options.push("3MM");
+      options.push("5MM");
+    }
 
-    createOptionsSelectInputGeneratorOnChange(selector,"selectMeasureSpessoreMassello",options,createConsequenceMisuraCostaLateraleEvent)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
 
   }
   else
   {
-    options.push("3MM");
-    options.push("5MM");
-    options.push("10MM");
+    radioButtonInputGeneratorOnChage(selector, "selectMeasureSpessoreMassello", "Spessore", "3MM", createConsequenceMisuraCostaLateraleEvent2)
 
-    createOptionsSelectInputGeneratorOnChange(selector,"selectMeasureSpessoreMassello",options,createConsequenceMisuraCostaLateraleEvent)
-
-    createTitle(".step2","titleColore2Massello","Colore desiderato: ");
-
-    createCustomDiv(".step2","divColore2Massello");
-
-    selector = "#divColore2Massello";
-
-
-    textInputGeneratorOnChange(selector, field4, "Colore desiderato", createConsequenceMisuraCostaLateraleEvent )
+    $("#selectMeasureSpessoreMassello").trigger("click");
   }
 }
 
