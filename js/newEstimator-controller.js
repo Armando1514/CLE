@@ -1,4 +1,3 @@
-
 let step0Storage = {};
 let step1Storage = {};
 let step2Storage = {};
@@ -12,8 +11,7 @@ createStep0();
 createStep1();
 
 
-function createStep5LuceDiretta()
-{
+function createStep5LuceDiretta() {
   resetFieldsStep5();
 
   resetStep5LuceDiretta();
@@ -29,35 +27,37 @@ function createStep5LuceDiretta()
   createCustomDiv(selector, "customDiv1IlluminazioneStep5");
   selector = '#customDiv1IlluminazioneStep5';
 
-  checkboxInputGeneratorOnChange(selector,"illuminazione1",field1,"Modulo led IP67 bianco freddo 6500 k",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione2",field1,"Modulo led IP67 bianco naturale 4000 k",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector, "illuminazione1", field1, "Modulo led IP67 bianco freddo 6500 k", saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector, "illuminazione2", field1, "Modulo led IP67 bianco naturale 4000 k", saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector, "illuminazione3", field1, "Modulo led IP67 bianco  3000 k", saveFieldsStep5Event);
+
 
   createCustomDiv(".step5", "customDiv2IlluminazioneStep5");
   selector = '#customDiv2IlluminazioneStep5';
 
-  checkboxInputGeneratorOnChange(selector,"illuminazione3",field1,"Modulo led IP67 colorato rosso",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione4",field1,"Modulo led IP67 colorato verde",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione5",field1,"Modulo led IP67 colorato blu",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione6",field1,"Modulo led IP67 colorato RGB (Con controller RGB)",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector, "illuminazione4", field1, "Modulo led IP67 colorato rosso", saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector, "illuminazione5", field1, "Modulo led IP67 colorato verde", saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector, "illuminazione6", field1, "Modulo led IP67 colorato blu", saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange(selector, "illuminazione7", field1, "Modulo led IP67 colorato RGB (Con controller RGB)", saveFieldsStep5Event);
 
   createTitle('.step5', "alimentatoreTitle", "Alimentatore :");
   createCustomDiv(".step5", "divina");
 
-  checkboxInputGeneratorOnChange("#divina","alimentatore",field2,"Alimentatore IP67",saveFieldsStep5Event);
+  checkboxInputGeneratorOnChange("#divina", "alimentatore", field2, "Alimentatore IP67", saveFieldsStep5Event);
 
 
 }
 
 
 
-function createStep4LuceDiretta()
-{
+function createStep4LuceDiretta() {
   resetFieldsStep4();
   resetStep4LuceDiretta();
 
   let selector = ".step4";
 
   let field1 = "fondello";
+  let field2 = "Distanziatore fondello"
 
   labelActivation(".labelStep4");
 
@@ -65,33 +65,32 @@ function createStep4LuceDiretta()
   createCustomDiv(selector, "customDivCategoriaFondelloStep4");
   selector = '#customDivCategoriaFondelloStep4';
 
-  if(step1Storage["Tipologia lettera scatolata"] === "Luce diretta") {
+  if (step1Storage["Tipologia lettera scatolata"] === "Luce diretta") {
     checkboxInputGeneratorOnChange(selector, "fondello1", field1, "PVC 10 MM Bianco", consequenceFondello);
     checkboxInputGeneratorOnChange(selector, "fondello2", field1, "Alluminio composito 3MM", consequenceFondello);
-  }
-  else
-  {
+  } else {
 
-    checkboxInputGeneratorOnChange(selector, "distaziatoraFondello", field1, "Distanziatore fondello", consequenceFondello);
-    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale3MM", field1, "Plexi-glass Opale 3MM", consequenceFondello);
-   createCustomDiv(".step4", "divFondello");
-   selector = "#divFondello";
-    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale5MM", field1, "Plexi-glass Opale 5MM", consequenceFondello);
-    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale8MM", field1, "Plexi-glass Opale 8MM", consequenceFondello);
-    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale10MM", field1, "Plexi-glass Opale 10MM", consequenceFondello);
+    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale3MM", field1, "Plexi glass Opale 3MM", consequenceFondello);
+    createCustomDiv(".step4", "divFondello");
+    selector = "#divFondello";
+    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale5MM", field1, "Plexi glass Opale 5MM", consequenceFondello);
+    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale8MM", field1, "Plexi glass Opale 8MM", consequenceFondello);
+    checkboxInputGeneratorOnChange(selector, "plexiGlassOpale10MM", field1, "Plexi glass Opale 10MM", consequenceFondello);
+
+    createTitle('.step4', "distanziatore", "Distanziatore fondello (OPZIONALE):");
+    checkboxInputGeneratorOnChange('#distanziatore', "distanziatoreFondello", field2, "Distanziatore fondello", consequenceFondello);
+
 
   }
 
 }
 
-function consequenceFondello()
-{
+function consequenceFondello() {
   createStep5LuceDiretta();
   saveFieldsStep4Event(this.name, this.value);
 }
 
-function resetStep4LuceDiretta()
-{
+function resetStep4LuceDiretta() {
   resetFieldsStep4();
   $('.labelStep4 ').removeClass('active');
   $("#categoriaFondello").remove();
@@ -99,8 +98,7 @@ function resetStep4LuceDiretta()
   $("#divFondello").remove();
 }
 
-function resetStep5LuceDiretta()
-{
+function resetStep5LuceDiretta() {
   resetFieldsStep5();
   $('.labelStep5 ').removeClass('active');
   $("#illuminazione").remove();
@@ -111,8 +109,7 @@ function resetStep5LuceDiretta()
 }
 
 
-function createStep2LuceDirettaAndRiflessa()
-{
+function createStep2LuceDirettaAndRiflessa() {
 
   resetFieldsStep2();
   resetStep2LuceDirettaAndRiflessa();
@@ -123,51 +120,125 @@ function createStep2LuceDirettaAndRiflessa()
 
   labelActivation(".labelStep2");
 
-  createTitle(selector, "categoriaCostaLaterale", "Categoria costa laterale :");
-  createCustomDiv(selector, "customDivCategoriaCostaLateraleStep2");
-  selector = '#customDivCategoriaCostaLateraleStep2';
 
 
 
-  radioButtonInputGeneratorOnChage(selector,'flat', field1, "Flat", createConsequenceCategoriaCostaLateraleEvent);
+  if (step1Storage['Tipologia lettera scatolata'] === 'Luce diretta') {
 
- if(step1Storage['Tipologia lettera scatolata'] === 'Luce diretta') {
-   radioButtonInputGeneratorOnChage(selector, "flange", field1, "Flange", createConsequenceCategoriaCostaLateraleEvent);
-   radioButtonInputGeneratorOnChage(selector, 'profiloEstroso', field1, "Profilo estroso", createConsequenceCategoriaCostaLateraleEvent);
- }
- if(step1Storage['Tipologia lettera scatolata'] === 'Luce riflessa')
-   $('#flat').trigger("click");
+    createTitle(selector, "categoriaCostaLaterale", "Categoria costa laterale :");
+    createCustomDiv(selector, "customDivCategoriaCostaLateraleStep2");
+    selector = '#customDivCategoriaCostaLateraleStep2';
+
+    radioButtonInputGeneratorOnChage(selector, 'flat', field1, "Flat", createConsequenceCategoriaCostaLateraleEvent);
+    radioButtonInputGeneratorOnChage(selector, "flange", field1, "Flange", createConsequenceCategoriaCostaLateraleEvent);
+    radioButtonInputGeneratorOnChage(selector, 'profiloEstroso', field1, "Profilo estruso", createConsequenceCategoriaCostaLateraleEvent);
+  }
+  if (step1Storage['Tipologia lettera scatolata'] === 'Luce riflessa')
+    createConsequenceCategoriaCostaLateraleEvent();
 }
 
-function createConsequenceCategoriaCostaLateraleEvent()
-{
+function createConsequenceCategoriaCostaLateraleEvent() {
 
   resetStep3LuceDirettaAndRiflessa();
   resetStep4LuceDiretta();
   resetStep5LuceDiretta();
 
-  saveFieldsStep2Event(this.name, this.value);
+  if (step1Storage['Tipologia lettera scatolata'] === 'Luce riflessa') {
+    createMaterialeLuceRiflessa();
+  } else {
+    saveFieldsStep2Event(this.name, this.value);
 
-  switch(this.value)
-  {
-    case 'Flat':
-      createMaterialeCostaLateraleFlatStep2();
-      break;
-    case 'Flange':
-      createMaterialeCostaLateraleFlangeStep2();
-      break;
+    switch (this.value) {
+      case 'Flat':
+        createMaterialeCostaLateraleFlatStep2();
+        break;
+      case 'Flange':
+        createMaterialeCostaLateraleFlangeStep2();
+        break;
 
-    case 'Profilo estroso':
-      createMaterialeCostaLateraleProfiloEstrosoStep2();
-      break;
+      case 'Profilo estruso':
+        createMaterialeCostaLateraleProfiloEstrosoStep2();
+        break;
+    }
   }
 }
 
+function createMaterialeLuceRiflessa() {
+  resetFieldsStep2();
+  resetStep2LuceDirettaAndRiflessa();
+
+  labelActivation(".labelStep2");
+
+  let selector = ".step2";
+
+  let field1 = "Materiale lettera";
+
+  if ($('#materialeLettere').length === 0) {
+    createTitle(selector, 'materialeLettere', 'Materiale lettera :');
+    createCustomDiv(selector, "customDivMaterialeLettereStep2");
+  }
+
+  selector = '#customDivMaterialeLettereStep2';
+
+  radioButtonInputGeneratorOnChage(selector, "letteraAlluminio", field1, "Alluminio (1.2MM)", createConsequenceMaterialeLuceRiflessa);
+  radioButtonInputGeneratorOnChage(selector, "letteraInox", field1, "Inox (1MM)", createConsequenceMaterialeLuceRiflessa);
+
+  createCustomDiv(".step2", "lettera2");
+
+  selector = "#lettera2";
+
+  radioButtonInputGeneratorOnChage(selector, "letteraOttone", field1, "Ottone (1MM)", createConsequenceMaterialeLuceRiflessa);
+  radioButtonInputGeneratorOnChage(selector, "letteraLamieraZincata", field1, "Lamiera zincata (1MM)", createConsequenceMaterialeLuceRiflessa);
+
+
+}
+
+function createConsequenceMaterialeLuceRiflessa() {
+
+  let field4 = "Finitura "
+  let selector = '#customDivVerniciaturaCostaLateraleStep2';
 
 
 
-function createMaterialeCostaLateraleProfiloEstrosoStep2()
-{
+  if ($('#verniciaturaCostaLaterale').length === 0) {
+
+    createTitle('.step2', "verniciaturaCostaLaterale", "Finitura : ");
+    createCustomDiv('.step2', "customDivVerniciaturaCostaLateraleStep2");
+
+  }
+  saveFieldsStep2Event(this.name, this.value);
+
+  $("#customDivVerniciaturaCostaLateraleStep2").empty();
+
+  if (this.value === 'Alluminio (1.2MM)') {
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaLuceRiflessaEvent);
+  } else if (this.value === 'Inox (1MM)') {
+
+    $("#verniciaturaCostaLaterale").text("Finitura costa laterale: ");
+
+    radioButtonInputGeneratorOnChage(selector, "lucida", field4, "Lucida", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'spazzolata', field4, "Spazzolata", createConsequenceVerniciaturaLuceRiflessaEvent);
+
+  } else if (this.value === "Ottone (1MM)") {
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaLuceRiflessaEvent);
+
+  } else {
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'verniciata', field4, "Verniciata", createConsequenceVerniciaturaLuceRiflessaEvent);
+
+  }
+
+}
+
+function createConsequenceVerniciaturaLuceRiflessaEvent() {
+  createStep4LuceDiretta();
+  saveFieldsStep2Event(this.name, this.value);
+
+}
+
+function createMaterialeCostaLateraleProfiloEstrosoStep2() {
   removeMaterialeCostaLaterale();
 
   let field2 = "Materiale costa laterale";
@@ -181,14 +252,14 @@ function createMaterialeCostaLateraleProfiloEstrosoStep2()
   createCustomDiv('.step2', "customDivMaterialeCostaLateraleStep2");
   let selector = '#customDivMaterialeCostaLateraleStep2';
 
-  radioButtonInputGeneratorOnChage(selector,'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
+  radioButtonInputGeneratorOnChage(selector, 'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
 
 
-  createTitle('.step2', "bordaturaCostaLaterale", "Tipologia profilo (OPZIONALE) :");
+  createTitle('.step2', "bordaturaCostaLaterale", "Tipologia profilo :");
   createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
   selector = '#customDivBordaturaCostaLateraleStep2';
-  checkboxInputGeneratorOnChange(selector,'letterForm', field3, "Letter form", createConsequenceMaterialeCostaLateraleEvent);
-  checkboxInputGeneratorOnChange(selector,'letterBox', field3, "Letter box", createConsequenceMaterialeCostaLateraleEvent);
+  radioButtonInputGeneratorOnChage(selector, 'letterForm', field3, "Letter form", createConsequenceMaterialeCostaLateraleEvent);
+  radioButtonInputGeneratorOnChage(selector, 'letterBox', field3, "Letter box", createConsequenceMaterialeCostaLateraleEvent);
 
 
   $("#alluminio").trigger("click");
@@ -198,8 +269,7 @@ function createMaterialeCostaLateraleProfiloEstrosoStep2()
 
 
 
-function createMaterialeCostaLateraleFlangeStep2()
-{
+function createMaterialeCostaLateraleFlangeStep2() {
   removeMaterialeCostaLaterale();
 
   let field2 = "Materiale costa laterale";
@@ -212,20 +282,19 @@ function createMaterialeCostaLateraleFlangeStep2()
   createCustomDiv('.step2', "customDivMaterialeCostaLateraleStep2");
   let selector = '#customDivMaterialeCostaLateraleStep2';
 
-  radioButtonInputGeneratorOnChage(selector,'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
+  radioButtonInputGeneratorOnChage(selector, 'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
 
 
   createTitle('.step2', "bordaturaCostaLaterale", "cornice perimetrale (OPZIONALE) :");
   createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
   selector = '#customDivBordaturaCostaLateraleStep2';
-  checkboxInputGeneratorOnChange(selector,'bordaturaOutline', field3, "cornice perimetrale", saveOptionalFieldsStep2Event);
+  checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', field3, "cornice perimetrale", saveOptionalFieldsStep2Event);
   $("#alluminio").trigger("click");
 
 
 }
 
-function removeMaterialeCostaLaterale()
-{
+function removeMaterialeCostaLaterale() {
   $("#materialeCostaLaterale").remove();
   $("#bordaturaOutline").remove();
   $("#customDivBordaturaCostaLateraleStep2").remove();
@@ -236,8 +305,7 @@ function removeMaterialeCostaLaterale()
   removeMisuraCostaLaterale();
 }
 
-function createMaterialeCostaLateraleFlatStep2()
-{
+function createMaterialeCostaLateraleFlatStep2() {
 
   resetStep3LuceDirettaAndRiflessa();
   resetStep4LuceDiretta();
@@ -254,66 +322,69 @@ function createMaterialeCostaLateraleFlatStep2()
   createCustomDiv('.step2', "customDivMaterialeCostaLateraleStep2");
   let selector = '#customDivMaterialeCostaLateraleStep2';
 
-  radioButtonInputGeneratorOnChage(selector,'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
-  radioButtonInputGeneratorOnChage(selector, "inox", field2,  "Inox", createConsequenceMaterialeCostaLateraleEvent);
-  radioButtonInputGeneratorOnChage(selector,'ottone', field2, "Ottone", createConsequenceMaterialeCostaLateraleEvent);
+  radioButtonInputGeneratorOnChage(selector, 'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
+  radioButtonInputGeneratorOnChage(selector, "inox", field2, "Inox", createConsequenceMaterialeCostaLateraleEvent);
+  radioButtonInputGeneratorOnChage(selector, 'ottone', field2, "Ottone", createConsequenceMaterialeCostaLateraleEvent);
 
 
   createTitle('.step2', "bordaturaCostaLaterale", "Bordatura outline saldata su fronte costa laterale (OPZIONALE) :");
   createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
   selector = '#customDivBordaturaCostaLateraleStep2';
-  checkboxInputGeneratorOnChange(selector,'bordaturaOutline', field3, "Bordatura outline saldata su fronte", saveOptionalFieldsStep2Event);
+  checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', field3, "Bordatura outline saldata su fronte", saveOptionalFieldsStep2Event);
 
 
 }
 
-function createConsequenceMaterialeCostaLateraleEvent()
-{
+function createConsequenceMaterialeCostaLateraleEvent() {
   resetStep3LuceDirettaAndRiflessa();
   resetStep4LuceDiretta();
   resetStep5LuceDiretta();
 
 
-  if($('#misuraCostaLaterale').length === 0) {
-    createTitle('.step2', "misuraCostaLaterale", "Misura costa laterale :");
+  if ($('#misuraCostaLaterale').length === 0) {
+    createTitle('.step2', "misuraCostaLaterale", "Profondità costa laterale :");
     createCustomDiv('.step2', "customDivMisuraCostaLateraleStep2");
-  }
-  else
-  {
+  } else {
     removeMisuraCostaLaterale();
-    createTitle('.step2', "misuraCostaLaterale", "Misura costa laterale :");
+    createTitle('.step2', "misuraCostaLaterale", "Profondità costa laterale :");
     createCustomDiv('.step2', "customDivMisuraCostaLateraleStep2");
   }
 
-    let options = [];
+  let options = [];
 
 
-  if(this.name === "Tipologia profilo")
-  {
+  if (this.name === "Tipologia profilo") {
     switch (this.value) {
       case 'Letter form':
         options.push("37MM");
         options.push("60MM");
-        saveOptionalFieldsStep2EventLetterFormLetterBox(this.name,this.value);
+        saveOptionalFieldsStep2EventLetterFormLetterBox(this.name, this.value);
 
         break;
       case 'Letter box':
         options.push("60MM");
         options.push("100MM");
-        saveOptionalFieldsStep2EventLetterFormLetterBox(this.name,this.value);
+        saveOptionalFieldsStep2EventLetterFormLetterBox(this.name, this.value);
         break;
     }
-  }
-  else {
+  } else {
     switch (this.value) {
       case 'Alluminio':
-        options.push("25MM");
-        options.push("40MM");
-        options.push("60MM");
-        options.push("80MM");
-        options.push("100MM");
-        options.push("150MM");
-        options.push("200MM");
+        if (step2Storage["Categoria costa laterale"] === 'Flange') {
+          options.push("60MM");
+          options.push("80MM");
+          options.push("100MM");
+          options.push("150MM");
+          options.push("200MM");
+        } else {
+          options.push("25MM");
+          options.push("40MM");
+          options.push("60MM");
+          options.push("80MM");
+          options.push("100MM");
+          options.push("150MM");
+          options.push("200MM");
+        }
         break;
       case 'Inox':
       case 'Ottone':
@@ -324,16 +395,15 @@ function createConsequenceMaterialeCostaLateraleEvent()
         break;
 
     }
-    saveFieldsStep2Event(this.name,this.value);
+    saveFieldsStep2Event(this.name, this.value);
 
   }
 
-  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2',"selectMeasureCostaLaterale",options,createConsequenceMisuraCostaLateraleEvent)
+  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", options, createConsequenceMisuraCostaLateraleEvent)
 
 }
 
-function resetStep2LuceDirettaAndRiflessa()
-{
+function resetStep2LuceDirettaAndRiflessa() {
   $("#categoriaCostaLaterale").remove();
   $("#customDivCategoriaCostaLateraleStep2").remove();
   $("#materialeCostaLaterale").remove();
@@ -347,9 +417,8 @@ function resetStep2LuceDirettaAndRiflessa()
 }
 
 
-function createConsequenceVerniciaturaEvent()
-{
-  saveFieldsStep2Event(this.name,this.value);
+function createConsequenceVerniciaturaEvent() {
+  saveFieldsStep2Event(this.name, this.value);
 
 
   createStep3LuceDirettaAndRiflessa();
@@ -357,8 +426,7 @@ function createConsequenceVerniciaturaEvent()
 }
 
 
-function createStep3LuceDirettaAndRiflessa()
-{
+function createStep3LuceDirettaAndRiflessa() {
   resetFieldsStep3();
   resetStep3LuceDirettaAndRiflessa();
 
@@ -374,36 +442,25 @@ function createStep3LuceDirettaAndRiflessa()
 
   selector = '#customDivMaterialeFrontalinoStep3';
 
-   if(step1Storage["Tipologia lettera scatolata"] !== "Luce riflessa") {
 
-    if (step2Storage["Categoria costa laterale"] === "Profilo estroso")
-      radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi-glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
-    else
-      radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi-glass opale", createConsequenceMaterialeFrontalinoEvent);
 
-    radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi-glass colorato (3MM)", createConsequenceSpessoreFrontalinoEvent);
+  if (step2Storage["Categoria costa laterale"] === "Profilo estruso") {
+    radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceSpessoreFrontalinoEvent);
 
-  }
-  else
-  {
-    radioButtonInputGeneratorOnChage(selector, "frontalinoAlluminio", field1, "Alluminio (1.2MM)", createConsequenceSpessoreFrontalinoEvent);
-    radioButtonInputGeneratorOnChage(selector, "frontalinoInox", field1, "Inox (1MM)", createConsequenceSpessoreFrontalinoEvent);
+  } else if (step2Storage["Categoria costa laterale"] === 'Flange') {
+    radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
 
-    createCustomDiv(".step3", "frontalino2")
-
-    selector = "#frontalino2";
-
-    radioButtonInputGeneratorOnChage(selector, "frontalinoOttone", field1, "Ottone (1MM) ", createConsequenceSpessoreFrontalinoEvent);
-    radioButtonInputGeneratorOnChage(selector, "frontalinoLamieraZincata", field1, "Lamiera zincata (1MM)", createConsequenceSpessoreFrontalinoEvent);
-
+  } else {
+    radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale", createConsequenceMaterialeFrontalinoEvent);
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceSpessoreFrontalinoEvent);
 
   }
 
 
 }
 
-function resetStep3LuceDirettaAndRiflessa()
-{
+function resetStep3LuceDirettaAndRiflessa() {
   resetFieldsStep4();
   $('.labelStep3 ').removeClass('active');
   $('#materialeFrontalino').remove();
@@ -418,72 +475,65 @@ function resetStep3LuceDirettaAndRiflessa()
 
 
 
-
-function createConsequenceMaterialeFrontalinoEvent()
-{
+function createConsequenceMaterialeFrontalinoEvent() {
   resetFieldsStep3();
 
-  saveFieldsStep3Event(this.name,this.value);
+  saveFieldsStep3Event(this.name, this.value);
 
   let selector = ".step3";
 
 
 
-    if($('#spessoreFrontalino').length === 0) {
-      createTitle(selector, 'spessoreFrontalino', 'Spessore frontalino :');
-      createCustomDiv(selector, "customDivSpessoreFrontalinoStep3");
-    }
-    selector = "#customDivSpessoreFrontalinoStep3";
+  if ($('#spessoreFrontalino').length === 0) {
+    createTitle(selector, 'spessoreFrontalino', 'Spessore frontalino :');
+    createCustomDiv(selector, "customDivSpessoreFrontalinoStep3");
+  }
+  selector = "#customDivSpessoreFrontalinoStep3";
 
-     let options = [];
-     options.push("3MM");
-     options.push("5MM");
-     options.push("8MM");
-     createOptionsSelectInputGeneratorOnChange(selector, "selectSpessoreFrontalino", options,createConsequenceSpessoreFrontalinoEvent)
+  let options = [];
+  options.push("3MM");
+  options.push("5MM");
+  options.push("8MM");
+  createOptionsSelectInputGeneratorOnChange(selector, "selectSpessoreFrontalino", options, createConsequenceSpessoreFrontalinoEvent)
 
 
 
 }
 
-function createConsequenceSpessoreFrontalinoEvent()
-{
+function createConsequenceSpessoreFrontalinoEvent() {
   saveFieldsStep3Event(this.name, this.value);
   createStep4LuceDiretta();
 }
 
-function removeMisuraCostaLaterale()
-{
+function removeMisuraCostaLaterale() {
   $("#misuraCostaLaterale").remove();
   $("#customDivMisuraCostaLateraleStep2").remove();
   removeVerniciaturaCostaLaterale();
 }
 
-function removeVerniciaturaCostaLaterale()
-{
+function removeVerniciaturaCostaLaterale() {
   $("#verniciaturaCostaLaterale").remove();
   $("#customDivVerniciaturaCostaLateraleStep2").remove();
 }
-function createConsequenceMisuraCostaLateraleEvent()
-{
 
-  saveFieldsStep2Event(this.name,this.value);
+function createConsequenceMisuraCostaLateraleEvent() {
 
-  let field4 = "verniciatura costa laterale"
+  saveFieldsStep2Event(this.name, this.value);
+
+  let field4 = "Finitura costa laterale"
   let selector = '#customDivVerniciaturaCostaLateraleStep2';
-  if(step2Storage['Materiale costa laterale'] === 'Inox') {
-    field4 = "Finitura";
-  }
 
 
-  if($('#verniciaturaCostaLaterale').length === 0) {
 
-      createTitle('.step2', "verniciaturaCostaLaterale", "Verniciatura costa laterale: ");
-      createCustomDiv('.step2', "customDivVerniciaturaCostaLateraleStep2");
+  if ($('#verniciaturaCostaLaterale').length === 0) {
+
+    createTitle('.step2', "verniciaturaCostaLaterale", "Finitura costa laterale: ");
+    createCustomDiv('.step2', "customDivVerniciaturaCostaLateraleStep2");
 
   }
   $("#customDivVerniciaturaCostaLateraleStep2").empty();
 
-  if(step2Storage['Materiale costa laterale'] === 'Alluminio') {
+  if (step2Storage['Materiale costa laterale'] === 'Alluminio') {
 
     if (step2Storage['Tipologia profilo'] === 'Letter form') {
 
@@ -491,39 +541,28 @@ function createConsequenceMisuraCostaLateraleEvent()
 
       radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
 
-    }
-    else {
+    } else {
       radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
       radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
     }
 
 
-  }
-  else if(step2Storage['Materiale costa laterale'] === 'Inox'){
+  } else if (step2Storage['Materiale costa laterale'] === 'Inox') {
 
     $("#verniciaturaCostaLaterale").text("Finitura costa laterale: ");
 
-      radioButtonInputGeneratorOnChage(selector, "lucida", field4, "Lucida", createConsequenceVerniciaturaEvent);
-      radioButtonInputGeneratorOnChage(selector, 'spazzolata', field4, "Spazzolata", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, "lucida", field4, "Lucida", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'spazzolata', field4, "Spazzolata", createConsequenceVerniciaturaEvent);
 
-  }
-  else if(step2Storage['Materiale costa laterale'] === 'Ottone'){
-      radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
-      radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaEvent);
-
-  }
-  else if(step2Storage['Materiale costa laterale'] === 'Lamiera zingata')
-  {
+  } else if (step2Storage['Materiale costa laterale'] === 'Ottone') {
     radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
-    radioButtonInputGeneratorOnChage(selector, 'verniciata', field4, "Verniciata", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaEvent);
 
+  } else {
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaEvent);
   }
-  else
-  {
-      radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
-      radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
-      radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaEvent);
-}
 
 
 
@@ -532,33 +571,29 @@ function createConsequenceMisuraCostaLateraleEvent()
 
 
 
-function createOptionsSelectInputGeneratorOnChange( selector, id, options, functionOnChange)
-{
+function createOptionsSelectInputGeneratorOnChange(selector, id, options, functionOnChange) {
 
-  if($('#' + id).length === 0) {
+  if ($('#' + id).length === 0) {
     $("<select/>", {
-        class: 'custom-select',
-        id: id,
-        change: functionOnChange,
-        required: true
-      }
-    ).appendTo(selector);
+      class: 'custom-select',
+      id: id,
+      change: functionOnChange,
+      required: true
+    }).appendTo(selector);
 
     $("<option/>", {
-        text: "Nessun valore selezionato",
-        disabled: true,
-        selected: true
+      text: "Nessun valore selezionato",
+      disabled: true,
+      selected: true
 
-      }
-    ).appendTo('#' + id);
+    }).appendTo('#' + id);
 
     options.forEach(value => {
 
       $("<option/>", {
-          value: value,
-          text: value
-        }
-      ).appendTo('#' + id);
+        value: value,
+        text: value
+      }).appendTo('#' + id);
 
     });
   }
@@ -567,56 +602,51 @@ function createOptionsSelectInputGeneratorOnChange( selector, id, options, funct
 
 
 
-function checkboxInputGeneratorOnChange(selector, id, name, value, functionOnChange)
-{
+function checkboxInputGeneratorOnChange(selector, id, name, value, functionOnChange) {
 
   $("<input/>", {
-      type : 'checkbox',
-      name : name,
-      value: value,
-      id : id,
-      change : functionOnChange,
-      required : true
-    }
-  ).appendTo(selector);
+    type: 'checkbox',
+    name: name,
+    value: value,
+    id: id,
+    change: functionOnChange,
+    required: true
+  }).appendTo(selector);
 
   $("<label/>", {
-      for : id,
-      text : value
-    }
-  ).insertAfter('#'+id);
+    for: id,
+    text: value
+  }).insertAfter('#' + id);
 
 }
 
 
-function createStep0()
-{
+function createStep0() {
 
   let selector = ".step0";
   let field1 = "Ragione sociale/ Nominativo";
   let field2 = "P.Iva";
   let field3 = "Nome e cognome";
   let field4 = "Email";
-  let field5 = "Riferimento";
+  let field5 = "Riferimento lavoro";
 
   labelActivation(".labelStep0");
   textInputGeneratorOnChange(selector, field1, field1, saveFieldsStep0Event);
   textInputGeneratorOnChange(selector, field2, field2, saveFieldsStep0Event);
   textInputGeneratorOnChange(selector, field3, field3, saveFieldsStep0Event);
-  emailInputGeneratorOnChange(selector,field4, field4, saveFieldsStep0Event);
+  emailInputGeneratorOnChange(selector, field4, field4, saveFieldsStep0Event);
   dateInputGenerator(selector);
   textInputGeneratorOnChange(selector, field5, field5, saveFieldsStep0Event);
 
 }
 
 
-function resetStep0()
-{
+function resetStep0() {
   let field1 = "Ragione sociale/ Nominativo";
   let field2 = "P.Iva";
   let field3 = "Nome e cognome";
   let field4 = "Email";
-  let field5 = "Riferimento";
+  let field5 = "Riferimento lavoro";
 
 
   resetInputFields(field1);
@@ -628,8 +658,7 @@ function resetStep0()
 
 }
 
-function resetStep1()
-{
+function resetStep1() {
   let field1 = "Dicitura scritta";
   let field2 = "Tipologia di font";
   let field3 = "Tipologia lettera scatolata";
@@ -645,8 +674,7 @@ function resetStep1()
 }
 
 
-function createStep1()
-{
+function createStep1() {
 
   let selector = ".step1";
   let field1 = "Dicitura scritta";
@@ -662,88 +690,446 @@ function createStep1()
   createTitle(selector, "tipologiaDiFontTitle", "Tipologia di font :");
   createCustomDiv(selector, "customDivTipologiaDiFontStep1");
   selector = '#customDivTipologiaDiFontStep1';
-  radioButtonInputGeneratorOnChage(selector,'stampatelloSemplice', field2, "Stampatello semplice", saveFieldsStep1Event);
-  radioButtonInputGeneratorOnChage(selector, "elaboratoComposto", field2,  "Elaborato composto", saveFieldsStep1Event);
-  radioButtonInputGeneratorOnChage(selector,'corsivo', field2, "Corsivo", saveFieldsStep1Event);
+  radioButtonInputGeneratorOnChage(selector, 'stampatelloSemplice', field2, "Stampatello semplice", saveFieldsStep1Event);
+  radioButtonInputGeneratorOnChage(selector, "elaboratoComposto", field2, "Elaborato composto", saveFieldsStep1Event);
+  radioButtonInputGeneratorOnChage(selector, 'corsivo', field2, "Corsivo", saveFieldsStep1Event);
 
 
   createTitle(".step1", "tipologiaLetteraScatolataTitle", "Tipologia lettera scatolata :");
   createCustomDiv(".step1", "customDivTipologiaLetteraScatolataStep1");
   selector = '#customDivTipologiaLetteraScatolataStep1';
-  radioButtonInputGeneratorOnChage(selector,'luceDiretta', field3, "Luce diretta", consequenceStep1);
-  radioButtonInputGeneratorOnChage(selector, "luceRiflessa", field3,  "Luce riflessa", consequenceStep1);
-  radioButtonInputGeneratorOnChage(selector,'masselloSpento', field3, "Massello spento", consequenceStep1);
+  radioButtonInputGeneratorOnChage(selector, 'luceDiretta', field3, "Luce diretta", consequenceStep1);
+  radioButtonInputGeneratorOnChage(selector, "luceRiflessa", field3, "Luce riflessa", consequenceStep1);
+  radioButtonInputGeneratorOnChage(selector, 'masselloSpento', field3, "Massello spento", consequenceStep1);
 
 }
 
-function consequenceStep1()
-{
+function consequenceStep1() {
   $(".step2").empty();
 
   step1Storage[this.name] = this.value;
-  if(this.value === "Massello spento")
-  {
+  if (this.value === "Massello spento") {
     masselloStep2();
-  }
-  else
-  createStep2LuceDirettaAndRiflessa();
 
-}
-function removeMasselloStep2()
-{
-  $('#titleTipoMasello').remove();
-  $('#divTipoMasello').remove();
-  $('#titleScrittaMasello').remove();
-  $('#divScrittaMasello').remove();
+  } else
+    createStep2LuceDirettaAndRiflessa();
 
 }
 
-function masselloStep2()
+function removeMasselloStep2() {
+
+  $('#titleScrittaMassello').remove();
+  $('#divScrittaMassello').remove();
+
+}
+
+function removeMasselloTipiStep2() {
+  $('#titleTipoMassello').remove();
+  $('#divTipoMassello').remove();
+
+}
+function removeMasselloStep3Livello2()
 {
+  $(".step3").empty();
+}
+
+function masselloStep2() {
   removeMasselloStep2();
+  removeMasselloTipiStep2();
+  removeStep1Masello();
+  removeMasselloStep3Livello2();
+  removeConsequenceStep1ColoreMasello2Livelli();
+  removeConsequenceStep1ColoreMasello();
+  resetFieldsStep2();
+
   let selector = ".step2";
-  let field0 = "Scritta Massello"
+  let field0 = "Scritta Massello";
 
 
-  createTitle(selector,"titleScrittaMassello","Scritta massello: ");
-  createCustomDiv(selector,"divScrittaMassello");
+  createTitle(selector, "titleScrittaMassello", "Scritta massello: ");
+  createCustomDiv(selector, "divScrittaMassello");
   selector = "#divScrittaMassello";
 
-  radioButtonInputGeneratorOnChage(selector,'sempliceSpenta', field0, "Semplice spenta", consequenceStepScrittaMasello);
-  radioButtonInputGeneratorOnChage(selector,'retroilluminazione', field0, "Con retroilluminazione", consequenceStepScrittaMasello);
+  radioButtonInputGeneratorOnChage(selector, 'sempliceSpenta', field0, "Scritta semplice 1 livello", consequenceStepScrittaMasello);
+  radioButtonInputGeneratorOnChage(selector, 'dueLivelli', field0, "Scritta doppia accoppiata 2 livelli", consequenceStepScrittaMasello);
+  radioButtonInputGeneratorOnChage(selector, 'retroilluminazione', field0, "Scritta doppia accoppiata 2 livelli con retroilluminazione a led", consequenceStepScrittaMasello);
 
 
 }
 
-function consequenceStepScrittaMasello()
-{
+function consequenceStepScrittaMasello() {
+
+  removeMasselloTipiStep2();
+  removeSpessoreMassello();
+  removeStep1Masello();
+  removeMasselloStep3Livello2();
+  removeConsequenceStep1ColoreMasello2Livelli();
+  removeConsequenceStep1ColoreMasello();
+  removeMasselloIlluminazione();
+  removeConsequenceTipoIlluminazione();
+
   let field1 = "Tipo materiale";
 
   let selector = ".step2";
 
-  saveFieldsStep2Event(this.name,this.value);
+  saveFieldsStep2Event(this.name, this.value);
 
-  createTitle(selector,"titleTipoMassello","Tipo materiale: ");
-  createCustomDiv(selector,"divTipoMassello");
+
+  createTitle(selector, "titleTipoMassello", "Tipo materiale: ");
+  createCustomDiv(selector, "divTipoMassello");
 
   selector = "#divTipoMassello";
 
-  if( this.value === 'Semplice spenta') {
-    radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi-glass", consequenceStep1Masello);
+  if (this.value === 'Scritta semplice 1 livello') {
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi glass", consequenceStep1Masello);
     radioButtonInputGeneratorOnChage(selector, 'pVC', field1, "PVC", consequenceStep1Masello);
-    radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composto", consequenceStep1Masello);
-  }
-  else
-  {
-    radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi-glass", consequenceStep1MaselloRetroilluminato);
-    $("#plexiGlass").trigger("click");
+    radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composito", consequenceStep1Masello);
+  } else if (this.value === 'Scritta doppia accoppiata 2 livelli') {
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi glass", consequenceStep1Masello);
+    radioButtonInputGeneratorOnChage(selector, 'pVC', field1, "PVC", consequenceStep1Masello);
+    radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composito", consequenceStep1Masello);
+    consequenceStepScrittaMasello2Livelli();
+  } else {
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi glass", consequenceStep1Masello);
+    radioButtonInputGeneratorOnChage(selector, 'pVC', field1, "PVC", consequenceStep1Masello);
+    radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composito", consequenceStep1Masello);
+    consequenceStepScrittaMasello2LivelliRetroilluminato();
   }
 }
+function consequenceStepScrittaMasello2LivelliRetroilluminato()
+{
+  let field1 = "Tipo materiale fondello";
 
+  let selector =".step3";
+
+  createTitle(selector, "titleTipoMasselloR", "Tipo materiale Fondello: ");
+
+  createCustomDiv(selector, "divTipoMasselloR");
+
+  selector = "#divTipoMasselloR";
+
+  radioButtonInputGeneratorOnChage(selector, 'plexiGlassR', field1, "Plexi glass", consequenceStep1MaselloRetroilluminato);
+  $("#plexiGlassR").trigger("click");
+}
 
 function consequenceStep1MaselloRetroilluminato() {
   removeStep1Masello();
-  let field2 = "colore";
+  let field2 = "Colore";
+  saveFieldsStep2Event(this.name, this.value);
+
+  let selector = ".step3";
+
+  createTitle(selector, "titleColoreMasselloR", "Colore: ");
+  createCustomDiv(selector, "divColoreMasselloR");
+
+  selector = "#divColoreMasselloR";
+
+  radioButtonInputGeneratorOnChage(selector, 'trasparenteR', field2, "Trasparente", consequenceStep1ColoreMaselloRetroilluminato);
+  radioButtonInputGeneratorOnChage(selector, 'opaleR', field2, "Opale", consequenceStep1ColoreMaselloRetroilluminato);
+
+}
+
+function resetConsequenceStep1ColoreMaselloRetroilluminato()  {
+  $("#titleSpessoreMasselloR").remove();
+  $("#divSpessoreMasselloR").remove();
+}
+
+function consequenceStep1ColoreMaselloRetroilluminato() {
+
+  saveFieldsStep2Event(this.name, this.value);
+  resetConsequenceStep1ColoreMaselloRetroilluminato();
+  let selector = ".step3";
+
+  createTitle(selector, "titleSpessoreMasselloR", "Spessore: ");
+  createCustomDiv(selector, "divSpessoreMasselloR");
+
+  selector = "#divSpessoreMasselloR";
+
+  let options = [];
+
+
+  if (step2Storage['Colore'] === 'Trasparente') {
+    options.push("10MM");
+    options.push("15MM");
+    options.push("20MM");
+  }
+  else
+  {
+    options.push("10MM");
+    options.push("15MM");
+    options.push("20MM");
+    options.push("30MM");
+
+  }
+  createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMasselloR", options, createConsequenceMisuraMasello);
+
+}
+
+function createConsequenceMisuraMasello() {
+
+  removeMasselloIlluminazione();
+  removeConsequenceTipoIlluminazione();
+
+
+  saveFieldsStep3Event(this.name, this.value);
+
+  let selector = ".step4";
+
+  let field1 = "Tipo illuminazione";
+
+  labelActivation(".labelStep4");
+
+  createTitle(selector, "tipoIlluminazione", "Tipo illuminazione :");
+  createCustomDiv(selector, "customDivTipoIlluminazione");
+  selector = '#customDivTipoIlluminazione';
+
+  radioButtonInputGeneratorOnChage(selector, 'stripLedIp20', field1, "Strip led IP20 (per interno)", createConsequenceTipoIlluminazione);
+  radioButtonInputGeneratorOnChage(selector, 'stripLedIp67', field1, "Strip led IP67 (per esterno, waterproof)", createConsequenceTipoIlluminazione);
+
+
+}
+
+function createConsequenceTipoIlluminazione()
+{
+  removeConsequenceTipoIlluminazione();
+  let selector = ".step4";
+
+  let field2  = "Alimentatore"
+
+  saveFieldsStep3Event(this.name, this.value);
+
+
+  let options = [];
+
+
+
+  labelActivation(".labelStep4");
+
+  createTitle(selector, "illuminazione", "Tipo illuminazione :");
+  createCustomDiv(selector, "customDiv1IlluminazioneStep5");
+  selector = '#customDiv1IlluminazioneStep5';
+
+
+  options.push("Bianco freddo 6500 k");
+  options.push("Bianco naturale 4000 k");
+  options.push("Bianco  3000 k");
+  options.push("Colorato rosso");
+  options.push("Colorato verde");
+  options.push("Colorato blu");
+  options.push("Colorato RGB (Con controller RGB)");
+
+  createOptionsSelectInputGeneratorOnChange(selector, "selectIlluminazioneMassello", options, saveFieldsStep3Event);
+
+  checkboxInputGeneratorOnChange(".step4", "alimentatore", field2, "Alimentatore per illuminazione", consequenceEndIlluminazione);
+}
+
+
+function consequenceEndIlluminazione()
+{
+
+    saveFieldsStep4Event(this.name,this.value);
+
+
+}
+
+
+
+function removeMasselloIlluminazione() {
+  $('#stripLedIp20').remove();
+  $('#stripLedIp67').remove();
+  $('#alimentatore').remove();
+  $('#customDivTipoIlluminazione').remove();
+  $('#tipoIlluminazione').remove();
+
+}
+
+function removeConsequenceTipoIlluminazione() {
+  $('#illuminazione').remove();
+  $('#customDiv1IlluminazioneStep5').remove();
+  $('#alimentatoreTitle').remove();
+  $('#alimentatore').remove();
+  $('label[for=alimentatore]').remove();
+}
+
+
+function removeStep1Masello() {
+  $('#titleColoreMassello').remove();
+  $('#divColoreMassello').remove();
+
+}
+
+function removeStep1Masello2Livelli() {
+  $('#titleColoreMassello2').remove();
+  $('#divColoreMassello2').remove();
+
+}
+
+function removeConsequenceStep1ColoreMasello2Livelli() {
+  $('#titleColoreMassello2').remove();
+  $('#divColoreMassello2').remove();
+  $('#divColore2Massello2').remove();
+  $('#titleColore2Massello2').remove();
+
+
+}
+function removeSpessoreMassello2Livelli()
+{
+  $('#titleSpessoreMassello2').remove();
+  $('#divSpessoreMassello2').remove();
+  $('#divSpessoreMassello2').remove();
+}
+
+
+
+function consequenceStep1Masello2Livelli()
+{
+  removeStep1Masello2Livelli();
+  removeConsequenceStep1ColoreMasello2Livelli();
+  removeSpessoreMassello2Livelli();
+
+
+
+  saveFieldsStep3Event(this.name, this.value);
+
+  let selector = ".step3";
+
+  createTitle(selector, "titleColoreMassello2", "Colore: ");
+  createCustomDiv(selector, "divColoreMassello2");
+
+  selector = "#divColoreMassello2";
+
+
+
+  let options = [];
+
+  if (this.value === 'Plexi glass') {
+
+
+    options.push("Trasparente");
+    options.push("Opale");
+    options.push("Colorato");
+
+
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", options, consequenceStep1ColoreMasello2Livelli)
+
+  } else if (this.value === 'PVC') {
+    options.push("Bianco");
+    options.push("Nero");
+    options.push("Rosso");
+    options.push("Blu");
+    options.push("Giallo");
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", options, consequenceStep1ColoreMasello2Livelli)
+
+
+  } else {
+
+    options.push("Bianco");
+    options.push("Nero");
+    options.push("Rosso");
+    options.push("Blu");
+    options.push("Giallo");
+    options.push("Argento spazzolato");
+    options.push("Argento specchio");
+    options.push("Oro specchio");
+    options.push("Oro spazzolato");
+    options.push("Rame spazzolato");
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", options, consequenceStep1ColoreMasello2Livelli)
+
+  }
+}
+
+function consequenceStep1ColoreMasello2Livelli() {
+
+  removeSpessoreMassello2Livelli();
+
+
+  saveFieldsStep3Event(this.name, this.value);
+
+  let selector = ".step3";
+
+  createTitle(selector, "titleSpessoreMassello2", "Spessore: ");
+  createCustomDiv(selector, "divSpessoreMassello2");
+
+  selector = "#divSpessoreMassello2";
+
+  let options = [];
+
+  let consequence;
+
+  consequence = createConsequenceMisuraCostaLateraleEvent2;
+
+
+  if (step3Storage['Tipo materiale fondello'] === 'Plexi glass') {
+    if (this.value === "Trasparente") {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("8MM");
+      options.push("10MM");
+      options.push("15MM");
+      options.push("20MM");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, consequence)
+
+    } else if (this.value === "Opale") {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("10MM");
+      options.push("15MM");
+      options.push("20MM");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, consequence)
+
+    } else {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("10MM");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, "")
+
+      createTitle(".step2", "titleColore2Massello2", "Colore desiderato: ");
+
+      createCustomDiv(".step2", "divColore2Massello2");
+
+      selector = "#divColore2Massello2";
+
+      let optionsColore = [];
+      optionsColore.push("Bianco");
+      optionsColore.push("Nero");
+      optionsColore.push("Rosso");
+      optionsColore.push("Blu");
+      optionsColore.push("Giallo");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectColoreDesideratoMassello2", optionsColore, consequence);
+
+    }
+
+  } else if (step3Storage['Tipo materiale fondello'] === 'PVC') {
+    if (this.value === "Bianco") {
+      options.push("3MM");
+      options.push("5MM");
+      options.push("10MM");
+      options.push("19MM");
+    } else {
+      options.push("3MM");
+      options.push("5MM");
+    }
+
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, consequence)
+
+  } else {
+    radioButtonInputGeneratorOnChage(selector, "selectMeasureSpessoreMassello2", "Spessore", "3MM", consequence)
+
+    $("#selectMeasureSpessoreMassello2").trigger("click");
+  }
+}
+
+function consequenceStep1Masello() {
+  removeStep1Masello();
+  removeConsequenceStep1ColoreMasello();
+  removeSpessoreMassello();
+
+
+
   saveFieldsStep2Event(this.name, this.value);
 
   let selector = ".step2";
@@ -753,11 +1139,70 @@ function consequenceStep1MaselloRetroilluminato() {
 
   selector = "#divColoreMassello";
 
-  radioButtonInputGeneratorOnChage(selector, 'trasparente', field2, "Trasparente", consequenceStep1ColoreMaselloRetroilluminato);
-  radioButtonInputGeneratorOnChage(selector, 'opale', field2, "Opale", consequenceStep1ColoreMaselloRetroilluminato);
+
+
+  let options = [];
+
+  if (this.value === 'Plexi glass') {
+
+
+      options.push("Trasparente");
+      options.push("Opale");
+      options.push("Colorato");
+
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", options, consequenceStep1ColoreMasello)
+
+  } else if (this.value === 'PVC') {
+    options.push("Bianco");
+    options.push("Nero");
+    options.push("Rosso");
+    options.push("Blu");
+    options.push("Giallo");
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", options, consequenceStep1ColoreMasello)
+
+
+  } else {
+
+    options.push("Bianco");
+    options.push("Nero");
+    options.push("Rosso");
+    options.push("Blu");
+    options.push("Giallo");
+    options.push("Argento spazzolato");
+    options.push("Argento specchio");
+    options.push("Oro specchio");
+    options.push("Oro spazzolato");
+    options.push("Rame spazzolato");
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", options, consequenceStep1ColoreMasello)
+
+  }
 }
 
-function consequenceStep1ColoreMaselloRetroilluminato() {
+function removeConsequenceStep1ColoreMasello() {
+  $('#titleColoreMassello').remove();
+  $('#divColoreMassello').remove();
+  $('#divColore2Massello').remove();
+  $('#titleColore2Massello').remove();
+
+
+}
+function removeSpessoreMassello()
+{
+  $('#titleSpessoreMassello').remove();
+  $('#divSpessoreMassello').remove();
+}
+
+
+
+function createConsequenceMisuraCostaLateraleEvent2() {
+  console.log("send");
+}
+
+function consequenceStep1ColoreMasello() {
+
+  removeSpessoreMassello();
+
 
   saveFieldsStep2Event(this.name, this.value);
 
@@ -770,222 +1215,12 @@ function consequenceStep1ColoreMaselloRetroilluminato() {
 
   let options = [];
 
+  let consequence;
 
-  if (step2Storage['Tipo materiale'] === 'Plexi-glass') {
-    options.push("15MM");
-    options.push("20MM");
-    options.push("30MM");
+  consequence = createConsequenceMisuraCostaLateraleEvent2;
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraMasello);
 
-  }
-}
-
-function createConsequenceMisuraMasello()
-{
-  saveFieldsStep2Event(this.name,this.value);
-
-  let selector = ".step3";
-
-  let field1 = "Illuminazione";
-  let field2 = "alimentatore"
-
-  labelActivation(".labelStep3");
-
-  createTitle(selector, "illuminazione", "Tipo illuminazione :");
-  createCustomDiv(selector, "customDiv1IlluminazioneStep5");
-  selector = '#customDiv1IlluminazioneStep5';
-
-  checkboxInputGeneratorOnChange(selector,"illuminazione1",field1,"Modulo led IP67 bianco freddo 6500 k",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione2",field1,"Modulo led IP67 bianco naturale 4000 k",saveFieldsStep5Event);
-
-  createCustomDiv(".step3", "customDiv2IlluminazioneStep5");
-  selector = '#customDiv2IlluminazioneStep5';
-
-  checkboxInputGeneratorOnChange(selector,"illuminazione3",field1,"Modulo led IP67 colorato rosso",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione4",field1,"Modulo led IP67 colorato verde",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione5",field1,"Modulo led IP67 colorato blu",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione6",field1,"Modulo led IP67 colorato RGB (Con controller RGB)",saveFieldsStep5Event);
-
-  createTitle('.step3', "alimentatoreTitle", "Alimentatore :");
-  createCustomDiv(".step3", "divina");
-
-  checkboxInputGeneratorOnChange("#divina","alimentatore",field2,"Alimentatore IP67",saveFieldsStep5Event);
-
-  createTitle('.step3', "masselloOpzionale", "Secondo Massello in sovrapposizione (OPZIONALE) :");
-  createCustomDiv(".step3", "divina1");
-  checkboxInputGeneratorOnChange("#divina1","secondoMassello",field2,"Secondo massello", consequenceSecondoMassello);
-
-}
-
-function consequenceSecondoMassello()
-{
-  removeStep1Masello();
-  let field2 = "colore";
-  saveFieldsStep2Event(this.name, this.value);
-
-  let selector = ".step4";
-
-  createTitle(selector, "titleColoreMassello", "Colore: ");
-  createCustomDiv(selector, "divColoreMassello");
-
-  selector = "#divColoreMassello";
-
-  radioButtonInputGeneratorOnChage(selector, 'trasparente', field2, "Trasparente", consequenceStep1ColoreMaselloRetroilluminatoOptional);
-  radioButtonInputGeneratorOnChage(selector, 'opale', field2, "Opale", consequenceStep1ColoreMaselloRetroilluminatoOptional);
-}
-
-function consequenceStep1ColoreMaselloRetroilluminatoOptional() {
-
-  saveFieldsStep3Event(this.name, this.value);
-
-  let selector = ".step4";
-
-  createTitle(selector, "titleSpessore2Massello", "Spessore: ");
-  createCustomDiv(selector, "divSpessore2Massello");
-
-  selector = "#divSpessore2Massello";
-
-  let options = [];
-
-
-    options.push("15MM");
-    options.push("20MM");
-    options.push("30MM");
-
-    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, createConsequenceMisuraMaselloOptional);
-
-
-}
-
-function createConsequenceMisuraMaselloOptional()
-{
-  saveFieldsStep2Event(this.name,this.value);
-
-  let selector = ".step5";
-
-  let field1 = "Illuminazione";
-  let field2 = "alimentatore"
-
-  labelActivation(".labelStep5");
-
-  createTitle(selector, "illuminazione2", "Tipo illuminazione :");
-  createCustomDiv(selector, "customDiv1Illuminazione2Step5");
-  selector = '#customDiv1Illuminazione2Step5';
-
-  checkboxInputGeneratorOnChange(selector,"illuminazione12",field1,"Modulo led IP67 bianco freddo 6500 k",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione22",field1,"Modulo led IP67 bianco naturale 4000 k",saveFieldsStep5Event);
-
-  createCustomDiv(".step5", "customDiv2Illuminazione2Step5");
-  selector = '#customDiv2Illuminazione2Step5';
-
-  checkboxInputGeneratorOnChange(selector,"illuminazione33",field1,"Modulo led IP67 colorato rosso",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione43",field1,"Modulo led IP67 colorato verde",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione53",field1,"Modulo led IP67 colorato blu",saveFieldsStep5Event);
-  checkboxInputGeneratorOnChange(selector,"illuminazione63",field1,"Modulo led IP67 colorato RGB (Con controller RGB)",saveFieldsStep5Event);
-
-  createTitle('.step5', "alimentatore2Title", "Alimentatore :");
-  createCustomDiv(".step5", "divina2");
-
-  checkboxInputGeneratorOnChange("#divina2","alimentatore2",field2,"Alimentatore IP67",saveFieldsStep5Event);
-
-
-}
-function removeStep1Masello()
-{
-  $('#titleColoreMassello').remove();
-  $('#divColoreMassello').remove();
-  $('#colorDIV').remove();
-  $('#colorDIV1').remove();
-  $('#colorDIV2').remove();
-  $('#colorDIV3').remove();
-}
-
-function consequenceStep1Masello()
-{
-  removeStep1Masello();
-  let field2 = "colore";
-
-
-  saveFieldsStep2Event(this.name,this.value);
-
-  let selector = ".step2";
-
-  createTitle(selector,"titleColoreMassello","Colore: ");
-  createCustomDiv(selector,"divColoreMassello");
-
-  selector = "#divColoreMassello";
-
-  if(this.value === 'Plexi-glass')
-  {
-    radioButtonInputGeneratorOnChage(selector,'trasparente', field2, "Trasparente", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'opale', field2, "Opale", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'colorato', field2, "Colorato composto", consequenceStep1ColoreMasello);
-
-  }
-  else if(this.value === 'PVC')
-  {
-    radioButtonInputGeneratorOnChage(selector,'bianco', field2, "Bianco", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'nero', field2, "Nero", consequenceStep1ColoreMasello);
-    createCustomDiv(".step2", "colorDIV");
-    selector = "#colorDIV";
-    radioButtonInputGeneratorOnChage(selector,'rosso', field2, "Rosso", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'blu', field2, "Blu", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'giallo', field2, "Giallo", consequenceStep1ColoreMasello);
-
-  }
-  else {
-    radioButtonInputGeneratorOnChage(selector,'rosso', field2, "Rosso", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'bianco', field2, "Bianco", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'blu', field2, "Blu", consequenceStep1ColoreMasello);
-    createCustomDiv(".step2", "colorDIV1");
-    selector = "#colorDIV1";
-    radioButtonInputGeneratorOnChage(selector,'argentoSpazzolato', field2, "Argento spazzolato", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'argentoSpecchio', field2, "Argento specchio", consequenceStep1ColoreMasello);
-    createCustomDiv(".step2", "colorDIV2");
-    selector = "#colorDIV2";
-    radioButtonInputGeneratorOnChage(selector,'oroSpecchio', field2, "Oro specchio", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'oroSpazzolato', field2, "Oro spazzolato", consequenceStep1ColoreMasello);
-    createCustomDiv(".step2", "colorDIV3");
-    selector = "#colorDIV3";
-    radioButtonInputGeneratorOnChage(selector,'giallo', field2, "Giallo", consequenceStep1ColoreMasello);
-    radioButtonInputGeneratorOnChage(selector,'rameSpazzolato', field2, "Rame spazzolato", consequenceStep1ColoreMasello);
-  }
-}
-
-function removeConsequenceStep1ColoreMasello(){
-  $('#titleSpessoreMassello').remove();
-  $('#divSpessoreMassello').remove();
-  $('#titleColore2Massello').remove();
-  $('#divColore2Massello').remove();
-
-}
-
-function createConsequenceMisuraCostaLateraleEvent2()
-{
-  console.log("send");
-}
-
-function consequenceStep1ColoreMasello()
-{
-
-  removeConsequenceStep1ColoreMasello();
-  let field4 = "Colore desiderato";
-
-  saveFieldsStep2Event(this.name,this.value);
-
-  let selector = ".step2";
-
-  createTitle(selector,"titleSpessoreMassello","Spessore: ");
-  createCustomDiv(selector,"divSpessoreMassello");
-
-  selector = "#divSpessoreMassello";
-
-  let options = [];
-
-
-
-  if(step2Storage['Tipo materiale'] === 'Plexi-glass') {
+  if (step2Storage['Tipo materiale'] === 'Plexi glass') {
     if (this.value === "Trasparente") {
       options.push("3MM");
       options.push("5MM");
@@ -994,7 +1229,7 @@ function consequenceStep1ColoreMasello()
       options.push("15MM");
       options.push("20MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, consequence)
 
     } else if (this.value === "Opale") {
       options.push("3MM");
@@ -1003,14 +1238,14 @@ function consequenceStep1ColoreMasello()
       options.push("15MM");
       options.push("20MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, consequence)
 
     } else {
       options.push("3MM");
       options.push("5MM");
       options.push("10MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, "")
 
       createTitle(".step2", "titleColore2Massello", "Colore desiderato: ");
 
@@ -1018,149 +1253,171 @@ function consequenceStep1ColoreMasello()
 
       selector = "#divColore2Massello";
 
+      let optionsColore = [];
+      optionsColore.push("Bianco");
+      optionsColore.push("Nero");
+      optionsColore.push("Rosso");
+      optionsColore.push("Blu");
+      optionsColore.push("Giallo");
 
-      textInputGeneratorOnChange(selector, field4, "Colore desiderato", createConsequenceMisuraCostaLateraleEvent2)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectColoreDesideratoMassello", optionsColore, consequence);
+
     }
 
-  }
-  else if(step2Storage['Tipo materiale'] === 'PVC')
-  {
-    if(this.value === "Bianco") {
+  } else if (step2Storage['Tipo materiale'] === 'PVC') {
+    if (this.value === "Bianco") {
       options.push("3MM");
       options.push("5MM");
       options.push("10MM");
       options.push("19MM");
-    }
-    else
-    {
+    } else {
       options.push("3MM");
       options.push("5MM");
     }
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, createConsequenceMisuraCostaLateraleEvent2)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, consequence)
 
-  }
-  else
-  {
-    radioButtonInputGeneratorOnChage(selector, "selectMeasureSpessoreMassello", "Spessore", "3MM", createConsequenceMisuraCostaLateraleEvent2)
+  } else {
+    radioButtonInputGeneratorOnChage(selector, "selectMeasureSpessoreMassello", "Spessore", "3MM", consequence)
 
     $("#selectMeasureSpessoreMassello").trigger("click");
   }
 }
 
 
-function createCustomDiv(selector, id)
-{
+function removeScrittaMasello2Livelli() {
+  $("#titleTipoMassello2").remove();
+
+  $("#divTipoMassello2").remove();
+
+
+}
+
+
+function consequenceStepScrittaMasello2Livelli() {
+
+  let field1 = "Tipo materiale fondello";
+
+  let selector = ".step3";
+
+  removeScrittaMasello2Livelli();
+
+  labelActivation(selector);
+
+  saveFieldsStep3Event(this.name, this.value);
+
+  createTitle(selector, "titleTipoMassello2", "Tipo materiale fondello: ");
+  createCustomDiv(selector, "divTipoMassello2");
+
+  selector = "#divTipoMassello2";
+
+
+  radioButtonInputGeneratorOnChage(selector, 'plexiGlass2', field1, "Plexi glass", consequenceStep1Masello2Livelli);
+  radioButtonInputGeneratorOnChage(selector, 'pVC2', field1, "PVC", consequenceStep1Masello2Livelli);
+  radioButtonInputGeneratorOnChage(selector, 'alluminioComposto2', field1, "Alluminio composito", consequenceStep1Masello2Livelli);
+
+
+}
+
+
+function createCustomDiv(selector, id) {
   $("<div/>", {
-      id : id,
-      class: 'custom-options'
-    }
-  ).appendTo(selector);
+    id: id,
+    class: 'custom-options'
+  }).appendTo(selector);
 }
 
-function createTitle(selector, id, text)
-{
+function createTitle(selector, id, text) {
   $("<label/>", {
-     id : id,
-     text: text,
-     css : {"display":"flex"}
+    id: id,
+    text: text,
+    css: {
+      "display": "flex"
     }
-  ).appendTo(selector);
+  }).appendTo(selector);
 }
 
-function labelActivation(selector)
-{
+function labelActivation(selector) {
 
   $(selector).addClass("active");
 }
 
 
-function radioButtonInputGeneratorOnChage(selector, id, name, value, functionOnChange)
-{
+function radioButtonInputGeneratorOnChage(selector, id, name, value, functionOnChange) {
   $("<input/>", {
-      type : 'radio',
-      name : name,
-      value: value,
-      id : id,
-      change : functionOnChange,
-      required : true
-    }
-  ).appendTo(selector);
+    type: 'radio',
+    name: name,
+    value: value,
+    id: id,
+    change: functionOnChange,
+    required: true
+  }).appendTo(selector);
 
   $("<label/>", {
-      for : id,
-      text : value
-    }
-  ).insertAfter('#'+id);
+    for: id,
+    text: value
+  }).insertAfter('#' + id);
 
 }
 
 
 
-function textInputGeneratorOnChange(selector, name, placeHolder, functionOnChange)
-{
-
- $("<input/>", {
-
-     class : 'form-control',
-     type : 'text',
-     name : name,
-     placeHolder : placeHolder,
-     change : functionOnChange,
-     required : true
-    }
-  ).appendTo(selector);
-
-}
-
-function textInputGeneratorOnKeyUp(selector, name, placeHolder, functionOnKeyUp)
-{
+function textInputGeneratorOnChange(selector, name, placeHolder, functionOnChange) {
 
   $("<input/>", {
 
-      class : 'form-control',
-      type : 'text',
-      name : name,
-      placeHolder : placeHolder,
-      required : true,
-      keyup : functionOnKeyUp,
-      change : saveFieldsStep1Event
-    }
-  ).appendTo(selector);
+    class: 'form-control',
+    type: 'text',
+    name: name,
+    placeHolder: placeHolder,
+    change: functionOnChange,
+    required: true
+  }).appendTo(selector);
 
 }
 
-function emailInputGeneratorOnChange(selector, name, placeHolder, functionOnChange)
-{
+function textInputGeneratorOnKeyUp(selector, name, placeHolder, functionOnKeyUp) {
 
   $("<input/>", {
 
-      class : 'form-control',
-      type : 'email',
-      name : name,
-      placeHolder : placeHolder,
-      change: functionOnChange,
-      required : true
-    }
-  ).appendTo(selector);
+    class: 'form-control',
+    type: 'text',
+    name: name,
+    placeHolder: placeHolder,
+    required: true,
+    keyup: functionOnKeyUp,
+    change: saveFieldsStep1Event
+  }).appendTo(selector);
 
 }
 
-function dateInputGenerator(selector)
-{
+function emailInputGeneratorOnChange(selector, name, placeHolder, functionOnChange) {
+
+  $("<input/>", {
+
+    class: 'form-control',
+    type: 'email',
+    name: name,
+    placeHolder: placeHolder,
+    change: functionOnChange,
+    required: true
+  }).appendTo(selector);
+
+}
+
+function dateInputGenerator(selector) {
 
   let currentDate = getDate();
 
   $("<input/>", {
 
-      class : 'form-control',
-      name : 'dateElement',
-      value : currentDate,
-      readonly: true
-    }
-  ).appendTo(selector);
+    class: 'form-control',
+    name: 'dateElement',
+    value: currentDate,
+    readonly: true
+  }).appendTo(selector);
 
-step0Storage['dateElement'] = currentDate;
+  step0Storage['dateElement'] = currentDate;
 
 }
 
@@ -1183,87 +1440,79 @@ function getDate() {
 }
 
 
-function resetInputFields(name)
-{
-  $('input[name="'+name+'"]').val("");
+function resetInputFields(name) {
+  $('input[name="' + name + '"]').val("");
 
 }
 
-function resetInputRadioButtonFields(name)
-{
-  $('input[name="'+name+'"]').prop('checked' , false);
+function resetInputRadioButtonFields(name) {
+  $('input[name="' + name + '"]').prop('checked', false);
 
 }
-function stringCountInputGenerator()
-{
+
+function stringCountInputGenerator() {
   let selector = 'input[name="Dicitura scritta"]';
   let letterString = $(selector).val();
   let elementCreated = $('#lettersCount');
-  let count = letterCount(letterString) ;
+  let count = letterCount(letterString);
 
-  if ( elementCreated.length )
-  {
+  if (elementCreated.length) {
     elementCreated.val(count);
 
-  }
-  else
-    {
-      $("<label/>", {
-          text: 'Numero lettere',
-          id : 'labelStringNumber'
-        }
-      ).appendTo(".step1");
+  } else {
+    $("<label/>", {
+      text: 'Numero lettere',
+      id: 'labelStringNumber'
+    }).appendTo(".step1");
 
     $("<input/>", {
 
-        class: 'form-control',
-        id: 'lettersCount',
-        name: 'countElement',
-        value: count,
-        readonly: true
-      }
-    ).appendTo("#labelStringNumber");
+      class: 'form-control',
+      id: 'lettersCount',
+      name: 'countElement',
+      value: count,
+      readonly: true
+    }).appendTo("#labelStringNumber");
 
-    }
+  }
   generateInputForEachLetter(letterString);
 
 }
 
-function generateInputForEachLetter(letterString)
-{
+function generateInputForEachLetter(letterString) {
 
   letterString = spaceRemoval(letterString);
   let size = letterString.length;
   let i = 0;
   $('#charactersList').remove();
 
-  while (i < size)
-  {
-    let c =  letterString.charAt(i);
+  while (i < size) {
+    let c = letterString.charAt(i);
 
     $("<div/>", {
-        id : 'charactersList',
-      }
-    ).appendTo(".step1");
+      id: 'charactersList',
+    }).appendTo(".step1");
 
     $("<label/>", {
-        html: 'Misura altezza lettera: '+ '<strong>' + c.toUpperCase() +'</strong>',
-        css: {'width':'50%'},
-        id : 'character'+ c +'number'+ i,
-        class :'.letters'
-      }
-    ).appendTo("#charactersList");
+      html: 'Misura altezza lettera: ' + '<strong>' + c.toUpperCase() + '</strong>',
+      css: {
+        'width': '50%'
+      },
+      id: 'character' + c + 'number' + i,
+      class: '.letters'
+    }).appendTo("#charactersList");
 
     $("<input/>", {
 
-        class: 'form-control',
-        css: {'width':'80%'},
-        placeholder : 'cm',
-        change: saveFieldsStep1Event,
-        id : 'inputCharacter'+ c.toUpperCase() +'Number'+ i,
-        name: 'inputCharacter'+ c.toUpperCase() +'Number'+ i
-      }
-    ).appendTo('#character'+ c +'number'+ i);
+      class: 'form-control',
+      css: {
+        'width': '80%'
+      },
+      placeholder: 'cm',
+      change: saveFieldsStep1Event,
+      id: 'inputCharacter' + c.toUpperCase() + 'Number' + i,
+      name: 'inputCharacter' + c.toUpperCase() + 'Number' + i
+    }).appendTo('#character' + c + 'number' + i);
 
     i++;
   }
@@ -1271,26 +1520,22 @@ function generateInputForEachLetter(letterString)
 
 
 
-function spaceRemoval(letterString)
-{
+function spaceRemoval(letterString) {
   return letterString.replace(/\s+/g, '');
 }
 
-function letterCount(letterString)
-{
+function letterCount(letterString) {
 
- return spaceRemoval(letterString).length ;
+  return spaceRemoval(letterString).length;
 
 }
 
-function saveFieldsStep0Event()
-{
+function saveFieldsStep0Event() {
   step0Storage[this.name] = this.value;
 
 }
 
-function resetFieldsStep0()
-{
+function resetFieldsStep0() {
 
   for (let property in step0Storage) {
 
@@ -1301,14 +1546,12 @@ function resetFieldsStep0()
 }
 
 
-function saveFieldsStep1Event()
-{
+function saveFieldsStep1Event() {
 
   step1Storage[this.name] = this.value;
 }
 
-function resetFieldsStep1()
-{
+function resetFieldsStep1() {
 
   for (let property in step1Storage) {
 
@@ -1319,49 +1562,44 @@ function resetFieldsStep1()
 }
 
 
-function saveFieldsStep2Event(name,value)
-{
+function saveFieldsStep2Event(name, value) {
 
   step2Storage[name] = value;
-  console.log(step2Storage[name] )
+  console.log(step2Storage[name])
 }
 
-function saveOptionalFieldsStep2Event()
-{
+function saveOptionalFieldsStep2Event() {
 
 
-  if(this.checked) {
+  if (this.checked) {
 
-    if( $('input[value="'+step2Storage[this.name]+'"]') != null)
-      $('input[value="'+step2Storage[this.name]+'"]').prop('checked' , false);
+    if ($('input[value="' + step2Storage[this.name] + '"]') != null)
+      $('input[value="' + step2Storage[this.name] + '"]').prop('checked', false);
     step2Storage[this.name] = this.value;
 
-  }
-  else {
+  } else {
     step2Storage[this.name] = null;
   }
 
 
 }
-function saveOptionalFieldsStep2EventLetterFormLetterBox(name, value)
-{
+
+function saveOptionalFieldsStep2EventLetterFormLetterBox(name, value) {
 
 
-  if($('input[value="'+value+'"]').prop("checked")) {
+  if ($('input[value="' + value + '"]').prop("checked")) {
 
-      $('input[value="'+ step2Storage[name]+'"]').prop('checked' , false);
+    $('input[value="' + step2Storage[name] + '"]').prop('checked', false);
 
     step2Storage[name] = value;
 
-  }
-  else {
+  } else {
     step2Storage[name] = null;
   }
 
 }
 
-function resetFieldsStep2()
-{
+function resetFieldsStep2() {
 
   for (let property in step2Storage) {
 
@@ -1371,14 +1609,12 @@ function resetFieldsStep2()
 
 }
 
-function saveFieldsStep3Event(name,value)
-{
+function saveFieldsStep3Event(name, value) {
 
   step3Storage[name] = value;
 }
 
-function resetFieldsStep3()
-{
+function resetFieldsStep3() {
 
   for (let property in step3Storage) {
 
@@ -1388,24 +1624,21 @@ function resetFieldsStep3()
 
 }
 
-function saveFieldsStep4Event(name, value)
-{
+function saveFieldsStep4Event(name, value) {
 
-  if($('input[name="'+name+'"]').prop("checked")) {
+  if ($('input[name="' + name + '"]').prop("checked")) {
 
-    $('input[value="'+step4Storage[name]+'"]').prop('checked' , false);
+    $('input[value="' + step4Storage[name] + '"]').prop('checked', false);
 
     step4Storage[name] = value;
 
-  }
-  else {
+  } else {
     step4Storage[name] = null;
   }
 
 }
 
-function resetFieldsStep4()
-{
+function resetFieldsStep4() {
 
   for (let property in step4Storage) {
 
@@ -1415,25 +1648,22 @@ function resetFieldsStep4()
 
 }
 
-function saveFieldsStep5Event()
-{
+function saveFieldsStep5Event() {
 
-  if(this.checked) {
+  if (this.checked) {
 
-    if( $('input[value="'+step5Storage[this.name]+'"]') != null)
-      $('input[value="'+step5Storage[this.name]+'"]').prop('checked' , false);
+    if ($('input[value="' + step5Storage[this.name] + '"]') != null)
+      $('input[value="' + step5Storage[this.name] + '"]').prop('checked', false);
     step5Storage[this.name] = this.value;
 
-  }
-  else {
+  } else {
     step5Storage[this.name] = null;
   }
 
 
 }
 
-function resetFieldsStep5()
-{
+function resetFieldsStep5() {
 
   for (let property in step5Storage) {
 
