@@ -37,7 +37,7 @@ function createStep5LuceDiretta() {
   options.push("Modulo led IP67 colorato blu");
   options.push("Modulo led IP67 colorato RGB (Con controller RGB)");
 
-  createOptionsSelectInputGeneratorOnChangeOptional(selector, "selectIlluminazioneStep5", options, consequenceEndIlluminazioneStep5);
+  createOptionsSelectInputGeneratorOnChangeOptional(selector, "selectIlluminazioneStep5", "Illuminazione", options, consequenceEndIlluminazioneStep5);
 }
 
 
@@ -84,7 +84,7 @@ function createStep4LuceDiretta() {
     saveFieldsStep2Event(this.name, this.value);
 
 
-    createOptionsSelectInputGeneratorOnChangeOptional(selector, "selectFondelloLuceRiflessa", options, consequenceFondello)
+    createOptionsSelectInputGeneratorOnChangeOptional(selector, "selectFondelloLuceRiflessa","Fondello luce riflessa", options, consequenceFondello)
 
     createTitle('.step4', "distanziatore", "Distanziatore fondello (OPZIONALE):");
 
@@ -97,7 +97,7 @@ function createStep4LuceDiretta() {
 
 function consequenceFondello() {
 
-  if(this.value === "Distanziatore fondello")
+  if(this.value === "Distanziatore fondello" || step1Storage["Tipologia lavorazione"] === "Luce diretta")
   {
     saveFieldsStep4EventOptional(this.name, this.value);
 
@@ -153,6 +153,12 @@ function createStep2LuceDirettaAndRiflessa() {
   }
   if (step1Storage['Tipologia lavorazione'] === 'Luce riflessa')
     createConsequenceCategoriaCostaLateraleEvent();
+}
+
+
+function resetScritteMassello(){
+  $("#titleScrittaMassello").remove();
+  $("#divScrittaMassello").remove();
 }
 
 function createConsequenceCategoriaCostaLateraleEvent() {
@@ -252,7 +258,7 @@ function createConsequenceMaterialeLuceRiflessa() {
     saveFieldsStep2Event(this.name, this.value);
 
 
-  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLateraleLuceRiflessa", options, createConsequenceMisuraCostaLateraleLuceRiflessaEvent)
+  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLateraleLuceRiflessa", "Misura costa laterale", options, createConsequenceMisuraCostaLateraleLuceRiflessaEvent)
 
 }
 
@@ -274,21 +280,21 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
   $("#customDivVerniciaturaCostaLateraleStep2").empty();
 
   if (step2Storage['Materiale lettera'] === 'Alluminio') {
-    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
     radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaLuceRiflessaEvent);
   } else if (step2Storage['Materiale lettera'] === 'Inox') {
 
     $("#verniciaturaCostaLaterale").text("Finitura costa laterale: ");
 
-    radioButtonInputGeneratorOnChage(selector, "lucida", field4, "Lucida", createConsequenceVerniciaturaLuceRiflessaEvent);
-    radioButtonInputGeneratorOnChage(selector, 'spazzolata', field4, "Spazzolata", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, "lucida", field4, "Lucida", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
+    radioButtonInputGeneratorOnChage(selector, 'spazzolata', field4, "Spazzolata", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
 
   } else if (step2Storage['Materiale lettera'] === "Ottone") {
-    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaEvent);
-    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
+    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
 
   } else {
-    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
     radioButtonInputGeneratorOnChage(selector, 'verniciata', field4, "Verniciata", createConsequenceVerniciaturaLuceRiflessaEvent);
 
   }
@@ -296,9 +302,44 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
 }
 
 
-
-
 function createConsequenceVerniciaturaLuceRiflessaEvent() {
+
+  saveFieldsStep2Event(this.name, this.value);
+
+  let selector = ".step2";
+
+  if ($('#coloreVerniciaturaCostaLateraleLuceRiflessa').length === 0) {
+    createTitle(selector, 'coloreVerniciaturaCostaLateraleLuceRiflessa', 'Colore verniciatura :');
+    createCustomDiv(selector, "customDivColoreCostaLateraleStep3LuceRiflessa");
+  }
+  selector = "#customDivColoreCostaLateraleStep3LuceRiflessa";
+
+  let options = [];
+  options.push("Bianco");
+  options.push("Blu");
+  options.push("Rosso");
+  options.push("Nero");
+  options.push("Giallo");
+  options.push("Verde");
+
+  createOptionsSelectInputGeneratorOnChange(selector, "selectColoreCostaLateraleLuceRiflessa","Colore verniciatura costa laterale", options, createConsequenceColorVerniciaturaCostaLateraleSelected)
+
+
+
+
+}
+
+
+
+function createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent() {
+
+  if(this.name !== "Colore verniciatura costa laterale") {
+    $("#coloreVerniciaturaCostaLateraleLuceRiflessa").remove();
+    $("#customDivColoreCostaLateraleStep3LuceRiflessa").remove();
+  }
+
+
+  createStep3LuceDirettaAndRiflessa();
   createStep4LuceDiretta();
   createStep5LuceDiretta();
 
@@ -403,6 +444,7 @@ function createMaterialeCostaLateraleFlatStep2() {
 
 }
 
+
 function createConsequenceMaterialeCostaLateraleEvent() {
   resetStep3LuceDirettaAndRiflessa();
   resetStep4LuceDiretta();
@@ -467,9 +509,11 @@ function createConsequenceMaterialeCostaLateraleEvent() {
 
   }
 
-  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", options, createConsequenceMisuraCostaLateraleEvent)
+  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", "Misura costa laterale", options, createConsequenceMisuraCostaLateraleEvent)
 
 }
+
+
 
 function resetStep2LuceDirettaAndRiflessa() {
   $(".step2").empty();
@@ -478,14 +522,48 @@ function resetStep2LuceDirettaAndRiflessa() {
 }
 
 
+
+
 function createConsequenceVerniciaturaEvent() {
+
   saveFieldsStep2Event(this.name, this.value);
 
+let selector = ".step2";
+
+  if ($('#coloreVerniciaturaCostaLaterale').length === 0) {
+    createTitle(selector, 'coloreVerniciaturaCostaLaterale', 'Colore verniciatura :');
+    createCustomDiv(selector, "customDivColoreCostaLateraleStep3");
+  }
+ selector = "#customDivColoreCostaLateraleStep3";
+
+ let options = [];
+  options.push("Bianco");
+  options.push("Blu");
+  options.push("Rosso");
+  options.push("Nero");
+  options.push("Giallo");
+  options.push("Verde");
+
+  createOptionsSelectInputGeneratorOnChange(selector, "selectColoreCostaLaterale","Colore verniciatura costa laterale", options, createConsequenceColorVerniciaturaCostaLateraleSelected)
+
+
+
+
+}
+
+function createConsequenceColorVerniciaturaCostaLateraleSelected()
+{
+
+ if(this.name !== "Colore verniciatura costa laterale") {
+   $("#coloreVerniciaturaCostaLaterale").remove();
+   $("#customDivColoreCostaLateraleStep3").remove();
+ }
+
+  saveFieldsStep2Event(this.name, this.value);
 
   createStep3LuceDirettaAndRiflessa();
 
 }
-
 
 function createStep3LuceDirettaAndRiflessa() {
   resetFieldsStep3();
@@ -507,19 +585,69 @@ function createStep3LuceDirettaAndRiflessa() {
 
   if (step2Storage["Categoria costa laterale"] === "Profilo estruso") {
     radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
-    radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceSpessoreFrontalinoEvent);
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
   } else if (step2Storage["Categoria costa laterale"] === 'Flange') {
-    radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
+    radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
   } else {
     radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale", createConsequenceMaterialeFrontalinoEvent);
-    radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceSpessoreFrontalinoEvent);
+    radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
   }
 
 
 }
+
+
+function createConsequenceMaterialeFrontalinoEvent() {
+  resetFieldsStep3();
+
+
+  saveFieldsStep3Event(this.name, this.value);
+
+  let selector = ".step3";
+  let options = [];
+
+  if(this.value === "Plexi glass opale") {
+    $("#customDivColoreFrontalinoStep3").remove();
+    $("#coloreFrontalino").remove();
+    if ($('#spessoreFrontalino').length === 0) {
+      createTitle(selector, 'spessoreFrontalino', 'Spessore frontalino :');
+      createCustomDiv(selector, "customDivSpessoreFrontalinoStep3");
+    }
+    selector = "#customDivSpessoreFrontalinoStep3";
+
+
+    options.push("3MM");
+    options.push("5MM");
+    options.push("8MM");
+    createOptionsSelectInputGeneratorOnChange(selector, "selectSpessoreFrontalino","Spessore frontalino", options, createConsequenceSpessoreFrontalinoEvent)
+  }
+  else
+  {
+    $("#customDivSpessoreFrontalinoStep3").remove();
+    $("#spessoreFrontalino").remove();
+    if ($('#coloreFrontalino').length === 0) {
+      createTitle(selector, 'coloreFrontalino', 'colore frontalino :');
+      createCustomDiv(selector, "customDivColoreFrontalinoStep3");
+    }
+    selector = "#customDivColoreFrontalinoStep3";
+
+
+    options.push("Bianco");
+    options.push("Blu");
+    options.push("Rosso");
+    options.push("Nero");
+    options.push("Giallo");
+    options.push("Verde");
+
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreFrontalino","Colore frontalino", options, createConsequenceSpessoreFrontalinoEvent)
+  }
+
+
+}
+
 
 function resetStep3LuceDirettaAndRiflessa() {
   resetFieldsStep3();
@@ -529,33 +657,11 @@ function resetStep3LuceDirettaAndRiflessa() {
 
 
 
-function createConsequenceMaterialeFrontalinoEvent() {
-  resetFieldsStep3();
-
-  saveFieldsStep3Event(this.name, this.value);
-
-  let selector = ".step3";
-
-
-
-  if ($('#spessoreFrontalino').length === 0) {
-    createTitle(selector, 'spessoreFrontalino', 'Spessore frontalino :');
-    createCustomDiv(selector, "customDivSpessoreFrontalinoStep3");
-  }
-  selector = "#customDivSpessoreFrontalinoStep3";
-
-  let options = [];
-  options.push("3MM");
-  options.push("5MM");
-  options.push("8MM");
-  createOptionsSelectInputGeneratorOnChange(selector, "selectSpessoreFrontalino", options, createConsequenceSpessoreFrontalinoEvent)
-
-
-
-}
 
 function createConsequenceSpessoreFrontalinoEvent() {
   saveFieldsStep3Event(this.name, this.value);
+
+
   createStep4LuceDiretta();
   createStep5LuceDiretta();
 
@@ -581,6 +687,7 @@ function createConsequenceMisuraCostaLateraleEvent() {
 
 
 
+
   if ($('#verniciaturaCostaLaterale').length === 0) {
 
     createTitle('.step2', "verniciaturaCostaLaterale", "Finitura costa laterale: ");
@@ -593,12 +700,12 @@ function createConsequenceMisuraCostaLateraleEvent() {
 
     if (step2Storage['Tipologia profilo'] === 'Letter form') {
 
-      radioButtonInputGeneratorOnChage(selector, 'bianca', field4, "Bianca", createConsequenceVerniciaturaEvent);
+      radioButtonInputGeneratorOnChage(selector, 'bianca', field4, "Bianca", createConsequenceColorVerniciaturaCostaLateraleSelected);
 
       radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
 
     } else {
-      radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
+      radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceColorVerniciaturaCostaLateraleSelected);
       radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
     }
 
@@ -607,29 +714,30 @@ function createConsequenceMisuraCostaLateraleEvent() {
 
     $("#verniciaturaCostaLaterale").text("Finitura costa laterale: ");
 
-    radioButtonInputGeneratorOnChage(selector, "lucida", field4, "Lucida", createConsequenceVerniciaturaEvent);
-    radioButtonInputGeneratorOnChage(selector, 'spazzolata', field4, "Spazzolata", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, "lucida", field4, "Lucida", createConsequenceColorVerniciaturaCostaLateraleSelected);
+    radioButtonInputGeneratorOnChage(selector, 'spazzolata', field4, "Spazzolata", createConsequenceColorVerniciaturaCostaLateraleSelected);
 
   } else if (step2Storage['Materiale costa laterale'] === 'Ottone') {
-    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
-    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceColorVerniciaturaCostaLateraleSelected);
+    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceColorVerniciaturaCostaLateraleSelected);
 
   } else {
-    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceColorVerniciaturaCostaLateraleSelected);
     radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
-    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaEvent);
+    radioButtonInputGeneratorOnChage(selector, 'galvanico', field4, "Galvanico", createConsequenceColorVerniciaturaCostaLateraleSelected);
   }
 
 
 
 }
 
-function createOptionsSelectInputGeneratorOnChangeOptional(selector, id, options, functionOnChange) {
+function createOptionsSelectInputGeneratorOnChangeOptional(selector, id, name, options, functionOnChange) {
 
   if ($('#' + id).length === 0) {
     $("<select/>", {
       class: 'custom-select',
       id: id,
+      name: name,
       change: functionOnChange,
     }).appendTo(selector);
 
@@ -650,14 +758,60 @@ function createOptionsSelectInputGeneratorOnChangeOptional(selector, id, options
   }
 }
 
+function setLabelMasselloLivello1()
+{
+
+  $(".labelStep2").text("Step 2, materiale massello");
+  $(".labelStep3").text("");
+  $(".labelStep4").text("");
+  $(".labelStep5").text("");
+}
+function setLabelMasselloLivello2()
+{
+
+  $(".labelStep2").text("Step 2, materiale massello livello posteriore");
+  $(".labelStep3").text("Step 3, materiale massello livello anteriore");
+  $(".labelStep4").text("");
+  $(".labelStep5").text("");
+}
+function setLabelMasselloLivello2Retroilluminato()
+{
+
+  $(".labelStep2").text("Step 2, materiale massello livello posteriore");
+  $(".labelStep3").text("Step 3, materiale massello livello anteriore");
+  $(".labelStep4").text("step 4, illuminazione");
+  $(".labelStep5").text("");
+}
 
 
-function createOptionsSelectInputGeneratorOnChange(selector, id, options, functionOnChange) {
+function setLabelLuceRiflessa()
+{
+
+  $(".labelStep2").text("Step 2, costa laterale");
+  $(".labelStep3").text("");
+  $(".labelStep4").text("Step 3, fondello (OPZIONALE)");
+  $(".labelStep5").text("Step 4, illuminazione (OPZIONALE)");
+
+}
+
+
+function setLabelLuceDiretta()
+{
+
+  $(".labelStep2").text("Step 2, costa laterale");
+  $(".labelStep3").text("Step 3, frontalino");
+  $(".labelStep4").text("Step 4, fondello (OPZIONALE)");
+  $(".labelStep5").text("Step 5, illuminazione (OPZIONALE)");
+
+}
+
+function createOptionsSelectInputGeneratorOnChange(selector, id, name, options, functionOnChange) {
 
   if ($('#' + id).length === 0) {
     $("<select/>", {
       class: 'custom-select',
       id: id,
+      name: name,
       change: functionOnChange,
       required: true
     }).appendTo(selector);
@@ -818,6 +972,13 @@ function consequenceElementoSagomato()
 
 }
 
+function resetAllTheStepsLabel()
+{
+  $(".labelStep2").text("");
+  $(".labelStep3").text("");
+  $(".labelStep4").text("");
+  $(".labelStep5").text("");
+}
 
 function consequenceLettereSingoleIndipendenti()
 {
@@ -860,12 +1021,17 @@ function consequenceLettereSingoleIndipendenti()
   radioButtonInputGeneratorOnChage(selector, 'masselloSpento', field3, "Massello spento", consequenceStep1);
 
 }
-
-
-
+function deactiveAllTheLabels(){
+  $(".labelStep2").removeClass("active");
+  $(".labelStep3").removeClass("active");
+  $(".labelStep4").removeClass("active");
+  $(".labelStep5").removeClass("active");
+}
 
 function consequenceStep1() {
   $(".step2").empty();
+
+  deactiveAllTheLabels();
 
   step1Storage[this.name] = this.value;
   if (this.value === "Massello spento") {
@@ -874,12 +1040,23 @@ function consequenceStep1() {
     resetStep3LuceDirettaAndRiflessa();
     resetStep4LuceDiretta();
     resetStep5LuceDiretta();
+    resetAllTheStepsLabel();
     masselloStep2();
 
-  } else
-    createStep2LuceDirettaAndRiflessa();
 
-}
+  } else if(this.value === "Luce riflessa") {
+    setLabelLuceRiflessa();
+    createStep2LuceDirettaAndRiflessa();
+    resetScritteMassello();
+  }
+  else {
+    setLabelLuceDiretta();
+    createStep2LuceDirettaAndRiflessa();
+    resetScritteMassello();
+
+  }
+
+  }
 
 function removeMasselloStep2() {
 
@@ -907,7 +1084,7 @@ function masselloStep2() {
   removeConsequenceStep1ColoreMasello();
   resetFieldsStep2();
 
-  let selector = ".step2";
+  let selector = ".step1";
   let field0 = "Scritta Massello";
 
 
@@ -936,6 +1113,7 @@ function consequenceStepScrittaMasello() {
   let field1 = "Tipo materiale";
 
   let selector = ".step2";
+  labelActivation(".labelStep2");
 
   saveFieldsStep2Event(this.name, this.value);
 
@@ -946,15 +1124,18 @@ function consequenceStepScrittaMasello() {
   selector = "#divTipoMassello";
 
   if (this.value === 'Scritta semplice 1 livello') {
+    setLabelMasselloLivello1();
     radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi glass", consequenceStep1Masello);
     radioButtonInputGeneratorOnChage(selector, 'pVC', field1, "PVC", consequenceStep1Masello);
     radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composito", consequenceStep1Masello);
   } else if (this.value === 'Scritta doppia accoppiata 2 livelli') {
+    setLabelMasselloLivello2();
     radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi glass", consequenceStep1Masello);
     radioButtonInputGeneratorOnChage(selector, 'pVC', field1, "PVC", consequenceStep1Masello);
     radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composito", consequenceStep1Masello);
     consequenceStepScrittaMasello2Livelli();
   } else {
+    setLabelMasselloLivello2Retroilluminato();
     radioButtonInputGeneratorOnChage(selector, 'plexiGlass', field1, "Plexi glass", consequenceStep1Masello);
     radioButtonInputGeneratorOnChage(selector, 'pVC', field1, "PVC", consequenceStep1Masello);
     radioButtonInputGeneratorOnChage(selector, 'alluminioComposto', field1, "Alluminio composito", consequenceStep1Masello);
@@ -966,6 +1147,7 @@ function consequenceStepScrittaMasello2LivelliRetroilluminato()
   let field1 = "Tipo materiale fondello";
 
   let selector =".step3";
+  labelActivation(".labelStep3");
 
   createTitle(selector, "titleTipoMasselloR", "Tipo materiale Fondello: ");
 
@@ -1026,7 +1208,7 @@ function consequenceStep1ColoreMaselloRetroilluminato() {
     options.push("30MM");
 
   }
-  createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMasselloR", options, createConsequenceMisuraMasello);
+  createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMasselloR", "Spessore", options, createConsequenceMisuraMasello);
 
 }
 
@@ -1083,7 +1265,7 @@ function createConsequenceTipoIlluminazione()
   options.push("Colorato blu");
   options.push("Colorato RGB (Con controller RGB)");
 
-  createOptionsSelectInputGeneratorOnChange(selector, "selectIlluminazioneMassello", options, saveFieldsStep3Event);
+  createOptionsSelectInputGeneratorOnChange(selector, "selectIlluminazioneMassello", "Illuminazione strip led", options, saveFieldsStep3Event);
 
   checkboxInputGeneratorOnChange(".step4", "alimentatore", field2, "Alimentatore per illuminazione", consequenceEndIlluminazione);
 }
@@ -1172,10 +1354,13 @@ function consequenceStep1Masello2Livelli()
 
     options.push("Trasparente");
     options.push("Opale");
-    options.push("Colorato");
+    options.push("Nero");
+    options.push("Rosso");
+    options.push("Blu");
+    options.push("Giallo");
 
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", options, consequenceStep1ColoreMasello2Livelli)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", "Colore", options, consequenceStep1ColoreMasello2Livelli)
 
   } else if (this.value === 'PVC') {
     options.push("Bianco");
@@ -1183,7 +1368,7 @@ function consequenceStep1Masello2Livelli()
     options.push("Rosso");
     options.push("Blu");
     options.push("Giallo");
-    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", options, consequenceStep1ColoreMasello2Livelli)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", "Colore", options, consequenceStep1ColoreMasello2Livelli)
 
 
   } else {
@@ -1198,7 +1383,7 @@ function consequenceStep1Masello2Livelli()
     options.push("Oro specchio");
     options.push("Oro spazzolato");
     options.push("Rame spazzolato");
-    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", options, consequenceStep1ColoreMasello2Livelli)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", "Colore", options, consequenceStep1ColoreMasello2Livelli)
 
   }
 }
@@ -1233,7 +1418,7 @@ function consequenceStep1ColoreMasello2Livelli() {
       options.push("15MM");
       options.push("20MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, consequence)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", "Spessore", options, consequence)
 
     } else if (this.value === "Opale") {
       options.push("3MM");
@@ -1242,29 +1427,16 @@ function consequenceStep1ColoreMasello2Livelli() {
       options.push("15MM");
       options.push("20MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, consequence)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", "Spessore", options, consequence)
 
     } else {
       options.push("3MM");
       options.push("5MM");
       options.push("10MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, "")
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", "Spessore", options, consequence)
 
-      createTitle(".step2", "titleColore2Massello2", "Colore desiderato: ");
 
-      createCustomDiv(".step2", "divColore2Massello2");
-
-      selector = "#divColore2Massello2";
-
-      let optionsColore = [];
-      optionsColore.push("Bianco");
-      optionsColore.push("Nero");
-      optionsColore.push("Rosso");
-      optionsColore.push("Blu");
-      optionsColore.push("Giallo");
-
-      createOptionsSelectInputGeneratorOnChange(selector, "selectColoreDesideratoMassello2", optionsColore, consequence);
 
     }
 
@@ -1279,7 +1451,7 @@ function consequenceStep1ColoreMasello2Livelli() {
       options.push("5MM");
     }
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", options, consequence)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello2", "Spessore", options, consequence)
 
   } else {
     radioButtonInputGeneratorOnChage(selector, "selectMeasureSpessoreMassello2", "Spessore", "3MM", consequence)
@@ -1310,13 +1482,14 @@ function consequenceStep1Masello() {
 
   if (this.value === 'Plexi glass') {
 
+    options.push("Trasparente");
+    options.push("Opale");
+    options.push("Nero");
+    options.push("Rosso");
+    options.push("Blu");
+    options.push("Giallo");
 
-      options.push("Trasparente");
-      options.push("Opale");
-      options.push("Colorato");
-
-
-      createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", options, consequenceStep1ColoreMasello)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", "Colore", options, consequenceStep1ColoreMasello)
 
   } else if (this.value === 'PVC') {
     options.push("Bianco");
@@ -1324,7 +1497,7 @@ function consequenceStep1Masello() {
     options.push("Rosso");
     options.push("Blu");
     options.push("Giallo");
-    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", options, consequenceStep1ColoreMasello)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", "Colore", options, consequenceStep1ColoreMasello)
 
 
   } else {
@@ -1339,7 +1512,7 @@ function consequenceStep1Masello() {
     options.push("Oro specchio");
     options.push("Oro spazzolato");
     options.push("Rame spazzolato");
-    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", options, consequenceStep1ColoreMasello)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", "Colore", options, consequenceStep1ColoreMasello)
 
   }
 }
@@ -1361,7 +1534,12 @@ function removeSpessoreMassello()
 
 
 function createConsequenceMisuraCostaLateraleEvent2() {
-  console.log("send");
+console.log(this.name);
+  if(this.name !== "Colore"){
+    $("#titleColore2Massello2").remove();
+    $("divColore2Massello2").remove();
+  }
+  console.log("sda send");
 }
 
 function consequenceStep1ColoreMasello() {
@@ -1394,7 +1572,7 @@ function consequenceStep1ColoreMasello() {
       options.push("15MM");
       options.push("20MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, consequence)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", "Spessore", options, consequence)
 
     } else if (this.value === "Opale") {
       options.push("3MM");
@@ -1403,29 +1581,14 @@ function consequenceStep1ColoreMasello() {
       options.push("15MM");
       options.push("20MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, consequence)
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", "Spessore", options, consequence)
 
     } else {
       options.push("3MM");
       options.push("5MM");
       options.push("10MM");
 
-      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, "")
-
-      createTitle(".step2", "titleColore2Massello", "Colore desiderato: ");
-
-      createCustomDiv(".step2", "divColore2Massello");
-
-      selector = "#divColore2Massello";
-
-      let optionsColore = [];
-      optionsColore.push("Bianco");
-      optionsColore.push("Nero");
-      optionsColore.push("Rosso");
-      optionsColore.push("Blu");
-      optionsColore.push("Giallo");
-
-      createOptionsSelectInputGeneratorOnChange(selector, "selectColoreDesideratoMassello", optionsColore, consequence);
+      createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", "Spessore", options, consequence)
 
     }
 
@@ -1440,7 +1603,7 @@ function consequenceStep1ColoreMasello() {
       options.push("5MM");
     }
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello", options, consequence)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello","Spessore " , options, consequence)
 
   } else {
     radioButtonInputGeneratorOnChage(selector, "selectMeasureSpessoreMassello", "Spessore", "3MM", consequence)
@@ -1464,6 +1627,8 @@ function consequenceStepScrittaMasello2Livelli() {
   let field1 = "Tipo materiale fondello";
 
   let selector = ".step3";
+
+  labelActivation(".labelStep3");
 
   removeScrittaMasello2Livelli();
 
