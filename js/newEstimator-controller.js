@@ -7,11 +7,12 @@ let step5Storage = {};
 
 
 
+
 createStep0();
 createStep1();
 
 
-function createStep5LuceDiretta() {
+function createStep5LuceDirettaAndRiflessa() {
 
   resetFieldsStep5();
 
@@ -19,8 +20,7 @@ function createStep5LuceDiretta() {
 
   let selector = ".step5";
 
-  let field1 = "Illuminazione";
-  let field2 = "alimentatore"
+
 
   labelActivation(".labelStep5");
 
@@ -52,14 +52,14 @@ function consequenceEndIlluminazioneStep5()
 }
 
 
-function createStep4LuceDiretta() {
+function createStep4LuceDirettaAndRiflessa(){
   resetFieldsStep4();
   resetStep4LuceDiretta();
 
   let selector = ".step4";
 
   let field1 = "fondello";
-  let field2 = "Distanziatore fondello"
+  let field2 = "Extra"
 
   labelActivation(".labelStep4");
 
@@ -81,7 +81,6 @@ function createStep4LuceDiretta() {
         options.push("Plexi glass Opale 8MM");
         options.push("Plexi glass Opale 10MM");
 
-    saveFieldsStep2Event(this.name, this.value);
 
 
     createOptionsSelectInputGeneratorOnChangeOptional(selector, "selectFondelloLuceRiflessa","Fondello luce riflessa", options, consequenceFondello)
@@ -150,6 +149,7 @@ function createStep2LuceDirettaAndRiflessa() {
     radioButtonInputGeneratorOnChage(selector, 'flat', field1, "Flat", createConsequenceCategoriaCostaLateraleEvent);
     radioButtonInputGeneratorOnChage(selector, "flange", field1, "Flange", createConsequenceCategoriaCostaLateraleEvent);
     radioButtonInputGeneratorOnChage(selector, 'profiloEstroso', field1, "Profilo estruso", createConsequenceCategoriaCostaLateraleEvent);
+
   }
   if (step1Storage['Tipologia lavorazione'] === 'Luce riflessa')
     createConsequenceCategoriaCostaLateraleEvent();
@@ -258,7 +258,7 @@ function createConsequenceMaterialeLuceRiflessa() {
     saveFieldsStep2Event(this.name, this.value);
 
 
-  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLateraleLuceRiflessa", "Misura costa laterale", options, createConsequenceMisuraCostaLateraleLuceRiflessaEvent)
+  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLateraleLuceRiflessa", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleLuceRiflessaEvent)
 
 }
 
@@ -280,6 +280,7 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
   $("#customDivVerniciaturaCostaLateraleStep2").empty();
 
   if (step2Storage['Materiale lettera'] === 'Alluminio') {
+
     radioButtonInputGeneratorOnChage(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
     radioButtonInputGeneratorOnChage(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaLuceRiflessaEvent);
   } else if (step2Storage['Materiale lettera'] === 'Inox') {
@@ -303,6 +304,7 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
 
 
 function createConsequenceVerniciaturaLuceRiflessaEvent() {
+
 
   saveFieldsStep2Event(this.name, this.value);
 
@@ -336,12 +338,10 @@ function createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent() {
   if(this.name !== "Colore verniciatura costa laterale") {
     $("#coloreVerniciaturaCostaLateraleLuceRiflessa").remove();
     $("#customDivColoreCostaLateraleStep3LuceRiflessa").remove();
+    delete step2Storage["Colore verniciatura costa laterale"];
   }
-
-
-  createStep3LuceDirettaAndRiflessa();
-  createStep4LuceDiretta();
-  createStep5LuceDiretta();
+  createStep4LuceDirettaAndRiflessa();
+  createStep5LuceDirettaAndRiflessa();
 
   saveFieldsStep2Event(this.name, this.value);
 
@@ -382,7 +382,7 @@ function createMaterialeCostaLateraleFlangeStep2() {
   removeMaterialeCostaLaterale();
 
   let field2 = "Materiale costa laterale";
-  let field3 = "Cornice perimetrale";
+  let field3 = "Extra";
 
   step2Storage[field2] = "Alluminio";
   step2Storage[field3] = null;
@@ -394,10 +394,10 @@ function createMaterialeCostaLateraleFlangeStep2() {
   radioButtonInputGeneratorOnChage(selector, 'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
 
 
-  createTitle('.step2', "bordaturaCostaLaterale", "cornice perimetrale (OPZIONALE) :");
-  createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
+  createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
+  createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
   selector = '#customDivBordaturaCostaLateraleStep2';
-  checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', field3, "cornice perimetrale", saveOptionalFieldsStep2Event);
+  checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', field3, "Cornice perimetrale", saveOptionalFieldsStep2Event);
   $("#alluminio").trigger("click");
 
 
@@ -422,9 +422,11 @@ function createMaterialeCostaLateraleFlatStep2() {
   removeMaterialeCostaLaterale();
 
   let field2 = "Materiale costa laterale";
-  let field3 = "Bordatura outline saldata su fronte";
+  let field3 = "Extra";
 
   step2Storage[field3] = null;
+
+
 
 
   createTitle('.step2', "materialeCostaLaterale", "Materiale costa laterale :");
@@ -436,8 +438,8 @@ function createMaterialeCostaLateraleFlatStep2() {
   radioButtonInputGeneratorOnChage(selector, 'ottone', field2, "Ottone", createConsequenceMaterialeCostaLateraleEvent);
 
 
-  createTitle('.step2', "bordaturaCostaLaterale", "Bordatura outline saldata su fronte costa laterale (OPZIONALE) :");
-  createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
+  createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
+  createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
   selector = '#customDivBordaturaCostaLateraleStep2';
   checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', field3, "Bordatura outline saldata su fronte", saveOptionalFieldsStep2Event);
 
@@ -446,6 +448,10 @@ function createMaterialeCostaLateraleFlatStep2() {
 
 
 function createConsequenceMaterialeCostaLateraleEvent() {
+
+  $("#coloreVerniciaturaCostaLaterale").remove();
+  $("#customDivColoreCostaLateraleStep3").remove();
+
   resetStep3LuceDirettaAndRiflessa();
   resetStep4LuceDiretta();
   resetStep5LuceDiretta();
@@ -509,7 +515,7 @@ function createConsequenceMaterialeCostaLateraleEvent() {
 
   }
 
-  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", "Misura costa laterale", options, createConsequenceMisuraCostaLateraleEvent)
+  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleEvent)
 
 }
 
@@ -554,18 +560,25 @@ let selector = ".step2";
 function createConsequenceColorVerniciaturaCostaLateraleSelected()
 {
 
+
  if(this.name !== "Colore verniciatura costa laterale") {
+
    $("#coloreVerniciaturaCostaLaterale").remove();
    $("#customDivColoreCostaLateraleStep3").remove();
+   delete step2Storage["Colore verniciatura costa laterale"];
+
  }
 
   saveFieldsStep2Event(this.name, this.value);
 
-  createStep3LuceDirettaAndRiflessa();
+  if(step1Storage["Tipologia lavorazione"] === "Luce diretta")
+   createStep3LuceDiretta();
 
+createStep4LuceDirettaAndRiflessa();
+createStep5LuceDirettaAndRiflessa();
 }
 
-function createStep3LuceDirettaAndRiflessa() {
+function createStep3LuceDiretta() {
   resetFieldsStep3();
   resetStep3LuceDirettaAndRiflessa();
 
@@ -575,7 +588,6 @@ function createStep3LuceDirettaAndRiflessa() {
 
   let field1 = "Materiale frontalino";
 
-
   createTitle(selector, 'materialeFrontalino', 'Materiale frontalino :');
   createCustomDiv(selector, "customDivMaterialeFrontalinoStep3");
 
@@ -584,6 +596,9 @@ function createStep3LuceDirettaAndRiflessa() {
 
 
   if (step2Storage["Categoria costa laterale"] === "Profilo estruso") {
+
+     delete step2Storage["Extra"];
+
     radioButtonInputGeneratorOnChage(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
     radioButtonInputGeneratorOnChage(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
@@ -662,8 +677,8 @@ function createConsequenceSpessoreFrontalinoEvent() {
   saveFieldsStep3Event(this.name, this.value);
 
 
-  createStep4LuceDiretta();
-  createStep5LuceDiretta();
+  createStep4LuceDirettaAndRiflessa();
+  createStep5LuceDirettaAndRiflessa();
 
 }
 
@@ -681,6 +696,8 @@ function removeVerniciaturaCostaLaterale() {
 function createConsequenceMisuraCostaLateraleEvent() {
 
   saveFieldsStep2Event(this.name, this.value);
+
+
 
   let field4 = "Finitura costa laterale"
   let selector = '#customDivVerniciaturaCostaLateraleStep2';
@@ -942,6 +959,8 @@ function resetLavorazioneStep1()
 
 function consequenceElementoSagomato()
 {
+  resetFieldsStep1();
+
   resetLavorazioneStep1();
 
   step1Storage[this.name] = this.value;
@@ -956,9 +975,9 @@ function consequenceElementoSagomato()
 
 
 
-  textInputGeneratorOnChange(selector, field1, field1, saveFieldsStep0Event);
-  textInputGeneratorOnChange(selector, field2, field2, saveFieldsStep0Event);
-  textInputGeneratorOnChange(selector, field3, field3, saveFieldsStep0Event);
+  textInputGeneratorOnChange(selector, field1, field1, saveFieldsStep1Event);
+  textInputGeneratorOnChange(selector, field2, field2, saveFieldsStep1Event);
+  textInputGeneratorOnChange(selector, field3, field3, saveFieldsStep1Event);
 
   labelActivation(".labelStep1");
 
@@ -983,6 +1002,7 @@ function resetAllTheStepsLabel()
 function consequenceLettereSingoleIndipendenti()
 {
   resetLavorazioneStep1();
+  resetFieldsStep1();
 
   step1Storage[this.name] = this.value;
 
@@ -1032,10 +1052,14 @@ function consequenceStep1() {
   $(".step2").empty();
 
   deactiveAllTheLabels();
+  resetFieldsStep2();
+  resetFieldsStep3();
+  resetFieldsStep4();
+  resetFieldsStep5();
 
   step1Storage[this.name] = this.value;
   if (this.value === "Massello spento") {
-    resetFieldsStep2();
+
     resetStep2LuceDirettaAndRiflessa();
     resetStep3LuceDirettaAndRiflessa();
     resetStep4LuceDiretta();
@@ -1076,13 +1100,15 @@ function removeMasselloStep3Livello2()
 }
 
 function masselloStep2() {
+
+
   removeMasselloStep2();
   removeMasselloTipiStep2();
   removeStep1Masello();
   removeMasselloStep3Livello2();
   removeConsequenceStep1ColoreMasello2Livelli();
   removeConsequenceStep1ColoreMasello();
-  resetFieldsStep2();
+
 
   let selector = ".step1";
   let field0 = "Scritta Massello";
@@ -1109,6 +1135,8 @@ function consequenceStepScrittaMasello() {
   removeConsequenceStep1ColoreMasello();
   removeMasselloIlluminazione();
   removeConsequenceTipoIlluminazione();
+
+
 
   let field1 = "Tipo materiale";
 
@@ -1162,7 +1190,7 @@ function consequenceStepScrittaMasello2LivelliRetroilluminato()
 function consequenceStep1MaselloRetroilluminato() {
   removeStep1Masello();
   let field2 = "Colore";
-  saveFieldsStep2Event(this.name, this.value);
+  saveFieldsStep3Event(this.name, this.value);
 
   let selector = ".step3";
 
@@ -1183,7 +1211,7 @@ function resetConsequenceStep1ColoreMaselloRetroilluminato()  {
 
 function consequenceStep1ColoreMaselloRetroilluminato() {
 
-  saveFieldsStep2Event(this.name, this.value);
+  saveFieldsStep3Event(this.name, this.value);
   resetConsequenceStep1ColoreMaselloRetroilluminato();
   let selector = ".step3";
 
@@ -1243,7 +1271,7 @@ function createConsequenceTipoIlluminazione()
 
   let field2  = "Alimentatore"
 
-  saveFieldsStep3Event(this.name, this.value);
+  saveFieldsStep4Event(this.name, this.value);
 
 
   let options = [];
@@ -1273,9 +1301,7 @@ function createConsequenceTipoIlluminazione()
 
 function consequenceEndIlluminazione()
 {
-
     saveFieldsStep4Event(this.name,this.value);
-
 
 }
 
@@ -1464,7 +1490,9 @@ function consequenceStep1Masello() {
   removeStep1Masello();
   removeConsequenceStep1ColoreMasello();
   removeSpessoreMassello();
-
+  resetFieldsStep3();
+  resetFieldsStep4();
+  resetFieldsStep5();
 
 
   saveFieldsStep2Event(this.name, this.value);
@@ -1531,15 +1559,23 @@ function removeSpessoreMassello()
   $('#divSpessoreMassello').remove();
 }
 
-
-
 function createConsequenceMisuraCostaLateraleEvent2() {
-console.log(this.name);
+  saveFieldsStep2Event(this.name, this.value);
+
   if(this.name !== "Colore"){
     $("#titleColore2Massello2").remove();
     $("divColore2Massello2").remove();
   }
-  console.log("sda send");
+}
+
+
+function createConsequenceMisuraCostaLateraleEvent() {
+  saveFieldsStep2Event(this.name, this.value);
+
+  if(this.name !== "Colore"){
+    $("#titleColore2Massello2").remove();
+    $("divColore2Massello2").remove();
+  }
 }
 
 function consequenceStep1ColoreMasello() {
@@ -1560,7 +1596,7 @@ function consequenceStep1ColoreMasello() {
 
   let consequence;
 
-  consequence = createConsequenceMisuraCostaLateraleEvent2;
+  consequence = createConsequenceMisuraCostaLateraleEvent;
 
 
   if (step2Storage['Tipo materiale'] === 'Plexi glass') {
@@ -1603,7 +1639,7 @@ function consequenceStep1ColoreMasello() {
       options.push("5MM");
     }
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello","Spessore " , options, consequence)
+    createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMassello","Spessore" , options, consequence)
 
   } else {
     radioButtonInputGeneratorOnChage(selector, "selectMeasureSpessoreMassello", "Spessore", "3MM", consequence)
@@ -1648,7 +1684,11 @@ function consequenceStepScrittaMasello2Livelli() {
 
 
 }
-
+function createDiv(selector, id) {
+  $("<div/>", {
+    id: id,
+  }).appendTo(selector);
+}
 
 function createCustomDiv(selector, id) {
   $("<div/>", {
@@ -1812,12 +1852,31 @@ function stringCountInputGenerator() {
 
 }
 
+function resetFieldRelatedToEachCharacter()
+{
+  for (x in step1Storage)
+  {
+    if(x.includes("Carattere")) {
+      delete step1Storage[x];
+    }
+
+    }
+}
+
+
 function generateInputForEachLetter(letterString) {
 
   letterString = spaceRemoval(letterString);
   let size = letterString.length;
   let i = 0;
-  $('#charactersList').remove();
+
+  if ($('#charactersList').length !== 0)
+  {
+    resetFieldRelatedToEachCharacter();
+    $('#charactersList').remove();
+
+  }
+
 
   while (i < size) {
     let c = letterString.charAt(i);
@@ -1827,7 +1886,7 @@ function generateInputForEachLetter(letterString) {
     }).appendTo(".step1");
 
     $("<label/>", {
-      html: 'Misura altezza lettera: ' + '<strong>' + c.toUpperCase() + '</strong>',
+      html: 'Misura altezza lettera: ' + '<strong>' + c+ '</strong>',
       css: {
         'width': '50%'
       },
@@ -1843,8 +1902,8 @@ function generateInputForEachLetter(letterString) {
       },
       placeholder: 'cm',
       change: saveFieldsStep1Event,
-      id: 'inputCharacter' + c.toUpperCase() + 'Number' + i,
-      name: 'inputCharacter' + c.toUpperCase() + 'Number' + i
+      id: 'inputCharacter' + c + 'Number' + i,
+      name: 'Carattere : ' + c + ', in posizione : ' + i
     }).appendTo('#character' + c + 'number' + i);
 
     i++;
@@ -1881,6 +1940,7 @@ function resetFieldsStep0() {
 
 function saveFieldsStep1Event() {
 
+
   step1Storage[this.name] = this.value;
 }
 
@@ -1898,7 +1958,7 @@ function resetFieldsStep1() {
 function saveFieldsStep2Event(name, value) {
 
   step2Storage[name] = value;
-  console.log(step2Storage[name])
+
 }
 
 function saveOptionalFieldsStep2Event() {
@@ -1943,7 +2003,7 @@ function resetFieldsStep2() {
 }
 
 function saveFieldsStep3Event(name, value) {
-
+  printContent();
   step3Storage[name] = value;
 }
 
@@ -1959,6 +2019,7 @@ function resetFieldsStep3() {
 
 function saveFieldsStep4EventOptional(name, value) {
 
+
   if ($('input[name="' + name + '"]').prop("checked")) {
 
     $('input[value="' + step4Storage[name] + '"]').prop('checked', false);
@@ -1968,11 +2029,11 @@ function saveFieldsStep4EventOptional(name, value) {
   } else {
     step4Storage[name] = null;
   }
-  console.log(step4Storage[name]);
 
 }
 
 function saveFieldsStep4Event(name, value) {
+
 
   if(value === "Elemento non selezionato")
   {
@@ -1983,7 +2044,6 @@ function saveFieldsStep4Event(name, value) {
     step4Storage[name] = value;
 
   }
-  console.log(step4Storage[name]);
 
 }
 
@@ -2003,6 +2063,8 @@ function resetFieldsStep4() {
 
 function saveFieldsStep5Event(name, value) {
 
+  printContent();
+
   if(value === "Elemento non selezionato")
   {
     step5Storage[name] = null;
@@ -2012,7 +2074,6 @@ function saveFieldsStep5Event(name, value) {
         step5Storage[name] = value;
 
   }
-  console.log(step5Storage[name]);
 
 }
 
