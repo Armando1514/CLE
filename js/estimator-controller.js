@@ -5,7 +5,9 @@ let step3Storage = {};
 let step4Storage = {};
 let step5Storage = {};
 
-
+var imported = document.createElement("script");
+imported.src = "js/estimator-costs.js";
+document.getElementsByTagName("head")[0].appendChild(imported);
 
 function printAll() {
     let text;
@@ -31,6 +33,8 @@ function printAll() {
 
     alert(text);
 }
+
+
 
 
 createStep0();
@@ -79,6 +83,7 @@ function consequenceEndIlluminazioneStep5() {
 function createStep4LuceDirettaAndRiflessa() {
     resetFieldsStep4();
     resetStep4LuceDiretta();
+
 
     let selector = ".step4";
 
@@ -291,6 +296,7 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
 
     let field4 = "Finitura "
     let selector = '#customDivVerniciaturaCostaLateraleStep2';
+    removeExtraFrontalino();
 
 
 
@@ -407,10 +413,8 @@ function createMaterialeCostaLateraleFlangeStep2() {
     removeMaterialeCostaLaterale();
 
     let field2 = "Materiale costa laterale";
-    let field3 = "Extra";
 
     step2Storage[field2] = "Alluminio";
-    step2Storage[field3] = null;
 
     createTitle('.step2', "materialeCostaLaterale", "Materiale costa laterale :");
     createCustomDiv('.step2', "customDivMaterialeCostaLateraleStep2");
@@ -419,10 +423,7 @@ function createMaterialeCostaLateraleFlangeStep2() {
     radioButtonInputGeneratorOnChange(selector, 'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
 
 
-    createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
-    createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
-    selector = '#customDivBordaturaCostaLateraleStep2';
-    checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', field3, "Cornice perimetrale", saveOptionalFieldsStep2Event);
+
     $("#alluminio").trigger("click");
 
 
@@ -431,6 +432,7 @@ function createMaterialeCostaLateraleFlangeStep2() {
 function removeMaterialeCostaLaterale() {
     $("#materialeCostaLaterale").remove();
     $("#bordaturaOutline").remove();
+    $("#cornicePerimetrale").remove();
     $("#customDivBordaturaCostaLateraleStep2").remove();
     $("#bordaturaCostaLaterale").remove();
     $("#customDivMaterialeCostaLateraleStep2").remove();
@@ -447,9 +449,7 @@ function createMaterialeCostaLateraleFlatStep2() {
     removeMaterialeCostaLaterale();
 
     let field2 = "Materiale costa laterale";
-    let field3 = "Extra";
 
-    step2Storage[field3] = null;
 
 
 
@@ -463,10 +463,7 @@ function createMaterialeCostaLateraleFlatStep2() {
     radioButtonInputGeneratorOnChange(selector, 'ottone', field2, "Ottone", createConsequenceMaterialeCostaLateraleEvent);
 
 
-    createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
-    createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
-    selector = '#customDivBordaturaCostaLateraleStep2';
-    checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', field3, "Bordatura outline saldata su fronte", saveOptionalFieldsStep2Event);
+
 
 
 }
@@ -480,7 +477,6 @@ function createConsequenceMaterialeCostaLateraleEvent() {
     resetStep3LuceDirettaAndRiflessa();
     resetStep4LuceDiretta();
     resetStep5LuceDiretta();
-
 
     if ($('#misuraCostaLaterale').length === 0) {
         createTitle('.step2', "misuraCostaLaterale", "Profondità costa laterale :");
@@ -537,10 +533,17 @@ function createConsequenceMaterialeCostaLateraleEvent() {
 
         }
         saveFieldsStep2Event(this.name, this.value);
+        calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
 
     }
 
     createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleEvent)
+    if(step2Storage["Categoria costa laterale"] === "Flange") {
+    createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
+    createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
+    selector = '#customDivBordaturaCostaLateraleStep2';
+    checkboxInputGeneratorOnChange(selector, 'cornicePerimetrale', "Extra", "Cornice perimetrale", saveOptionalFieldsStep2Event);
+}
 
 }
 
@@ -596,15 +599,20 @@ function createConsequenceColorVerniciaturaCostaLateraleSelected() {
     saveFieldsStep2Event(this.name, this.value);
 
     if (step1Storage["Tipologia lavorazione"] === "Luce diretta")
-        createStep3LuceDiretta();
+
+    createStep3LuceDiretta();
 
     createStep4LuceDirettaAndRiflessa();
     createStep5LuceDirettaAndRiflessa();
+    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
+
+
 }
 
 function createStep3LuceDiretta() {
     resetFieldsStep3();
     resetStep3LuceDirettaAndRiflessa();
+
 
     labelActivation(".labelStep3");
 
@@ -612,6 +620,9 @@ function createStep3LuceDiretta() {
     let selector = ".step3";
 
     let field1 = "Materiale frontalino";
+    let field3 = "Extra";
+
+    step3Storage[field3] = null;
 
     createTitle(selector, 'materialeFrontalino', 'Materiale frontalino :');
     createCustomDiv(selector, "customDivMaterialeFrontalinoStep3");
@@ -622,17 +633,26 @@ function createStep3LuceDiretta() {
 
     if (step2Storage["Categoria costa laterale"] === "Profilo estruso") {
 
-        delete step2Storage["Extra"];
+        delete step3Storage[field3];
+        delete step2Storage[field3];
 
         radioButtonInputGeneratorOnChange(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
         radioButtonInputGeneratorOnChange(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
     } else if (step2Storage["Categoria costa laterale"] === 'Flange') {
+
+        delete step3Storage[field3];
+
         radioButtonInputGeneratorOnChange(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
+
     } else {
+
+        delete step2Storage[field3];
+
         radioButtonInputGeneratorOnChange(selector, "plexiGlassOpale", field1, "Plexi glass opale", createConsequenceMaterialeFrontalinoEvent);
         radioButtonInputGeneratorOnChange(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
+
 
     }
 
@@ -642,7 +662,7 @@ function createStep3LuceDiretta() {
 
 function createConsequenceMaterialeFrontalinoEvent() {
     resetFieldsStep3();
-
+    removeExtraFrontalino();
     step3Storage["step"] = "Frontalino";
 
     saveFieldsStep3Event(this.name, this.value);
@@ -684,6 +704,13 @@ function createConsequenceMaterialeFrontalinoEvent() {
         createOptionsSelectInputGeneratorOnChange(selector, "selectColoreFrontalino", "Colore frontalino", options, createConsequenceSpessoreFrontalinoEvent)
     }
 
+    createTitle('.step3', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
+    createDiv('.step3', "customDivBordaturaCostaLateraleStep2");
+    selector = '#customDivBordaturaCostaLateraleStep2';
+
+    checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', "Extra", "Bordatura outline saldata su fronte", saveOptionalFieldsStep3Event);
+
+    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
 
 }
 
@@ -702,6 +729,7 @@ function createConsequenceSpessoreFrontalinoEvent() {
 
     createStep4LuceDirettaAndRiflessa();
     createStep5LuceDirettaAndRiflessa();
+    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
 
 }
 
@@ -714,6 +742,13 @@ function removeMisuraCostaLaterale() {
 function removeVerniciaturaCostaLaterale() {
     $("#verniciaturaCostaLaterale").remove();
     $("#customDivVerniciaturaCostaLateraleStep2").remove();
+}
+function removeExtraFrontalino()
+{
+    $("#bordaturaOutline").remove();
+    $("#cornicePerimetrale").remove();
+    $("#customDivBordaturaCostaLateraleStep2").remove();
+    $("#bordaturaCostaLaterale").remove();
 }
 
 function createConsequenceMisuraCostaLateraleEvent() {
@@ -768,6 +803,7 @@ function createConsequenceMisuraCostaLateraleEvent() {
     }
 
 
+    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
 
 }
 
@@ -973,10 +1009,13 @@ function resetLavorazioneStep1() {
     $('#customDivTipologiaLetteraScatolataStep1').remove();
     $('#tipologiaDiFontTitle').remove();
     $('#customDivTipologiaDiFontStep1').remove();
-    $('#DicituraScrittaTitle').remove();
+    $('#dicituraScrittaTitle').remove();
+    $("#customDicituraScrittaStep1").remove();
     $('input[name="Dicitura scritta"]').remove();
     $('#charactersList').remove();
     $('#labelStringNumber').remove();
+    $('#lettersNumberCountDiv').remove();
+    $('#eachLetterDiv').remove();
 }
 
 function consequenceElementoSagomato() {
@@ -996,9 +1035,9 @@ function consequenceElementoSagomato() {
 
 
 
-    textInputGeneratorOnChange(selector, field1, field1, saveFieldsStep1Event);
-    textInputGeneratorOnChange(selector, field2, field2, saveFieldsStep1Event);
-    textInputGeneratorOnChange(selector, field3, field3, saveFieldsStep1Event);
+    textInputGeneratorOnChange(selector, field1, field1, calculateElementoSagomato);
+    textInputGeneratorOnChange(selector, field2, field2, calculateElementoSagomato);
+    textInputGeneratorOnChange(selector, field3, field3, calculateElementoSagomato);
 
     labelActivation(".labelStep1");
 
@@ -1009,6 +1048,14 @@ function consequenceElementoSagomato() {
     radioButtonInputGeneratorOnChange(selector, 'luceDiretta', field4, "Luce diretta", consequenceStep1);
     radioButtonInputGeneratorOnChange(selector, "luceRiflessa", field4, "Luce riflessa", consequenceStep1);
     radioButtonInputGeneratorOnChange(selector, 'masselloSpento', field4, "Massello spento", consequenceStep1);
+
+}
+
+function calculateElementoSagomato()
+{
+    saveFieldsStep1(this.name, this.value);
+
+    calculateHypervisorParametersElementoSagomato(step1Storage["Base"], step1Storage["Altezza"], step1Storage["Perimetro"]);
 
 }
 
@@ -1031,36 +1078,42 @@ function consequenceLettereSingoleIndipendenti() {
 
     let field1 = "Dicitura scritta";
     let field2 = "Tipologia di font";
-    createTitle(selector, "DicituraScrittaTitle", "Dicitura scritta :");
-    textInputGeneratorOnKeyUp(selector, field1, field1, stringCountInputGenerator);
-
-
 
     createTitle(selector, "tipologiaDiFontTitle", "Tipologia di font :");
     createCustomDiv(selector, "customDivTipologiaDiFontStep1");
     selector = '#customDivTipologiaDiFontStep1';
-    radioButtonInputGeneratorOnChange(selector, 'stampatelloSemplice', field2, "Stampatello semplice", saveFieldsStep1Event);
-    radioButtonInputGeneratorOnChange(selector, "elaboratoComposto", field2, "Elaborato composto", saveFieldsStep1Event);
-    radioButtonInputGeneratorOnChange(selector, 'corsivo', field2, "Corsivo", saveFieldsStep1Event);
 
-    let field3 = "Tipologia lavorazione";
+    radioButtonInputGeneratorOnChange(selector, 'stampatelloSemplice', field2, "Stampatello semplice", consequenceLetterChoose);
+    radioButtonInputGeneratorOnChange(selector, "elaboratoComposto", field2, "Elaborato composto", consequenceLetterChoose);
+    radioButtonInputGeneratorOnChange(selector, 'corsivo', field2, "Corsivo", consequenceLetterChoose);
 
-
-
+    createTitle('.step1', "dicituraScrittaTitle", "Frase: ");
+    createCustomDiv('.step1', "customDicituraScrittaStep1");
+    textInputGeneratorOnKeyUp("#customDicituraScrittaStep1", field1, field1, stringCountInputGenerator);
+    createCustomDiv('.step1', "lettersNumberCountDiv");
+    createCustomDiv('.step1', "eachLetterDiv");
 
     labelActivation(".labelStep1");
 
-
-
-
-    createTitle(".step1", "tipologiaLetteraScatolataTitle", "Tipologia lavorazione :");
-    createCustomDiv(".step1", "customDivTipologiaLetteraScatolataStep1");
-    selector = '#customDivTipologiaLetteraScatolataStep1';
-    radioButtonInputGeneratorOnChange(selector, 'luceDiretta', field3, "Luce diretta", consequenceStep1);
-    radioButtonInputGeneratorOnChange(selector, "luceRiflessa", field3, "Luce riflessa", consequenceStep1);
-    radioButtonInputGeneratorOnChange(selector, 'masselloSpento', field3, "Massello spento", consequenceStep1);
-
 }
+
+
+function consequenceLetterChoose()
+{
+    saveFieldsStep1(this.name, this.value);
+    calculatePerimeterRelatedToEachCharacter();
+
+    let field3 = "Tipologia lavorazione";
+    if($("#tipologiaLetteraScatolataTitle").length === 0) {
+        createTitle(".step1", "tipologiaLetteraScatolataTitle", "Tipologia lavorazione :");
+        createCustomDiv(".step1", "customDivTipologiaLetteraScatolataStep1");
+        let selector = '#customDivTipologiaLetteraScatolataStep1';
+        radioButtonInputGeneratorOnChange(selector, 'luceDiretta', field3, "Luce diretta", consequenceStep1);
+        radioButtonInputGeneratorOnChange(selector, "luceRiflessa", field3, "Luce riflessa", consequenceStep1);
+        radioButtonInputGeneratorOnChange(selector, 'masselloSpento', field3, "Massello spento", consequenceStep1);
+    }
+}
+
 
 function deactiveAllTheLabels() {
     $(".labelStep2").removeClass("active");
@@ -1081,6 +1134,9 @@ function consequenceStep1() {
     resetFieldsStep5();
 
     step1Storage[this.name] = this.value;
+
+
+
     if (this.value === "Massello spento") {
 
         resetStep2LuceDirettaAndRiflessa();
@@ -1099,6 +1155,9 @@ function consequenceStep1() {
         setLabelLuceDiretta();
         createStep2LuceDirettaAndRiflessa();
         resetScritteMassello();
+
+        /* here is possible to calculate step 1 for LUCE DIRETTA */
+
 
     }
 
@@ -1873,6 +1932,8 @@ function stringCountInputGenerator() {
     let elementCreated = $('#lettersCount');
     let count = letterCount(letterString);
 
+    saveFieldsStep1("Numero lettere", count);
+
     if (elementCreated.length) {
         elementCreated.val(count);
 
@@ -1880,7 +1941,7 @@ function stringCountInputGenerator() {
         $("<label/>", {
             text: 'Numero lettere',
             id: 'labelStringNumber'
-        }).appendTo(".step1");
+        }).appendTo("#lettersNumberCountDiv");
 
         $("<input/>", {
 
@@ -1924,7 +1985,7 @@ function generateInputForEachLetter(letterString) {
 
         $("<div/>", {
             id: 'charactersList',
-        }).appendTo(".step1");
+        }).appendTo("#eachLetterDiv");
 
         $("<label/>", {
             html: 'Misura altezza lettera: ' + '<strong>' + c + '</strong>',
@@ -1942,7 +2003,7 @@ function generateInputForEachLetter(letterString) {
                 'width': '80%'
             },
             placeholder: 'cm',
-            change: saveFieldsStep1Event,
+            change: calculatePerimeterRelatedToEachCharacter,
             id: 'inputCharacter' + c + 'Number' + i,
             name: 'Carattere : ' + c + ', in posizione : ' + i
         }).appendTo('#character' + c + 'number' + i);
@@ -1984,7 +2045,6 @@ function saveFieldsStep1Event() {
     step1Storage[this.name] = this.value;
 }
 
-
 function resetFieldsStep1() {
 
     for (let property in step1Storage) {
@@ -2019,8 +2079,10 @@ function saveOptionalFieldsStep2Event() {
         step2Storage[this.name] = null;
     }
 
+    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
 
 }
+
 
 function saveOptionalFieldsStep2EventLetterFormLetterBox(name, value) {
 
@@ -2048,6 +2110,8 @@ function resetFieldsStep2() {
 
 }
 
+
+
 function saveFieldsStep3Event(name, value) {
     step3Storage[name] = value;
 }
@@ -2059,6 +2123,22 @@ function resetFieldsStep3() {
         delete step3Storage[property];
 
     }
+
+}
+function saveOptionalFieldsStep3Event() {
+
+
+    if (this.checked) {
+
+        if ($('input[value="' + step3Storage[this.name] + '"]') != null)
+            $('input[value="' + step3Storage[this.name] + '"]').prop('checked', false);
+        step3Storage[this.name] = this.value;
+
+    } else {
+        step3Storage[this.name] = null;
+    }
+    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
+
 
 }
 
@@ -2131,3 +2211,30 @@ function resetFieldsStep5() {
     }
 
 }
+
+
+
+    function calculatePerimeterRelatedToEachCharacter() {
+
+        if(this.value != undefined)
+            saveFieldsStep1(this.name, this.value);
+
+        resetPerimeterAndAreaLetter();
+
+        for (x in step1Storage) {
+            if (x.includes("Carattere")) {
+                /* calculate here the perimeter for each letter */
+                calculateHypervisorParametersLetters(step1Storage[x], step1Storage["Tipologia di font"]);
+            }
+
+        }
+        calculateAll();
+    }
+
+function calculateAll()
+{
+    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
+    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
+
+}
+
