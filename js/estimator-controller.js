@@ -51,6 +51,10 @@ function createStep5LuceDirettaAndRiflessa() {
 
     step5Storage["step"] = "Illuminazione";
 
+    let field2 = "Extra1";
+    let field3 = "Extra2";
+
+
     labelActivation(".labelStep5");
 
     createTitle(selector, "illuminazione", "Tipo illuminazione :");
@@ -64,9 +68,15 @@ function createStep5LuceDirettaAndRiflessa() {
     options.push("Modulo led IP67 colorato rosso");
     options.push("Modulo led IP67 colorato verde");
     options.push("Modulo led IP67 colorato blu");
-    options.push("Modulo led IP67 colorato RGB (Con controller RGB)");
+    options.push("Modulo led IP67 colorato RGB");
 
     createOptionsSelectInputGeneratorOnChangeOptional(selector, "selectIlluminazioneStep5", "Illuminazione", options, consequenceEndIlluminazioneStep5);
+  createDiv(".step5","alimentatoreDiv");
+  checkboxInputGeneratorOnChange("#alimentatoreDiv", "alimentatore", field2, "Alimentatore", consequenceEndIlluminazioneStep5);
+  createDiv(".step5","alimentatoreDiv1");
+
+  checkboxInputGeneratorOnChange("#alimentatoreDiv1", "alimentatore1", field3, "Controller RGB", consequenceEndIlluminazioneStep5);
+
 }
 
 
@@ -74,7 +84,25 @@ function createStep5LuceDirettaAndRiflessa() {
 
 function consequenceEndIlluminazioneStep5() {
 
-    saveFieldsStep5Event(this.name, this.value);
+
+  if(this.name === "Extra1")
+  {
+    if($('input[value="'+this.value+'"]').prop("checked"))
+      saveFieldsStep5Event(this.name, this.value)
+    else
+      saveFieldsStep5Event(this.name, null)
+  }
+  else if(this.name === "Extra2")
+  {
+    if($('input[value="'+this.value+'"]').prop("checked"))
+      saveFieldsStep5Event(this.name, this.value)
+    else
+      saveFieldsStep5Event(this.name, null)
+  }
+  else
+  saveFieldsStep5Event(this.name, this.value);
+
+  calculationIllumination(null, step5Storage["Illuminazione"], step5Storage["Extra1"], step5Storage["Extra2"]);
 
 
 }
@@ -89,7 +117,7 @@ function createStep4LuceDirettaAndRiflessa() {
 
     step4Storage["step"] = "Fondello";
 
-    let field1 = "fondello";
+    let field1 = "Fondello";
     let field2 = "Extra"
 
     labelActivation(".labelStep4");
@@ -114,7 +142,7 @@ function createStep4LuceDirettaAndRiflessa() {
 
 
 
-        createOptionsSelectInputGeneratorOnChangeOptional(selector, "selectFondelloLuceRiflessa", "Fondello luce riflessa", options, consequenceFondello)
+        createOptionsSelectInputGeneratorOnChange(selector, "selectFondelloLuceRiflessa", "Fondello", options, consequenceFondello)
 
         createTitle('.step4', "distanziatore", "Distanziatore fondello (OPZIONALE):");
 
@@ -134,6 +162,8 @@ function consequenceFondello() {
         saveFieldsStep4Event(this.name, this.value);
 
     }
+  calculateFondello(step4Storage["Fondello"], step4Storage["Extra"], step1Storage["Numero lettere"]);
+
 }
 
 function resetStep4LuceDiretta() {
@@ -226,10 +256,10 @@ function createMaterialeLuceRiflessa() {
 
     let selector = ".step2";
 
-    let field1 = "Materiale lettera";
+    let field1 = "Materiale costa laterale";
 
     if ($('#materialeLettere').length === 0) {
-        createTitle(selector, 'materialeLettere', 'Materiale lettera :');
+        createTitle(selector, 'materialeLettere', 'Materiale costa laterale :');
         createCustomDiv(selector, "customDivMaterialeLettereStep2");
     }
 
@@ -251,6 +281,7 @@ function createMaterialeLuceRiflessa() {
 function createConsequenceMaterialeLuceRiflessa() {
 
     resetStep3LuceDirettaAndRiflessa();
+  removeMisuraCostaLaterale();
 
 
     if ($('#misuraCostaLaterale').length === 0) {
@@ -289,15 +320,16 @@ function createConsequenceMaterialeLuceRiflessa() {
 
 
     createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLateraleLuceRiflessa", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleLuceRiflessaEvent)
+    calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"],step2Storage["Colore verniciatura costa laterale"]);
+    calculateFrontalino(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"]);
 
 }
 
 function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
 
-    let field4 = "Finitura "
+    let field4 = "Finitura costa laterale"
     let selector = '#customDivVerniciaturaCostaLateraleStep2';
     removeExtraFrontalino();
-
 
 
     if ($('#verniciaturaCostaLaterale').length === 0) {
@@ -310,18 +342,18 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
 
     $("#customDivVerniciaturaCostaLateraleStep2").empty();
 
-    if (step2Storage['Materiale lettera'] === 'Alluminio') {
+    if (step2Storage['Materiale costa laterale'] === 'Alluminio') {
 
         radioButtonInputGeneratorOnChange(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
         radioButtonInputGeneratorOnChange(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaLuceRiflessaEvent);
-    } else if (step2Storage['Materiale lettera'] === 'Inox') {
+    } else if (step2Storage['Materiale costa laterale'] === 'Inox') {
 
         $("#verniciaturaCostaLaterale").text("Finitura costa laterale: ");
 
         radioButtonInputGeneratorOnChange(selector, "lucida", field4, "Lucida", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
         radioButtonInputGeneratorOnChange(selector, 'spazzolata', field4, "Spazzolata", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
 
-    } else if (step2Storage['Materiale lettera'] === "Ottone") {
+    } else if (step2Storage['Materiale costa laterale'] === "Ottone") {
         radioButtonInputGeneratorOnChange(selector, 'grezzo', field4, "Grezzo", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
         radioButtonInputGeneratorOnChange(selector, 'galvanico', field4, "Galvanico", createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent);
 
@@ -330,7 +362,8 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
         radioButtonInputGeneratorOnChange(selector, 'verniciata', field4, "Verniciata", createConsequenceVerniciaturaLuceRiflessaEvent);
 
     }
-
+  calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"],step2Storage["Colore verniciatura costa laterale"]);
+  calculateFrontalino(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"]);
 }
 
 
@@ -355,9 +388,7 @@ function createConsequenceVerniciaturaLuceRiflessaEvent() {
     options.push("Giallo");
     options.push("Verde");
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreCostaLateraleLuceRiflessa", "Colore verniciatura costa laterale", options, createConsequenceColorVerniciaturaCostaLateraleSelected)
-
-
+    createOptionsSelectInputGeneratorOnChange(selector, "selectColoreCostaLateraleLuceRiflessa", "Colore verniciatura costa laterale", options, createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent)
 
 
 }
@@ -365,16 +396,18 @@ function createConsequenceVerniciaturaLuceRiflessaEvent() {
 
 
 function createConsequenceVerniciaturaLuceRiflessaColorSelectedEvent() {
-
     if (this.name !== "Colore verniciatura costa laterale") {
         $("#coloreVerniciaturaCostaLateraleLuceRiflessa").remove();
         $("#customDivColoreCostaLateraleStep3LuceRiflessa").remove();
-        delete step2Storage["Colore verniciatura costa laterale"];
+      console.log("s" + this.name)
+
+      delete step2Storage["Colore verniciatura costa laterale"];
     }
-    createStep4LuceDirettaAndRiflessa();
+  saveFieldsStep2Event(this.name, this.value);
+  calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"],step2Storage["Colore verniciatura costa laterale"]);
+  createStep4LuceDirettaAndRiflessa();
     createStep5LuceDirettaAndRiflessa();
 
-    saveFieldsStep2Event(this.name, this.value);
 
 }
 
@@ -395,9 +428,9 @@ function createMaterialeCostaLateraleProfiloEstrosoStep2() {
     radioButtonInputGeneratorOnChange(selector, 'alluminio', field2, "Alluminio", createConsequenceMaterialeCostaLateraleEvent);
 
 
-    createTitle('.step2', "bordaturaCostaLaterale", "Tipologia profilo :");
-    createCustomDiv('.step2', "customDivBordaturaCostaLateraleStep2");
-    selector = '#customDivBordaturaCostaLateraleStep2';
+    createTitle('.step2', "tipologiaProfilo", "Tipologia profilo :");
+    createCustomDiv('.step2', "tipologiaProfiloDivStep2");
+    selector = '#tipologiaProfiloDivStep2';
     radioButtonInputGeneratorOnChange(selector, 'letterForm', field3, "Letter form", createConsequenceMaterialeCostaLateraleEvent);
     radioButtonInputGeneratorOnChange(selector, 'letterBox', field3, "Letter box", createConsequenceMaterialeCostaLateraleEvent);
 
@@ -438,6 +471,8 @@ function removeMaterialeCostaLaterale() {
     $("#customDivMaterialeCostaLateraleStep2").remove();
     $("#letterForm").remove();
     $("#letterBox").remove();
+    $("#tipologiaProfiloDivStep2").remove();
+    $("#tipologiaProfilo").remove();
     removeMisuraCostaLaterale();
 }
 
@@ -477,6 +512,7 @@ function createConsequenceMaterialeCostaLateraleEvent() {
     resetStep3LuceDirettaAndRiflessa();
     resetStep4LuceDiretta();
     resetStep5LuceDiretta();
+    removeExtraFrontalino();
 
     if ($('#misuraCostaLaterale').length === 0) {
         createTitle('.step2', "misuraCostaLaterale", "Profondità costa laterale :");
@@ -533,17 +569,25 @@ function createConsequenceMaterialeCostaLateraleEvent() {
 
         }
         saveFieldsStep2Event(this.name, this.value);
-        calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
-
     }
 
     createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleEvent)
     if(step2Storage["Categoria costa laterale"] === "Flange") {
     createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
     createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
-    selector = '#customDivBordaturaCostaLateraleStep2';
+    let selector = '#customDivBordaturaCostaLateraleStep2';
     checkboxInputGeneratorOnChange(selector, 'cornicePerimetrale', "Extra", "Cornice perimetrale", saveOptionalFieldsStep2Event);
 }
+    else if(step2Storage["Categoria costa laterale"] === "Flat")
+    {
+      createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
+      createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
+      let selector = '#customDivBordaturaCostaLateraleStep2';
+
+      checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', "Extra", "Bordatura outline saldata su fronte", saveOptionalFieldsStep2Event);
+
+    }
+  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
 
 }
 
@@ -598,14 +642,12 @@ function createConsequenceColorVerniciaturaCostaLateraleSelected() {
 
     saveFieldsStep2Event(this.name, this.value);
 
-    if (step1Storage["Tipologia lavorazione"] === "Luce diretta")
-
     createStep3LuceDiretta();
 
     createStep4LuceDirettaAndRiflessa();
     createStep5LuceDirettaAndRiflessa();
-    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
 
+  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
 
 }
 
@@ -662,7 +704,6 @@ function createStep3LuceDiretta() {
 
 function createConsequenceMaterialeFrontalinoEvent() {
     resetFieldsStep3();
-    removeExtraFrontalino();
     step3Storage["step"] = "Frontalino";
 
     saveFieldsStep3Event(this.name, this.value);
@@ -704,13 +745,8 @@ function createConsequenceMaterialeFrontalinoEvent() {
         createOptionsSelectInputGeneratorOnChange(selector, "selectColoreFrontalino", "Colore frontalino", options, createConsequenceSpessoreFrontalinoEvent)
     }
 
-    createTitle('.step3', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
-    createDiv('.step3', "customDivBordaturaCostaLateraleStep2");
-    selector = '#customDivBordaturaCostaLateraleStep2';
 
-    checkboxInputGeneratorOnChange(selector, 'bordaturaOutline', "Extra", "Bordatura outline saldata su fronte", saveOptionalFieldsStep3Event);
-
-    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
+  calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"]);
 
 }
 
@@ -729,7 +765,7 @@ function createConsequenceSpessoreFrontalinoEvent() {
 
     createStep4LuceDirettaAndRiflessa();
     createStep5LuceDirettaAndRiflessa();
-    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
+  calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"]);
 
 }
 
@@ -741,7 +777,10 @@ function removeMisuraCostaLaterale() {
 
 function removeVerniciaturaCostaLaterale() {
     $("#verniciaturaCostaLaterale").remove();
+    $("#coloreVerniciaturaCostaLateraleLuceRiflessa").remove();
     $("#customDivVerniciaturaCostaLateraleStep2").remove();
+  $("#customDivColoreCostaLateraleStep3LuceRiflessa").remove();
+
 }
 function removeExtraFrontalino()
 {
@@ -803,7 +842,7 @@ function createConsequenceMisuraCostaLateraleEvent() {
     }
 
 
-    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
+  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
 
 }
 
@@ -863,7 +902,7 @@ function setLabelLuceRiflessa() {
 
     $(".labelStep2").text("Step 2, costa laterale");
     $(".labelStep3").text("");
-    $(".labelStep4").text("Step 3, fondello (OPZIONALE)");
+    $(".labelStep4").text("Step 3, fondello");
     $(".labelStep5").text("Step 4, illuminazione (OPZIONALE)");
 
 }
@@ -1381,7 +1420,8 @@ function createConsequenceTipoIlluminazione() {
 
     let selector = ".step4";
 
-    let field2 = "Extra"
+    let field2 = "Extra1"
+    let field3 = "Extra2"
 
     let options = [];
 
@@ -1397,17 +1437,38 @@ function createConsequenceTipoIlluminazione() {
     options.push("Colorato rosso");
     options.push("Colorato verde");
     options.push("Colorato blu");
-    options.push("Colorato RGB (Con controller RGB)");
+    options.push("Colorato RGB");
 
-    createOptionsSelectInputGeneratorOnChange(selector, "selectIlluminazioneMassello", "Illuminazione strip led", options, consequenceEndIlluminazione);
+    createOptionsSelectInputGeneratorOnChange(selector, "selectIlluminazioneMassello", "Illuminazione", options, consequenceEndIlluminazione);
+createDiv(".step4","alimentatoreDiv");
+    checkboxInputGeneratorOnChange("#alimentatoreDiv", "alimentatore", field2, "Alimentatore", consequenceEndIlluminazione);
+  createDiv(".step4","alimentatoreDiv1");
 
-    checkboxInputGeneratorOnChange(".step4", "alimentatore", field2, "Alimentatore per illuminazione", consequenceEndIlluminazione);
+  checkboxInputGeneratorOnChange("#alimentatoreDiv1", "alimentatore1", field3, "Controller RGB", consequenceEndIlluminazione);
 
 }
 
 
 function consequenceEndIlluminazione() {
-    saveFieldsStep4Event(this.name, this.value);
+  if(this.name === "Extra1")
+  {
+    if($('input[value="'+this.value+'"]').prop("checked"))
+      saveFieldsStep4Event(this.name, this.value)
+    else
+      saveFieldsStep4Event(this.name, null)
+  }
+  else if(this.name === "Extra2")
+  {
+    if($('input[value="'+this.value+'"]').prop("checked"))
+      saveFieldsStep4Event(this.name, this.value)
+    else
+      saveFieldsStep4Event(this.name, null)
+  }
+  else
+  saveFieldsStep4Event(this.name, this.value);
+
+  calculationIllumination(step4Storage["Tipo illuminazione"], step4Storage["Illuminazione"], step4Storage["Extra1"], step4Storage["Extra2"]);
+
 }
 
 
@@ -1425,8 +1486,13 @@ function removeConsequenceTipoIlluminazione() {
     $('#illuminazione').remove();
     $('#customDiv1IlluminazioneStep5').remove();
     $('#alimentatoreTitle').remove();
-    $('#alimentatore').remove();
+
+  $('#alimentatoreDiv').remove();
+  $("#alimentatoreDiv1").remove();
+
     $('label[for=alimentatore]').remove();
+  $('label[for=alimentatore1]').remove();
+
 }
 
 
@@ -2079,7 +2145,7 @@ function saveOptionalFieldsStep2Event() {
         step2Storage[this.name] = null;
     }
 
-    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
+  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
 
 }
 
@@ -2125,22 +2191,7 @@ function resetFieldsStep3() {
     }
 
 }
-function saveOptionalFieldsStep3Event() {
 
-
-    if (this.checked) {
-
-        if ($('input[value="' + step3Storage[this.name] + '"]') != null)
-            $('input[value="' + step3Storage[this.name] + '"]').prop('checked', false);
-        step3Storage[this.name] = this.value;
-
-    } else {
-        step3Storage[this.name] = null;
-    }
-    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
-
-
-}
 
 function saveFieldsStep4EventOptional(name, value) {
 
@@ -2233,8 +2284,20 @@ function resetFieldsStep5() {
 
 function calculateAll()
 {
-    calculateCostaLaterle(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Extra"]);
-    calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"], step3Storage["Extra"]);
+  removeAllTheCostAndProcessFields();
+
+  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
+  calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"],step2Storage["Colore verniciatura costa laterale"]);
+
+  calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"]);
+  calculateFondello(step4Storage["Fondello"], step4Storage["Extra"], step1Storage["Numero lettere"]);
+
+  if(step5Storage["Illuminazione"] !== undefined)
+  calculationIllumination(null, step5Storage["Illuminazione"], step5Storage["Extra1"], step5Storage["Extra2"]);
+  else
+    calculationIllumination(step4Storage["Tipo illuminazione"], step4Storage["Illuminazione"], step4Storage["Extra1"], step4Storage["Extra2"]);
+
+
 
 }
 
