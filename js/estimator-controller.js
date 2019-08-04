@@ -1177,6 +1177,7 @@ function consequenceStep1() {
 
 
     if (this.value === "Massello spento") {
+      removeAllTheCostAndProcessFields();
 
         resetStep2LuceDirettaAndRiflessa();
         resetStep3LuceDirettaAndRiflessa();
@@ -1188,10 +1189,12 @@ function consequenceStep1() {
 
     } else if (this.value === "Luce riflessa") {
         setLabelLuceRiflessa();
-        createStep2LuceDirettaAndRiflessa();
+      removeAllTheCostAndProcessFields();
+      createStep2LuceDirettaAndRiflessa();
         resetScritteMassello();
     } else {
-        setLabelLuceDiretta();
+      removeAllTheCostAndProcessFields();
+      setLabelLuceDiretta();
         createStep2LuceDirettaAndRiflessa();
         resetScritteMassello();
 
@@ -1234,9 +1237,8 @@ function masselloStep2() {
     resetFieldsStep4();
     resetFieldsStep5();
 
-
     let selector = ".step1";
-    let field0 = "Scritta Massello";
+    let field0 = "Scritta massello";
 
 
     createTitle(selector, "titleScrittaMassello", "Scritta massello: ");
@@ -1256,6 +1258,7 @@ function consequenceStepScrittaMasello() {
     removeMasselloTipiStep2();
     removeSpessoreMassello();
     removeStep1Masello();
+
     removeMasselloStep3Livello2();
     removeConsequenceStep1ColoreMasello2Livelli();
     removeConsequenceStep1ColoreMasello();
@@ -1334,6 +1337,8 @@ function consequenceStepScrittaMasello2LivelliRetroilluminato() {
     radioButtonInputGeneratorOnChange(selector, 'plexiGlassR', field1, "Plexi glass", consequenceStep1MaselloRetroilluminato);
 
     $("#plexiGlassR").trigger("click");
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
+
 
 }
 
@@ -1352,6 +1357,7 @@ function consequenceStep1MaselloRetroilluminato() {
 
     radioButtonInputGeneratorOnChange(selector, 'trasparenteR', field2, "Trasparente", consequenceStep1ColoreMaselloRetroilluminato);
     radioButtonInputGeneratorOnChange(selector, 'opaleR', field2, "Opale", consequenceStep1ColoreMaselloRetroilluminato);
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
 
 }
 
@@ -1386,6 +1392,7 @@ function consequenceStep1ColoreMaselloRetroilluminato() {
 
     }
     createOptionsSelectInputGeneratorOnChange(selector, "selectMeasureSpessoreMasselloR", "Spessore", options, createConsequenceMisuraMasello);
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
 
 }
 
@@ -1409,6 +1416,7 @@ function createConsequenceMisuraMasello() {
 
     radioButtonInputGeneratorOnChange(selector, 'stripLedIp20', field1, "Strip led IP20 (per interno)", createConsequenceTipoIlluminazione);
     radioButtonInputGeneratorOnChange(selector, 'stripLedIp67', field1, "Strip led IP67 (per esterno, waterproof)", createConsequenceTipoIlluminazione);
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
 
 }
 
@@ -1582,6 +1590,8 @@ function consequenceStep1Masello2Livelli() {
         createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello2", "Colore", options, consequenceStep1ColoreMasello2Livelli)
 
     }
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
+
 }
 
 function consequenceStep1ColoreMasello2Livelli() {
@@ -1654,6 +1664,8 @@ function consequenceStep1ColoreMasello2Livelli() {
 
         $("#selectMeasureSpessoreMassello2").trigger("click");
     }
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
+
 }
 
 function consequenceStep1Masello() {
@@ -1713,6 +1725,8 @@ function consequenceStep1Masello() {
         createOptionsSelectInputGeneratorOnChange(selector, "selectColoreMassello", "Colore", options, consequenceStep1ColoreMasello)
 
     }
+
+  calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
 }
 
 function removeConsequenceStep1ColoreMasello() {
@@ -1736,6 +1750,8 @@ function createConsequenceMisuraCostaLateraleEvent2() {
         $("#titleColore2Massello2").remove();
         $("divColore2Massello2").remove();
     }
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
+
 }
 
 
@@ -1746,6 +1762,8 @@ function createConsequenceMisuraCostaLateraleMasselloEvent() {
         $("#titleColore2Massello2").remove();
         $("divColore2Massello2").remove();
     }
+  calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
+
 }
 
 function consequenceStep1ColoreMasello() {
@@ -1815,6 +1833,9 @@ function consequenceStep1ColoreMasello() {
 
         $("#selectMeasureSpessoreMassello").trigger("click");
     }
+
+  calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
+
 }
 
 
@@ -1850,6 +1871,7 @@ function consequenceStepScrittaMasello2Livelli() {
     radioButtonInputGeneratorOnChange(selector, 'pVC2', field1, "PVC", consequenceStep1Masello2Livelli);
     radioButtonInputGeneratorOnChange(selector, 'alluminioComposto2', field1, "Alluminio composito", consequenceStep1Masello2Livelli);
 
+  calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
 
 }
 
@@ -2122,7 +2144,7 @@ function resetFieldsStep1() {
 }
 
 function resetMasselloFieldsStep1() {
-    delete step1Storage["Scritta Massello"];
+    delete step1Storage["Scritta massello"];
 
 }
 
@@ -2297,6 +2319,14 @@ function calculateAll()
   else
     calculationIllumination(step4Storage["Tipo illuminazione"], step4Storage["Illuminazione"], step4Storage["Extra1"], step4Storage["Extra2"]);
 
+
+  if(step1Storage["Scritta massello"] === "Scritta semplice 1 livello")
+  calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
+  else
+  {
+    calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
+    calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
+  }
 
 
 }

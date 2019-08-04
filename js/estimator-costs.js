@@ -26,7 +26,7 @@ const inox = 0.018;
 const ottone = 0.056;
 
 const lamieraZincata = 0.042;// ask to change
-
+const costVernice = 10; // 10 euros for MQ
 
 
 const alluminioVerniciato = 0.014;
@@ -86,8 +86,9 @@ const bordaturaOutline = 20; // 20 EUROS FOR MQ
 /* END FRONTALINO LUCE DIRETTA CONSTANTS */
 
 /* FONDELLO  CONSTANTS */
-const costPVC10MMBiancoFondello = 12; // 12 euros for MQ
+const costPVC10MMBiancoFondello = 12; // 12 euros MQ
 const processCostPVC10MMBiancoFondello = 2; // 1 MT/MIN
+const processCostAlluminioComposito = 1 // 1 MT/MIN
 
 const costAlluminioComposito3MMFondello = 10; // 10 euros for MQ
 
@@ -224,12 +225,12 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
                *  1. Verniciatura della lettera (C1) */
               calculateVerniciaturaColoreARichiesta();
             }
+            materialsCost["Costo vernice"] = costVernice * totalArea;
 
+            console.log("Costo vernice: "+ materialsCost["Costo vernice"]);
             costCostaLaterale = alluminioVerniciato * depth;
           }
           else {
-
-            delete processCost["Verniciatura su richiesta"];
 
             costCostaLaterale = alluminio * depth;
 
@@ -268,11 +269,13 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
             calculateVerniciaturaColoreARichiesta();
           }
 
+          materialsCost["Costo vernice"] = costVernice * totalArea;
+          console.log("Costo vernice: "+ materialsCost["Costo vernice"]);
+
           costCostaLaterale = lamieraZincataVerniciata * depth;
         }
         else {
 
-          delete processCost["Verniciatura su richiesta"];
 
           costCostaLaterale = lamieraZincata * depth;
 
@@ -369,7 +372,7 @@ function calculateVerniciaturaColoreARichiesta()
 
   processCost["Verniciatura su richiesta"] = (processCostVerniciatura * totalPerimeter ) * employerCost ;
 
-  console.log("Verniciatura su richeista: " + processCost["Verniciatura su richiesta"]);
+
 }
 
 
@@ -384,6 +387,7 @@ function removeCostaLateraleFields()
   delete materialsCost["Costo cornice perimetrale"];
   delete materialsCost ["Costo letter form"];
   delete materialsCost ["Costo letter box"];
+  delete materialsCost["Costo vernice"];
 }
 
 
@@ -430,6 +434,7 @@ function calculateFrontalinoLuceDirettaMaterialsCost(material, depth)
           break;
     }
 
+    console.log("costo frontalino" + costFrontalino + "totale area" + totalArea);
     materialsCost["Costo materiale frontalino, " + material] = costFrontalino * totalArea;
     console.log("Costo materiale frontalino, " + material + ": " + materialsCost["Costo materiale frontalino, " + material])
     /* Calculate processing cost :
@@ -598,7 +603,7 @@ function calculationIllumination(type, illumination, extra1, extra2)
       calculationIlluminationMassello(type, illumination);
       processCostAssemblaggioStripLed();
     }
-    if((extra1 !== null && extra1 !== undefined) || (extra2== null && extra2 !== undefined))
+    if((extra1 !== null && extra1 !== undefined) || (extra2 !== null && extra2 !== undefined))
     {
       calculateExtraCostIllumination(extra1, extra2);
     }
@@ -633,62 +638,13 @@ function calculationIlluminationLuceDirettaAndRiflessa(illumination)
 
 
 }
-function calculationIlluminationMassello(type, illumination)
-{
-
-    let ledCost;
-    if(type === "Strip led IP67 (per esterno, waterproof)") {
-      switch (illumination) {
-        case "Bianco freddo 6500 k":
-        case "Bianco naturale 4000 k":
-        case "Bianco  caldo 3000 k":
-          ledCost = costIP67BiancoStripLed;
-          break;
-
-        case "Colorato rosso":
-        case "Colorato verde":
-        case "Colorato blu":
-          ledCost = costIP67ColoratoStripLed;
-
-          break;
-        case "Colorato RGB":
-          ledCost = costIP67RGBStripLed;
-          break;
-      }
-
-      materialsCost["Costo Modulo strip led IP67"] = ledCost * totalPerimeter;
-      console.log("Costo Modulo strip led IP67 " +  materialsCost["Costo Modulo strip led IP67"]);
-
-    }
-    else {
-      switch (illumination) {
-        case "Bianco freddo 6500 k":
-        case "Bianco naturale 4000 k":
-        case "Bianco  caldo 3000 k":
-          ledCost = costIP20BiancoStripLed;
-          break;
-
-        case "Colorato rosso":
-        case "Colorato verde":
-        case "Colorato blu":
-          ledCost = costIP20ColoratoStripLed;
-
-          break;
-        case "Colorato RGB":
-          ledCost = costIP20RGBStripLed;
-          break;
-      }
-      materialsCost["Costo Modulo strip led IP20"] = ledCost * totalPerimeter;
-      console.log("Costo Modulo strip led IP20 " +  materialsCost["Costo Modulo strip led IP20"]);
-
-    }
-}
 
 function calculateExtraCostIllumination(extra1, extra2)
 {
   if(extra1 === "Controller RGB" || extra2 === "Controller RGB")
   {
     materialsCost["Costo Controller RGB"] = costControllerRGB;
+
     console.log("Costo controller RGB " + materialsCost["Costo Controller RGB"])
   }
   if(extra1 === "Alimentatore" || extra2 === "Alimentatore")
@@ -733,6 +689,205 @@ function removeIlluminationCost()
 /* END ILLUMINATION CALCULATIONS */
 
 
+/* MASSELLO CALCULATIONS */
+function removeMasselloLivello2()
+{
+  delete materialsCost["Costo finitura spazzolata, livello 2"];
+  delete processCost["Verniciatura su richiesta, livello 2"];
+  delete materialsCost["Costo Alluminio composito,livello 2"];
+  delete materialsCost["Costo PVC,livello 2"];
+  delete materialsCost["Costo Plexi glass,livello 2"];
+  delete processCost["Taglio con fresa del frontalino, livello 2"];
+
+}
+
+function removeMasselloLivello1()
+{
+  delete materialsCost["Costo finitura spazzolata, livello 1"];
+  delete processCost["Verniciatura su richiesta, livello 1"];
+  delete materialsCost["Costo Alluminio composito,livello 1"];
+  delete materialsCost["Costo PVC,livello 1"];
+  delete materialsCost["Costo Plexi glass,livello 1"];
+  delete processCost["Taglio con fresa del frontalino, livello 1"];
+  delete processCost["Incollaggio del frontalino sulla costa"];
+
+}
+function calculateMasselloCost(level, type, material, color, depth)
+{
+  if(type !== undefined && type !== null && material !== undefined && material !== null)
+  {
+
+    if(type === "Scritta semplice 1 livello") {
+
+      removeMasselloLivello2();
+      removeIlluminationCost();
+
+      removeMasselloLivello1();
+      calculateMasselloSemplice(1,material, color, depth);
+
+    }
+    else
+    {
+      if(level === 1)
+      {
+
+        if(type === "Scritta doppia accoppiata 2 livelli con retroilluminazione a led")
+          removeIlluminationCost();
+
+        removeMasselloLivello1();
+
+        calculateIncollaggioDelFrontalino();
+        calculateMasselloSemplice(1, material, color, depth);
+
+      }
+
+      if(level === 2) {
+        removeMasselloLivello2();
+        calculateMasselloSemplice(2, material, color, depth);
+      }
+    }
+  }
+
+}
+
+function calculateMasselloSemplice(level, material, color, depth)
+{
+  let materialCost;
+  switch(material)
+  {
+    case "Plexi glass":
+      if(color === "Opale" || color === "Trasparente")
+        materialCost = costPlexiGlassOpaleFrontalino ;
+      else {
+        processCost["Verniciatura su richiesta, livello " + level] = calculateVerniciaturaColoreARichiestaMassello();
+
+        console.log("Verniciatura su richiesta, livello " + level + " " +  processCost["Verniciatura su richiesta, livello " + level])
+        materialCost = costPlexiGlassColoratoFrontalino;
+      }
+      break;
+    case "PVC":
+        if(color !=="Bianco") {
+          processCost["Verniciatura su richiesta, livello " + level] = calculateVerniciaturaColoreARichiestaMassello();
+
+          console.log("Verniciatura su richiesta, livello " + level + " " +  processCost["Verniciatura su richiesta, livello " + level])
+
+        }
+      materialCost = costPVC10MMBiancoFondello;
+      break;
+    case "Alluminio composito":
+
+      if(color !== "Bianco" && color !== "Nero") {
+        processCost["Verniciatura su richiesta, livello " + level] = calculateVerniciaturaColoreARichiestaMassello();
+
+        console.log("Verniciatura su richiesta, livello" + level + " " +  processCost["Verniciatura su richiesta, livello " + level])
+
+      }
+      if(color === "Argento spazzolato" || color === "Oro spazzolato" || color === "Rame spazzolato")
+      {
+        materialsCost["Costo finitura spazzolata, livello " + level] = inoxFinituraSpazzolata * totalPerimeter;
+
+        console.log("Costo finitura spazzolata, livello " + level + " " +  materialsCost["Costo finitura spazzolata, livello " + level])
+
+      }
+
+      materialCost = costAlluminioComposito3MMFondello;
+        break;
+  }
+
+  materialsCost["Costo " + material + ",livello "+ level] = materialCost * totalArea;
+  console.log("Costo "+ material + "livello "+level+" :"+ materialsCost["Costo " + material + ",livello "+ level]);
+
+  calculateTaglioConFresaDelFrontalinoMassello(level, material, depth);
+
+}
+
+
+/* Taglio con fresa del frontalino (A1)*/
+function calculateTaglioConFresaDelFrontalinoMassello(level, material, depth)
+{
+
+  depth = parseInt(depth);
+
+  let time ;
+  switch(material)
+  {
+    case "Plexi glass":
+      time = (totalPerimeter / processCostPlexiGlassOpaleFrontalino ) * depth;
+      break
+    case "PVC" :
+      time =  (totalPerimeter / processCostPVC10MMBiancoFondello  ) * depth;
+      break
+    case "Alluminio composito":
+      time = (totalPerimeter / processCostAlluminioComposito ) * depth;
+      break;
+  }
+  processCost["Taglio con fresa del frontalino, livello "+level] = (time * machineCost) + (time * employerCost);
+  console.log("Taglio con fresa del frontalino, livello "+level + ":"  + processCost["Taglio con fresa del frontalino, livello "+level]  )
+}
+
+
+
+function calculationIlluminationMassello(type, illumination)
+{
+
+  let ledCost;
+  if(type === "Strip led IP67 (per esterno, waterproof)") {
+    switch (illumination) {
+      case "Bianco freddo 6500 k":
+      case "Bianco naturale 4000 k":
+      case "Bianco  caldo 3000 k":
+        ledCost = costIP67BiancoStripLed;
+        break;
+
+      case "Colorato rosso":
+      case "Colorato verde":
+      case "Colorato blu":
+        ledCost = costIP67ColoratoStripLed;
+
+        break;
+      case "Colorato RGB":
+        ledCost = costIP67RGBStripLed;
+        break;
+    }
+
+    materialsCost["Costo Modulo strip led IP67"] = ledCost * totalPerimeter;
+    console.log("Costo Modulo strip led IP67 " +  materialsCost["Costo Modulo strip led IP67"]);
+
+  }
+  else {
+    switch (illumination) {
+      case "Bianco freddo 6500 k":
+      case "Bianco naturale 4000 k":
+      case "Bianco  caldo 3000 k":
+        ledCost = costIP20BiancoStripLed;
+        break;
+
+      case "Colorato rosso":
+      case "Colorato verde":
+      case "Colorato blu":
+        ledCost = costIP20ColoratoStripLed;
+
+        break;
+      case "Colorato RGB":
+        ledCost = costIP20RGBStripLed;
+        break;
+    }
+    materialsCost["Costo Modulo strip led IP20"] = ledCost * totalPerimeter;
+    console.log("Costo Modulo strip led IP20 " +  materialsCost["Costo Modulo strip led IP20"]);
+
+  }
+}
+
+/* calculate process of verniciatura (C1) */
+function calculateVerniciaturaColoreARichiestaMassello()
+{
+
+  return (processCostVerniciatura * totalPerimeter ) * employerCost ;
+
+
+}
+
+/* END MASSELLO CALCULATIONS */
 
 
 /* HYPERVISOR PARAMETERS, AREA AND PERIMETER*/
@@ -810,6 +965,7 @@ function resetPerimeterAndAreaLetter()
 function areaElementoSagomato(b, h)
 {
     h = centimetersToMeters(h);
+    b = centimetersToMeters(b);
 
     totalArea = b * h;
     console.log("Area: " + totalArea);
@@ -834,8 +990,13 @@ function centimetersToMeters(number)
 
 function removeAllTheCostAndProcessFields()
 {
-  removeCostaLateraleFields();
-  removeLuceDirettaFrontalinoFields();
-  removeFondelloFields();
-  removeIlluminationCost();
+
+  for (x in processCost)
+  {
+    delete processCost[x];
+  }
+  for(x in materialsCost)
+  {
+    delete materialsCost[x];
+  }
 }
