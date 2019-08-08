@@ -5,7 +5,7 @@ let step3Storage = {};
 let step4Storage = {};
 let step5Storage = {};
 
-var imported = document.createElement("script");
+let imported = document.createElement("script");
 imported.src = "js/estimator-costs.js";
 document.getElementsByTagName("head")[0].appendChild(imported);
 
@@ -38,7 +38,7 @@ function printAll() {
 */
 /*DEBUG THE MATERIALS AND PROCESSING COSTS*/
 
-
+/*
 function printAll() {
     let text;
 
@@ -94,7 +94,7 @@ function printAll() {
   }
     alert(text);
 }
-
+*/
 createStep0();
 createStep1();
 
@@ -2239,7 +2239,6 @@ function saveOptionalFieldsStep2Event() {
 
 function resetFieldsStep2() {
 
-console.log("RESETTTTTTTTTO");
     for (let property in step2Storage) {
 
         delete step2Storage[property];

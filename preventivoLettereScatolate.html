@@ -8,6 +8,8 @@
   <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <link rel="stylesheet" type="text/css" href="css/form.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 </head>
 <body>
 <div class="form-body" >
@@ -24,6 +26,7 @@
         <img src="img/logo-cityvisionsrl.jpg" alt="">
       </div>
     </div>
+
     <div class="form-holder">
       <div class="form-content">
         <div class="form-items">
@@ -32,6 +35,15 @@
 
             </a>
           </div>
+          <div id ="headerInfo" class="w3-bar color-bar" style="display:none">
+            <button id="elementSelectedTotalCosts" class="w3-bar-item w3-button w3-dark-grey" onclick="openTAB('elementSelectedTotalCosts','aboutTotalSelections')">Costo totale</button>
+            <button id="costsMaterialElementSelectedInTheForm" class="w3-bar-item w3-button" onclick="openTAB('costsMaterialElementSelectedInTheForm','aboutCostSelections')">Costi materiali</button>
+            <button id="costsProcessElementSelectedInTheForm" class="w3-bar-item w3-button" onclick="openTAB('costsProcessElementSelectedInTheForm','aboutProcessSelections')">Costi lavorazione</button>
+            <button id="elementSelectedInTheForm" class="w3-bar-item w3-button " onclick="openTAB('elementSelectedInTheForm','aboutSelections')">Elementi selezionati</button>
+            <button id="specTecInTheForm" class="w3-bar-item w3-button " onclick="openTAB('specTecInTheForm','aboutSpecTecSelections')">Spec. tecniche</button>
+          </div>
+
+
 
           <form id="estimatorLettereScatolateForm">
 
@@ -73,10 +85,28 @@
             <div class="form-group step5">
             </div>
             <div class="form-button">
-              <button id="submit" onClick="printAll()" class="ibtn">Conferma preventivo</button>
+              <button id="submit" onClick="generatePageCosts()" class="ibtn">Conferma preventivo</button>
             </div>
           </form>
+          <div id="aboutSelections" class="w3-container formElementsSelected" style="display:none" >
 
+          </div>
+          <div id="aboutCostSelections" class="w3-container formElementsSelected" style="display:none">
+
+          </div>
+          <div id="aboutProcessSelections" class="w3-container formElementsSelected" style="display:none">
+
+          </div>
+
+          <div id="aboutTotalSelections" class="w3-container formElementsSelected" >
+
+          </div>
+
+
+        <div id="aboutSpecTecSelections" class="w3-container formElementsSelected" style="display:none">
+
+        </div>
+        </div>
         </div>
       </div>
     </div>
@@ -86,7 +116,7 @@
 <script type="text/javascript" src="js/vendor/popper.min.js"></script>
 <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/estimator-controller.js"></script>
-
+<script type="text/javascript" src="js/generate-page-costs.js"></script>
 </body>
 </html>
 

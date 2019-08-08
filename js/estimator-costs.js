@@ -56,7 +56,7 @@ const letterBox100 =4.29; //4.29 euros for MT
 
 const processCostVerniciatura = 5; // 5 euros min/ MT
 
-const processCostSagomaturaBender = 8; // 8 euros min/ MT
+const processCostSagomaturaBender = 8; // 8  min/ MT
 
 const processCostIncollaggioFrontalino = 10; // 10 euros min/ MT
 
@@ -130,7 +130,6 @@ function calculateCostaLateraleLuceDiretta(category, material, depth, finitura, 
   materialsCost["Step 2"] = [];
   processCost["Step 2"] =[];
 
-console.log("FINITUREEEEEEEEEEEEEEEEEEEEEEEEEEEEE + " + finitura  + " COLOREEEEEEEE" + colore);
 
   if(depth != undefined)
         depth = parseInt(depth);
@@ -736,6 +735,8 @@ function calculateMasselloCost(level, type, material, color, depth)
     {
       materialsCost["Step 4"] = [];
       processCost["Step 4"] = [];
+      materialsCost["Step 3"] = [];
+      processCost["Step 3"] = [];
       if(level === 1)
       {
         materialsCost["Step 2"] = [];
@@ -750,8 +751,7 @@ function calculateMasselloCost(level, type, material, color, depth)
       }
 
       if(level === 2) {
-        materialsCost["Step 3"] = [];
-        processCost["Step 3"] = [];
+
         removeMasselloLivello2();
         calculateMasselloSemplice(2, material, color, depth);
       }
