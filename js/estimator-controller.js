@@ -9,6 +9,8 @@ var imported = document.createElement("script");
 imported.src = "js/estimator-costs.js";
 document.getElementsByTagName("head")[0].appendChild(imported);
 
+
+/* DEBUG THE ELEMENTS SELECTED
 function printAll() {
     let text;
     for (x in step0Storage) {
@@ -33,9 +35,65 @@ function printAll() {
 
     alert(text);
 }
+*/
+/*DEBUG THE MATERIALS AND PROCESSING COSTS*/
 
 
+function printAll() {
+    let text;
 
+  text += "Costo Materiali step 2\n";
+        for(l in materialsCost["Step 2"]) {
+          let p = Object.keys( materialsCost["Step 2"][l])[0];
+          text += p + ": " + materialsCost["Step 2"][l][p]+ "\n";
+        }
+  text += "Costo Processi step 2\n";
+
+  for(l in processCost["Step 2"]){
+        let p = Object.keys( processCost["Step 2"][l])[0];
+        text += p + ": " + processCost["Step 2"][l][p]+ "\n";
+      }
+  text += "Costo Materiali step 3\n";
+
+  for(l in materialsCost["Step 3"]) {
+    let p = Object.keys( materialsCost["Step 3"][l])[0];
+    text += p + ": " + materialsCost["Step 3"][l][p]+ "\n";
+  }
+  text += "Costo Processi step 3\n";
+
+  for(l in processCost["Step 3"]){
+    let p = Object.keys( processCost["Step 3"][l])[0];
+    text += p + ": " + processCost["Step 3"][l][p]+ "\n";
+  }
+
+  text += "Costo Materiali step 4\n";
+
+  for(l in materialsCost["Step 4"]) {
+    let p = Object.keys( materialsCost["Step 4"][l])[0];
+    text += p + ": " + materialsCost["Step 4"][l][p]+ "\n";
+  }
+
+  text += "Costo Processi step 4\n";
+
+  for(l in processCost["Step 4"]){
+    let p = Object.keys( processCost["Step 4"][l])[0];
+    text += p + ": " + processCost["Step 4"][l][p]+ "\n";
+  }
+
+  text += "Costo Materiali step 5\n";
+
+  for(l in materialsCost["Step 5"]) {
+    let p = Object.keys( materialsCost["Step 5"][l])[0];
+    text += p + ": " + materialsCost["Step 5"][l][p]+ "\n";
+  }
+  text += "Costo Processi step 5\n";
+
+  for(l in processCost["Step 5"]){
+    let p = Object.keys( processCost["Step 5"][l])[0];
+    text += p + ": " + processCost["Step 5"][l][p]+ "\n";
+  }
+    alert(text);
+}
 
 createStep0();
 createStep1();
@@ -184,6 +242,7 @@ function resetStep5LuceDiretta() {
 function createStep2LuceDirettaAndRiflessa() {
 
     resetFieldsStep2();
+
     resetStep2LuceDirettaAndRiflessa();
     resetStep3LuceDirettaAndRiflessa();
     resetStep4LuceDiretta();
@@ -531,13 +590,13 @@ function createConsequenceMaterialeCostaLateraleEvent() {
             case 'Letter form':
                 options.push("37MM");
                 options.push("60MM");
-                saveOptionalFieldsStep2EventLetterFormLetterBox(this.name, this.value);
+              saveFieldsStep2Event(this.name, this.value);
 
                 break;
             case 'Letter box':
                 options.push("60MM");
                 options.push("100MM");
-                saveOptionalFieldsStep2EventLetterFormLetterBox(this.name, this.value);
+              saveFieldsStep2Event(this.name, this.value);
                 break;
         }
     } else {
@@ -571,15 +630,22 @@ function createConsequenceMaterialeCostaLateraleEvent() {
         saveFieldsStep2Event(this.name, this.value);
     }
 
-    createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleEvent)
+  delete step2Storage["Extra"];
+
+  createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLaterale", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleEvent)
     if(step2Storage["Categoria costa laterale"] === "Flange") {
-    createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
+
+
+      createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
     createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
     let selector = '#customDivBordaturaCostaLateraleStep2';
-    checkboxInputGeneratorOnChange(selector, 'cornicePerimetrale', "Extra", "Cornice perimetrale", saveOptionalFieldsStep2Event);
+
+      checkboxInputGeneratorOnChange(selector, 'cornicePerimetrale', "Extra", "Cornice perimetrale", saveOptionalFieldsStep2Event);
 }
     else if(step2Storage["Categoria costa laterale"] === "Flat")
     {
+
+
       createTitle('.step2', "bordaturaCostaLaterale", "Extra (OPZIONALE) :");
       createDiv('.step2', "customDivBordaturaCostaLateraleStep2");
       let selector = '#customDivBordaturaCostaLateraleStep2';
@@ -631,6 +697,7 @@ function createConsequenceVerniciaturaEvent() {
 
 function createConsequenceColorVerniciaturaCostaLateraleSelected() {
 
+  console.log("MI23232AAAAA: +"+ step2Storage["Extra"]);
 
     if (this.name !== "Colore verniciatura costa laterale") {
 
@@ -642,17 +709,20 @@ function createConsequenceColorVerniciaturaCostaLateraleSelected() {
 
     saveFieldsStep2Event(this.name, this.value);
 
+  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
+
     createStep3LuceDiretta();
 
     createStep4LuceDirettaAndRiflessa();
     createStep5LuceDirettaAndRiflessa();
 
-  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
 
 }
 
 function createStep3LuceDiretta() {
     resetFieldsStep3();
+
+
     resetStep3LuceDirettaAndRiflessa();
 
 
@@ -662,9 +732,7 @@ function createStep3LuceDiretta() {
     let selector = ".step3";
 
     let field1 = "Materiale frontalino";
-    let field3 = "Extra";
 
-    step3Storage[field3] = null;
 
     createTitle(selector, 'materialeFrontalino', 'Materiale frontalino :');
     createCustomDiv(selector, "customDivMaterialeFrontalinoStep3");
@@ -675,22 +743,18 @@ function createStep3LuceDiretta() {
 
     if (step2Storage["Categoria costa laterale"] === "Profilo estruso") {
 
-        delete step3Storage[field3];
-        delete step2Storage[field3];
 
         radioButtonInputGeneratorOnChange(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceSpessoreFrontalinoEvent);
         radioButtonInputGeneratorOnChange(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
     } else if (step2Storage["Categoria costa laterale"] === 'Flange') {
 
-        delete step3Storage[field3];
 
         radioButtonInputGeneratorOnChange(selector, "plexiGlassOpale", field1, "Plexi glass opale (3MM)", createConsequenceMaterialeFrontalinoEvent);
 
 
     } else {
 
-        delete step2Storage[field3];
 
         radioButtonInputGeneratorOnChange(selector, "plexiGlassOpale", field1, "Plexi glass opale", createConsequenceMaterialeFrontalinoEvent);
         radioButtonInputGeneratorOnChange(selector, 'plexiGlassColorato', field1, "Plexi glass colorato (3MM)", createConsequenceMaterialeFrontalinoEvent);
@@ -704,7 +768,7 @@ function createStep3LuceDiretta() {
 
 function createConsequenceMaterialeFrontalinoEvent() {
     resetFieldsStep3();
-    step3Storage["step"] = "Frontalino";
+  step3Storage["step"] = "Frontalino";
 
     saveFieldsStep3Event(this.name, this.value);
 
@@ -760,7 +824,9 @@ function resetStep3LuceDirettaAndRiflessa() {
 
 
 function createConsequenceSpessoreFrontalinoEvent() {
-    saveFieldsStep3Event(this.name, this.value);
+
+  saveFieldsStep3Event(this.name, this.value);
+
 
 
     createStep4LuceDirettaAndRiflessa();
@@ -814,9 +880,8 @@ function createConsequenceMisuraCostaLateraleEvent() {
 
         if (step2Storage['Tipologia profilo'] === 'Letter form') {
 
-            radioButtonInputGeneratorOnChange(selector, 'bianca', field4, "Bianca", createConsequenceColorVerniciaturaCostaLateraleSelected);
-
-            radioButtonInputGeneratorOnChange(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent);
+          radioButtonInputGeneratorOnChange(selector, 'bianca', field4, "Bianca", createConsequenceColorVerniciaturaCostaLateraleSelected);
+          radioButtonInputGeneratorOnChange(selector, "verniciata", field4, "Verniciata", createConsequenceVerniciaturaEvent)
 
         } else {
             radioButtonInputGeneratorOnChange(selector, 'grezzo', field4, "Grezzo", createConsequenceColorVerniciaturaCostaLateraleSelected);
@@ -841,6 +906,7 @@ function createConsequenceMisuraCostaLateraleEvent() {
         radioButtonInputGeneratorOnChange(selector, 'galvanico', field4, "Galvanico", createConsequenceColorVerniciaturaCostaLateraleSelected);
     }
 
+  console.log("MIAAAAA: +"+ step2Storage["Extra"]);
 
   calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
 
@@ -2156,7 +2222,6 @@ function saveFieldsStep2Event(name, value) {
 
 function saveOptionalFieldsStep2Event() {
 
-
     if (this.checked) {
 
         if ($('input[value="' + step2Storage[this.name] + '"]') != null)
@@ -2172,24 +2237,9 @@ function saveOptionalFieldsStep2Event() {
 }
 
 
-function saveOptionalFieldsStep2EventLetterFormLetterBox(name, value) {
-
-
-    if ($('input[value="' + value + '"]').prop("checked")) {
-
-        $('input[value="' + step2Storage[name] + '"]').prop('checked', false);
-
-        step2Storage[name] = value;
-
-    } else {
-        step2Storage[name] = null;
-    }
-
-}
-
 function resetFieldsStep2() {
 
-
+console.log("RESETTTTTTTTTO");
     for (let property in step2Storage) {
 
         delete step2Storage[property];
@@ -2307,27 +2357,29 @@ function resetFieldsStep5() {
 function calculateAll()
 {
   removeAllTheCostAndProcessFields();
-
-  calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
-  calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"],step2Storage["Colore verniciatura costa laterale"]);
+if(step1Storage["Tipologia lavorazione"]!== "Massello spento") {
+  if (step1Storage["Tipologia lavorazione"] === "Luce diretta")
+    calculateCostaLateraleLuceDiretta(step2Storage["Categoria costa laterale"], step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"], step2Storage["Extra"]);
+  else if (step1Storage["Tipologia lavorazione"] === "Luce riflessa")
+    calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"]);
 
   calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"]);
   calculateFondello(step4Storage["Fondello"], step4Storage["Extra"], step1Storage["Numero lettere"]);
 
-  if(step5Storage["Illuminazione"] !== undefined)
-  calculationIllumination(null, step5Storage["Illuminazione"], step5Storage["Extra1"], step5Storage["Extra2"]);
+  if (step5Storage["Illuminazione"] !== undefined)
+    calculationIllumination(null, step5Storage["Illuminazione"], step5Storage["Extra1"], step5Storage["Extra2"]);
   else
     calculationIllumination(step4Storage["Tipo illuminazione"], step4Storage["Illuminazione"], step4Storage["Extra1"], step4Storage["Extra2"]);
+}
+else {
 
-
-  if(step1Storage["Scritta massello"] === "Scritta semplice 1 livello")
-  calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
-  else
-  {
+  if (step1Storage["Scritta massello"] === "Scritta semplice 1 livello")
+    calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
+  else {
     calculateMasselloCost(1, step1Storage["Scritta massello"], step2Storage["Tipo materiale"], step2Storage["Colore"], step2Storage["Spessore"]);
     calculateMasselloCost(2, step1Storage["Scritta massello"], step3Storage["Tipo materiale fondello"], step3Storage["Colore"], step3Storage["Spessore"]);
   }
 
-
+}
 }
 

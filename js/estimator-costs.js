@@ -127,8 +127,12 @@ const processCostAssemblaggioLedMassello = 8; // 8 min/ MT
 function calculateCostaLateraleLuceDiretta(category, material, depth, finitura, colore, extra)
 {
   removeCostaLateraleFields();
+  materialsCost["Step 2"] = [];
+  processCost["Step 2"] =[];
 
-    if(depth != undefined)
+console.log("FINITUREEEEEEEEEEEEEEEEEEEEEEEEEEEEE + " + finitura  + " COLOREEEEEEEE" + colore);
+
+  if(depth != undefined)
         depth = parseInt(depth);
 
 
@@ -136,8 +140,13 @@ function calculateCostaLateraleLuceDiretta(category, material, depth, finitura, 
   if(category === "Profilo estruso")
   {
     calculateLetterFormAndLetterBoxProfiloEstrusoMaterialCost(depth);
-    if(finitura === "Verniciata")
-    calculateVerniciaturaColoreARichiesta();
+    if(finitura === "Verniciata") {
+        /* Calculate processing cost :
+         *  1. Verniciatura della lettera (C1) */
+        calculateVerniciaturaColoreARichiesta();
+
+      materialsCost["Step 2"].push({"Costo vernice": costVernice * totalArea});
+    }
   }
   else {
     calculateCostaLateraleMaterialCost(material, depth, finitura, colore);
@@ -155,6 +164,8 @@ function calculateCostaLateraleLuceDiretta(category, material, depth, finitura, 
 function calculateCostaLateraleLuceRiflessa(material, depth, finitura, colore)
 {
   removeCostaLateraleFields();
+  materialsCost["Step 2"] = [];
+  processCost["Step 2"] =[];
 
   if(depth != undefined)
     depth = parseInt(depth);
@@ -174,19 +185,17 @@ function calculateLetterFormAndLetterBoxProfiloEstrusoMaterialCost(depth)
   if(profile === "Letter form")
   {
     if(depth === 37)
-      materialsCost ["Costo letter form"] = letterForm37 * totalPerimeter;
+      materialsCost["Step 2"].push({"Costo letter form" : letterForm37 * totalPerimeter});
     else
-      materialsCost ["Costo letter form"] = letterForm60 * totalPerimeter;
-    console.log("Costo letter form:" + materialsCost ["Costo letter form"] )
+      materialsCost["Step 2"].push({"Costo letter form" : letterForm60 * totalPerimeter});
   }
   else
   {
     if(depth === 60)
-      materialsCost ["Costo letter box"] = letterBox60 * totalPerimeter;
+      materialsCost["Step 2"].push({"Costo letter box" : letterBox60 * totalPerimeter});
     else
-      materialsCost ["Costo letter box"] = letterBox100 * totalPerimeter;
+      materialsCost["Step 2"].push({"Costo letter box" : letterBox100 * totalPerimeter});
 
-    console.log("Costo letter box:" + materialsCost ["Costo letter box"] )
 
   }
 
@@ -197,6 +206,7 @@ function calculateLetterFormAndLetterBoxProfiloEstrusoMaterialCost(depth)
 /*Sagomatura costa laterale con Bender (B1) */
 function calculateSagomaturaCostaLateraleConBender(category)
 {
+
   let cost;
   if(category ==="Flange")
   {
@@ -206,15 +216,13 @@ function calculateSagomaturaCostaLateraleConBender(category)
   {
     cost = (processCostSagomaturaBender * totalPerimeter);
   }
-  processCost["Sagomatura costa laterale con Bender"] = cost * (machineCost + employerCost);
-  console.log("Sagomatura costa laterale con Bender : " + processCost["Sagomatura costa laterale con Bender"]);
+  processCost["Step 2"].push({"Sagomatura costa laterale con Bender" : cost * (machineCost + employerCost)});
 }
 
 
 function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
 {
     let costCostaLaterale = 0;
-
 
   switch(material)
     {
@@ -224,10 +232,10 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
               /* Calculate processing cost :
                *  1. Verniciatura della lettera (C1) */
               calculateVerniciaturaColoreARichiesta();
-            }
-            materialsCost["Costo vernice"] = costVernice * totalArea;
+              materialsCost["Step 2"].push({"Costo vernice" : costVernice * totalArea});
 
-            console.log("Costo vernice: "+ materialsCost["Costo vernice"]);
+            }
+
             costCostaLaterale = alluminioVerniciato * depth;
           }
           else {
@@ -240,14 +248,12 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
 
           if(finitura === "Lucida")
           {
-          materialsCost ["Costo finitura lucida"] = inoxFinituraLucida * totalPerimeter;
-          console.log("Costo finitura lucida: " +  materialsCost ["Costo finitura lucida"])
+          materialsCost ["Step 2"].push({"Costo finitura lucida": inoxFinituraLucida * totalPerimeter});
           }
           else
           {
 
-          materialsCost["Costo finitura spazzolata"] = inoxFinituraSpazzolata * totalPerimeter;
-            console.log("Costo finitura spazzolata: " +  materialsCost ["Costo finitura spazzolata"])
+          materialsCost["Step 2"].push({"Costo finitura spazzolata" :inoxFinituraSpazzolata * totalPerimeter});
 
           }
           costCostaLaterale =  inox * depth;
@@ -255,8 +261,7 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
       case "Ottone" :
 
           if(finitura === "Galvanico")
-          materialsCost ["Costo finitura galvanico"] = ottoneFinituraGalvanica * totalPerimeter;
-        console.log("Costo finitura galvanico: " +  materialsCost ["Costo finitura galvanico"])
+          materialsCost["Step 2"].push({"Costo finitura galvanico" : ottoneFinituraGalvanica * totalPerimeter});
 
           costCostaLaterale =  ottone * depth;
 
@@ -267,10 +272,10 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
             /* Calculate processing cost :
              *  1. Verniciatura della lettera (C1) */
             calculateVerniciaturaColoreARichiesta();
+            materialsCost["Step 2"].push({"Costo vernice" : costVernice * totalArea});
+
           }
 
-          materialsCost["Costo vernice"] = costVernice * totalArea;
-          console.log("Costo vernice: "+ materialsCost["Costo vernice"]);
 
           costCostaLaterale = lamieraZincataVerniciata * depth;
         }
@@ -283,16 +288,18 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
           break;
   }
 
-  materialsCost["Costo "+ material] = costCostaLaterale * totalPerimeter;
-  console.log("Costo " + material + ": " + materialsCost["Costo "+ material]);
+  let obj = {};
+  obj["Costo materiale " + material + " costa laterale" ]= costCostaLaterale * totalPerimeter;
+  materialsCost["Step 2"].push(obj);
 }
-
 
 
 
 /* Extra cost luce diretta (bordatura outline) and cornice perimetrale */
 function calculateLuceDirettaExtraCost(material, extra, depth)
 {
+
+
   if(extra === "Bordatura outline saldata su fronte"){
 
     /* Calculate material cost bordatura outline */
@@ -312,7 +319,7 @@ function calculateLuceDirettaExtraCost(material, extra, depth)
         break;
     }
 
-    materialsCost["Costo  bordatura outline"] = materialCost * totalArea;
+    materialsCost["Step 2"].push({"Costo bordatura outline" : materialCost * totalArea});
 
     /* Calculate processing cost :
     *  1. Taglio con fresa della bordatura Outline (A3)
@@ -320,16 +327,16 @@ function calculateLuceDirettaExtraCost(material, extra, depth)
     taglioConFresaBordaturaOutline(material, depth);
     saldaturaDellaBordaturaOutline(material);
 
-    console.log("Costo Bordatura outline saldata su fronte " + materialsCost["Costo  bordatura outline"])
   }
 
   if(extra === "Cornice perimetrale")
   {
+
     let materialCost = cornicePerimetrale * depth;
 
-    materialsCost["Costo cornice perimetrale"] = materialCost * totalPerimeter;
-    console.log("Costo cornice perimetrale: " + materialsCost["Costo cornice perimetrale"]);
+    materialsCost["Step 2"].push({"Costo cornice perimetrale" : materialCost * totalPerimeter});
   }
+
 }
 
 
@@ -339,8 +346,7 @@ function calculateLuceDirettaExtraCost(material, extra, depth)
 /* Calculate processing cost taglio con fresa bordatura outline  (A3)*/
 function saldaturaDellaBordaturaOutline()
 {
-  processCost["Saldatura bordatura outline"] = (processCostSaldaturaBordaturaOutline * totalPerimeter) * (employerCost + machineCost);
-  console.log("Saldatura bordatura outline: " + processCost["Saldatura bordatura outline"]);
+  processCost["Step 2"].push({"Saldatura bordatura outline" :(processCostSaldaturaBordaturaOutline * totalPerimeter) * (employerCost + machineCost)});
 }
 
 /* Calculate processing cost taglio con fresa bordatura outline  (B3)*/
@@ -361,8 +367,7 @@ function taglioConFresaBordaturaOutline(material)
       break;
   }
 
-  processCost["Taglio con fresa bordatura outline"] = (time * machineCost) + (time * employerCost);
-  console.log("Taglio con fresa bordatura outline " + processCost["Taglio con fresa bordatura outline"])
+  processCost["Step 2"].push({"Taglio con fresa bordatura outline" : (time * machineCost) + (time * employerCost)});
 
 }
 
@@ -370,7 +375,7 @@ function taglioConFresaBordaturaOutline(material)
 function calculateVerniciaturaColoreARichiesta()
 {
 
-  processCost["Verniciatura su richiesta"] = (processCostVerniciatura * totalPerimeter ) * employerCost ;
+  processCost["Step 2"].push({"Verniciatura su richiesta" :(processCostVerniciatura * totalPerimeter ) * employerCost });
 
 
 }
@@ -378,16 +383,8 @@ function calculateVerniciaturaColoreARichiesta()
 
 function removeCostaLateraleFields()
 {
-  delete processCost["Verniciatura su richiesta"];
-  delete materialsCost ["Costo finitura lucida"];
-  delete materialsCost["Costo finitura spazzolata"];
-  delete materialsCost ["Costo finitura galvanico"];
-  delete materialsCost["Costo  bordatura outline"];
-  delete processCost["Taglio con fresa bordatura outline"];
-  delete materialsCost["Costo cornice perimetrale"];
-  delete materialsCost ["Costo letter form"];
-  delete materialsCost ["Costo letter box"];
-  delete materialsCost["Costo vernice"];
+  materialsCost["Step 2"] = [] ;
+   processCost["Step 2"] = [];
 }
 
 
@@ -402,8 +399,12 @@ function removeCostaLateraleFields()
 
 function calculateFrontalino(material, depth)
 {
-    if(depth !== undefined)
-        depth = parseInt(depth);
+
+  removeLuceDirettaFrontalinoFields();
+
+    materialsCost["Step 3"] = [];
+   processCost["Step 3"] = [];
+
 
     calculateFrontalinoLuceDirettaMaterialsCost(material, depth);
 
@@ -411,12 +412,19 @@ function calculateFrontalino(material, depth)
 
 function calculateFrontalinoLuceDirettaMaterialsCost(material, depth)
 {
+
+  if(depth !== undefined)
+  depth = parseInt(depth);
+
     let costFrontalino = 0;
     switch(material)
     {
         case "Plexi glass opale":
                 costFrontalino = costPlexiGlassOpaleFrontalino * depth;
             break;
+      case "Plexi glass opale (3MM)" :
+        costFrontalino =  costPlexiGlassOpaleFrontalino * 3 ;
+        break;
         case "Plexi glass colorato (3MM)" :
             costFrontalino =  costPlexiGlassColoratoFrontalino * 3 ;
             break;
@@ -434,9 +442,10 @@ function calculateFrontalinoLuceDirettaMaterialsCost(material, depth)
           break;
     }
 
-    console.log("costo frontalino" + costFrontalino + "totale area" + totalArea);
-    materialsCost["Costo materiale frontalino, " + material] = costFrontalino * totalArea;
-    console.log("Costo materiale frontalino, " + material + ": " + materialsCost["Costo materiale frontalino, " + material])
+    let stringMaterial = "Costo materiale " + material + " frontalino";
+    let obj = {};
+    obj[stringMaterial] =  costFrontalino * totalArea;
+    materialsCost["Step 3"].push(obj);
     /* Calculate processing cost :
     * 1. Taglio con fresa del frontalino (A1)
     * 2. Incollaggio del frontalino su costa (B2) */
@@ -447,9 +456,8 @@ function calculateFrontalinoLuceDirettaMaterialsCost(material, depth)
 /* Incollaggio del frontalino su costa (B2) */
 function calculateIncollaggioDelFrontalino()
 {
-  processCost["Incollaggio del frontalino sulla costa"] = (processCostIncollaggioFrontalino * totalPerimeter) * (machineCost + employerCost);
+  processCost["Step 3"].push({"Incollaggio del frontalino sulla costa": (processCostIncollaggioFrontalino * totalPerimeter) * (machineCost + employerCost)});
 
-  console.log("Incollaggio del frontalino sulla costa: " + processCostIncollaggioFrontalino * totalPerimeter);
 }
 
 /* Taglio con fresa del frontalino (A1)*/
@@ -460,10 +468,13 @@ function calculateTaglioConFresaDelFrontalino(material, depth)
     {
         case "Plexi glass opale":
             time = (totalPerimeter / processCostPlexiGlassOpaleFrontalino ) * depth;
-            break
+            break;
+      case "Plexi glass opale (3MM)":
+        time = (totalPerimeter / processCostPlexiGlassOpaleFrontalino ) * 3;
+        break;
         case "Plexi glass colorato (3MM)" :
             time =  (totalPerimeter / processCostPlexiGlassColoratoFrontalino  ) * 3;
-            break
+            break;
       case "Alluminio":
         time = (totalPerimeter / processCostAlluminio ) * depth;
         break;
@@ -477,14 +488,14 @@ function calculateTaglioConFresaDelFrontalino(material, depth)
         time = (totalPerimeter / processCostLamieraZincata ) * depth;
         break;
     }
-    processCost["Taglio con fresa del frontalino"] = (time * machineCost) + (time * employerCost);
-    console.log("Taglio con fresa del frontalino " + processCost["Taglio con fresa del frontalino"] )
+    processCost["Step 3"].push({"Taglio con fresa del frontalino" : (time * machineCost) + (time * employerCost)});
 }
 
 function removeLuceDirettaFrontalinoFields()
 {
-  delete processCost["Incollaggio del frontalino sulla costa"];
-  delete processCost["Taglio con fresa del frontalino"];
+
+   materialsCost["Step 3"] = [] ;
+   processCost["Step 3"]  = [];
 }
 /* END FRONTALINO LUCE DIRETTA CALCULATIONS */
 
@@ -495,19 +506,30 @@ function removeLuceDirettaFrontalinoFields()
 
 function removeFondelloFields()
 {
-  delete materialsCost["Costo Distanziatore Fondello"];
-  delete materialsCost["Costo fondello"];
-  delete processCost["Taglio con fresa del fondello"];
+
+
+  materialsCost["Step 4"] = [];
+   processCost["Step 4"] =[] ;
+
 }
 
 function calculateFondello(type, extra, numberOfLetters)
 {
+
+
   removeFondelloFields();
+
+  materialsCost["step 4"] = [];
+  processCost["step 4"] = [];
 
   if(type !== null && type !== undefined)
     {
+
+
+
       calculateFondelloMaterialsCost(type);
       calculateDistanziatoreFondelloExtraCost(extra, numberOfLetters);
+
     }
 
 }
@@ -530,9 +552,8 @@ function calculateFondelloMaterialsCost(type)
         break;
     }
 
-    materialsCost["Costo fondello"] = costFondello * totalArea;
+    materialsCost["Step 4"].push({"Costo fondello" : costFondello * totalArea});
 
-    console.log("Costo fondello" + materialsCost["Costo fondello"]);
 
     /* Calculate processing cost :
     * 1. Taglio con fresa del fondello (A2)*/
@@ -548,8 +569,7 @@ function calculateDistanziatoreFondelloExtraCost(extra, numberOfLetters)
     }
     else {
 
-        materialsCost["Costo Distanziatore Fondello"] = costDistanziatoreFondello * numberOfLetters;
-        console.log("Costo distanziatore fodnello: " + materialsCost["Costo Distanziatore Fondello"])
+        materialsCost["Step 4"].push({"Costo Distanziatore Fondello" : costDistanziatoreFondello * numberOfLetters});
     }
 }
 
@@ -577,8 +597,7 @@ function calculateTaglioConFresaDelFondello(material)
       break;
 
   }
-  processCost["Taglio con fresa del fondello"] = (time * machineCost) + (time * employerCost);
-  console.log("Taglio con fresa del fondello: " + processCost["Taglio con fresa del fondello"]);
+  processCost["Step 4"].push({"Taglio con fresa del fondello": (time * machineCost) + (time * employerCost)});
 }
 
 /* END FONDELLO CALCULATIONS */
@@ -588,8 +607,8 @@ function calculateTaglioConFresaDelFondello(material)
 function calculationIllumination(type, illumination, extra1, extra2)
 {
   removeIlluminationCost();
-  console.log("extra" + extra1);
-  console.log("extra" + extra2);
+    materialsCost["step 5"] = [];
+    processCost["step 5"] = [];
 
   if(illumination !== undefined && illumination !== null)
   {
@@ -633,8 +652,7 @@ function calculationIlluminationLuceDirettaAndRiflessa(illumination)
         break;
     }
 
-    materialsCost["Costo Modulo led"] = ledCost * totalPerimeter;
-    console.log("Costo Modulo led " +  materialsCost["Costo Modulo led"]);
+    materialsCost["Step 5"].push({"Costo Modulo led": ledCost * totalPerimeter});
 
 
 }
@@ -643,18 +661,15 @@ function calculateExtraCostIllumination(extra1, extra2)
 {
   if(extra1 === "Controller RGB" || extra2 === "Controller RGB")
   {
-    materialsCost["Costo Controller RGB"] = costControllerRGB;
+    materialsCost["Step 5"].push({"Costo Controller RGB": costControllerRGB});
 
-    console.log("Costo controller RGB " + materialsCost["Costo Controller RGB"])
   }
   if(extra1 === "Alimentatore" || extra2 === "Alimentatore")
   {
     let piece = totalPerimeter / 10;
     piece = Math.ceil(piece);
 
-    console.log("Prezzo t: " + piece);
-    materialsCost["Costo Alimentatore"] = piece  * costAlimentatore;
-    console.log("Costo Alimentatore" + materialsCost["Costo Alimentatore"])
+    materialsCost["Step 5"].push({"Costo Alimentatore" : piece  * costAlimentatore});
 
   }
 }
@@ -662,28 +677,23 @@ function calculateExtraCostIllumination(extra1, extra2)
 /* D1 */
 function processCostAssemblaggioLed()
 {
-  processCost["Assemblaggio led"] = (processCostAssemblaggioLedLuceDiretta * totalPerimeter) * employerCost;
-  console.log("Assemblaggio led" + processCost["Assemblaggio led"])
+  processCost["Step 5"].push({"Assemblaggio led" : (processCostAssemblaggioLedLuceDiretta * totalPerimeter) * employerCost});
 
 }
 
 /* D2 */
 function processCostAssemblaggioStripLed()
 {
-  processCost["Assemblaggio strip led"] = (processCostAssemblaggioLedMassello * totalPerimeter) * employerCost;
-  console.log("Assemblaggio strip led" + processCost["Assemblaggio strip led"])
+  processCost["Step 4"].push({"Assemblaggio strip led": (processCostAssemblaggioLedMassello * totalPerimeter) * employerCost});
 
 }
 
 function removeIlluminationCost()
 {
-  delete materialsCost["Costo Alimentatore"];
-  delete materialsCost["Costo Controller RGB"];
-  delete materialsCost["Costo Modulo strip led IP20"];
-  delete materialsCost["Costo Modulo strip led IP67"];
-  delete materialsCost["Costo Modulo led"];
-  delete processCost["Assemblaggio led"];
-  delete processCost["Assemblaggio strip led"];
+
+  materialsCost["Step 5"] = [];
+  processCost["Step 5"] = [];
+
 
 }
 /* END ILLUMINATION CALCULATIONS */
@@ -692,24 +702,17 @@ function removeIlluminationCost()
 /* MASSELLO CALCULATIONS */
 function removeMasselloLivello2()
 {
-  delete materialsCost["Costo finitura spazzolata, livello 2"];
-  delete processCost["Verniciatura su richiesta, livello 2"];
-  delete materialsCost["Costo Alluminio composito,livello 2"];
-  delete materialsCost["Costo PVC,livello 2"];
-  delete materialsCost["Costo Plexi glass,livello 2"];
-  delete processCost["Taglio con fresa del frontalino, livello 2"];
+
+  materialsCost["Step 3"] = [];
+  processCost["Step 3"] = [];
 
 }
 
 function removeMasselloLivello1()
 {
-  delete materialsCost["Costo finitura spazzolata, livello 1"];
-  delete processCost["Verniciatura su richiesta, livello 1"];
-  delete materialsCost["Costo Alluminio composito,livello 1"];
-  delete materialsCost["Costo PVC,livello 1"];
-  delete materialsCost["Costo Plexi glass,livello 1"];
-  delete processCost["Taglio con fresa del frontalino, livello 1"];
-  delete processCost["Incollaggio del frontalino sulla costa"];
+
+   materialsCost["Step 2"] = [];
+   processCost["Step 2"] = [];
 
 }
 function calculateMasselloCost(level, type, material, color, depth)
@@ -718,6 +721,9 @@ function calculateMasselloCost(level, type, material, color, depth)
   {
 
     if(type === "Scritta semplice 1 livello") {
+
+      materialsCost["Step 2"] = [];
+      processCost["Step 2"] = [];
 
       removeMasselloLivello2();
       removeIlluminationCost();
@@ -728,10 +734,12 @@ function calculateMasselloCost(level, type, material, color, depth)
     }
     else
     {
+      materialsCost["Step 4"] = [];
+      processCost["Step 4"] = [];
       if(level === 1)
       {
-
-        if(type === "Scritta doppia accoppiata 2 livelli con retroilluminazione a led")
+        materialsCost["Step 2"] = [];
+        processCost["Step 2"] = [];
           removeIlluminationCost();
 
         removeMasselloLivello1();
@@ -742,6 +750,8 @@ function calculateMasselloCost(level, type, material, color, depth)
       }
 
       if(level === 2) {
+        materialsCost["Step 3"] = [];
+        processCost["Step 3"] = [];
         removeMasselloLivello2();
         calculateMasselloSemplice(2, material, color, depth);
       }
@@ -752,6 +762,8 @@ function calculateMasselloCost(level, type, material, color, depth)
 
 function calculateMasselloSemplice(level, material, color, depth)
 {
+ let stepLevel = "Step " + (level + 1);
+
   let materialCost;
   switch(material)
   {
@@ -759,17 +771,26 @@ function calculateMasselloSemplice(level, material, color, depth)
       if(color === "Opale" || color === "Trasparente")
         materialCost = costPlexiGlassOpaleFrontalino ;
       else {
-        processCost["Verniciatura su richiesta, livello " + level] = calculateVerniciaturaColoreARichiestaMassello();
+        let masselloString = "Verniciatura su richiesta, livello " + level;
+        let result = calculateVerniciaturaColoreARichiestaMassello();
 
-        console.log("Verniciatura su richiesta, livello " + level + " " +  processCost["Verniciatura su richiesta, livello " + level])
+
+        let obj = {};
+        obj[masselloString] = result;
+        processCost[stepLevel].push(obj);
+        materialsCost[stepLevel].push({"Costo vernice" : costVernice * totalArea});
         materialCost = costPlexiGlassColoratoFrontalino;
       }
       break;
     case "PVC":
         if(color !=="Bianco") {
-          processCost["Verniciatura su richiesta, livello " + level] = calculateVerniciaturaColoreARichiestaMassello();
+          let masselloString = "Verniciatura su richiesta, livello " + level;
+          let result = calculateVerniciaturaColoreARichiestaMassello();
+          let obj = {};
+          obj[masselloString] = result;
+          processCost[stepLevel].push(obj);
+          materialsCost[stepLevel].push({"Costo vernice" : costVernice * totalArea});
 
-          console.log("Verniciatura su richiesta, livello " + level + " " +  processCost["Verniciatura su richiesta, livello " + level])
 
         }
       materialCost = costPVC10MMBiancoFondello;
@@ -777,16 +798,22 @@ function calculateMasselloSemplice(level, material, color, depth)
     case "Alluminio composito":
 
       if(color !== "Bianco" && color !== "Nero") {
-        processCost["Verniciatura su richiesta, livello " + level] = calculateVerniciaturaColoreARichiestaMassello();
-
-        console.log("Verniciatura su richiesta, livello" + level + " " +  processCost["Verniciatura su richiesta, livello " + level])
+        let masselloString = "Verniciatura su richiesta, livello " + level;
+        let result = calculateVerniciaturaColoreARichiestaMassello();
+        let obj = {};
+        obj[masselloString] = result;
+        processCost[stepLevel].push(obj);
+        materialsCost[stepLevel].push({"Costo vernice" : costVernice * totalArea});
+        materialCost = costPlexiGlassColoratoFrontalino;
 
       }
       if(color === "Argento spazzolato" || color === "Oro spazzolato" || color === "Rame spazzolato")
       {
-        materialsCost["Costo finitura spazzolata, livello " + level] = inoxFinituraSpazzolata * totalPerimeter;
+        let masselloString = "Costo finitura spazzolata, livello " + level;
+        let obj = {};
+        obj[masselloString] = inoxFinituraSpazzolata * totalPerimeter;
+        materialsCost[stepLevel].push(obj);
 
-        console.log("Costo finitura spazzolata, livello " + level + " " +  materialsCost["Costo finitura spazzolata, livello " + level])
 
       }
 
@@ -794,8 +821,10 @@ function calculateMasselloSemplice(level, material, color, depth)
         break;
   }
 
-  materialsCost["Costo " + material + ",livello "+ level] = materialCost * totalArea;
-  console.log("Costo "+ material + "livello "+level+" :"+ materialsCost["Costo " + material + ",livello "+ level]);
+  let masselloString = "Costo " + material + ", livello "+ level;
+  let obj = {};
+  obj[masselloString] = materialCost * totalArea;
+  materialsCost[stepLevel].push(obj);;
 
   calculateTaglioConFresaDelFrontalinoMassello(level, material, depth);
 
@@ -805,6 +834,7 @@ function calculateMasselloSemplice(level, material, color, depth)
 /* Taglio con fresa del frontalino (A1)*/
 function calculateTaglioConFresaDelFrontalinoMassello(level, material, depth)
 {
+  let stepLevel = "Step " + (level + 1);
 
   depth = parseInt(depth);
 
@@ -821,14 +851,18 @@ function calculateTaglioConFresaDelFrontalinoMassello(level, material, depth)
       time = (totalPerimeter / processCostAlluminioComposito ) * depth;
       break;
   }
-  processCost["Taglio con fresa del frontalino, livello "+level] = (time * machineCost) + (time * employerCost);
-  console.log("Taglio con fresa del frontalino, livello "+level + ":"  + processCost["Taglio con fresa del frontalino, livello "+level]  )
+  let masselloString = "Taglio con fresa del frontalino, livello "+level;
+  let value = (time * machineCost) + (time * employerCost);
+  let obj = {};
+  obj[masselloString] = value;
+    processCost[stepLevel].push(obj);
 }
-
 
 
 function calculationIlluminationMassello(type, illumination)
 {
+
+
 
   let ledCost;
   if(type === "Strip led IP67 (per esterno, waterproof)") {
@@ -850,8 +884,7 @@ function calculationIlluminationMassello(type, illumination)
         break;
     }
 
-    materialsCost["Costo Modulo strip led IP67"] = ledCost * totalPerimeter;
-    console.log("Costo Modulo strip led IP67 " +  materialsCost["Costo Modulo strip led IP67"]);
+    materialsCost["Step 4"].push({"Costo Modulo strip led IP67" : ledCost * totalPerimeter});
 
   }
   else {
@@ -872,8 +905,8 @@ function calculationIlluminationMassello(type, illumination)
         ledCost = costIP20RGBStripLed;
         break;
     }
-    materialsCost["Costo Modulo strip led IP20"] = ledCost * totalPerimeter;
-    console.log("Costo Modulo strip led IP20 " +  materialsCost["Costo Modulo strip led IP20"]);
+    materialsCost["Step 4"].push({"Costo Modulo strip led IP20" : ledCost * totalPerimeter});
+
 
   }
 }
