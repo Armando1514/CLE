@@ -197,7 +197,8 @@ function createStep4LuceDirettaAndRiflessa() {
         options.push("Plexi glass Opale 5MM");
         options.push("Plexi glass Opale 8MM");
         options.push("Plexi glass Opale 10MM");
-
+      options.push("Plexi glass Opale 15MM");
+      options.push("Plexi glass Opale 20MM");
 
 
         createOptionsSelectInputGeneratorOnChange(selector, "selectFondelloLuceRiflessa", "Fondello", options, consequenceFondello)
@@ -380,7 +381,7 @@ function createConsequenceMaterialeLuceRiflessa() {
 
     createOptionsSelectInputGeneratorOnChange('#customDivMisuraCostaLateraleStep2', "selectMeasureCostaLateraleLuceRiflessa", "Profondità costa laterale", options, createConsequenceMisuraCostaLateraleLuceRiflessaEvent)
     calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"],step2Storage["Colore verniciatura costa laterale"]);
-    calculateFrontalino(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"]);
+    calculateFrontalinoLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"]);
 
 }
 
@@ -422,7 +423,7 @@ function createConsequenceMisuraCostaLateraleLuceRiflessaEvent() {
 
     }
   calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"],step2Storage["Colore verniciatura costa laterale"]);
-  calculateFrontalino(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"]);
+  calculateFrontalinoLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"]);
 }
 
 
@@ -788,7 +789,11 @@ function createConsequenceMaterialeFrontalinoEvent() {
         options.push("3MM");
         options.push("5MM");
         options.push("8MM");
-        createOptionsSelectInputGeneratorOnChange(selector, "selectSpessoreFrontalino", "Spessore frontalino", options, createConsequenceSpessoreFrontalinoEvent)
+       options.push("10MM");
+       options.push("15MM");
+      options.push("20MM");
+
+      createOptionsSelectInputGeneratorOnChange(selector, "selectSpessoreFrontalino", "Spessore frontalino", options, createConsequenceSpessoreFrontalinoEvent)
     } else {
         $("#customDivSpessoreFrontalinoStep3").remove();
         $("#spessoreFrontalino").remove();
@@ -2362,7 +2367,7 @@ if(step1Storage["Tipologia lavorazione"]!== "Massello spento") {
   else if (step1Storage["Tipologia lavorazione"] === "Luce riflessa")
     calculateCostaLateraleLuceRiflessa(step2Storage["Materiale costa laterale"], step2Storage["Profondità costa laterale"], step2Storage["Finitura costa laterale"], step2Storage["Colore verniciatura costa laterale"]);
 
-  calculateFrontalino(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"]);
+  calculateFrontalinoLuceRiflessa(step3Storage["Materiale frontalino"], step3Storage["Spessore frontalino"]);
   calculateFondello(step4Storage["Fondello"], step4Storage["Extra"], step1Storage["Numero lettere"]);
 
   if (step5Storage["Illuminazione"] !== undefined)

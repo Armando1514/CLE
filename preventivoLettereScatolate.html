@@ -34,9 +34,11 @@
             <a href="index.html">
 
             </a>
+
           </div>
           <div id ="headerInfo" class="w3-bar color-bar" style="display:none">
-            <button id="elementSelectedTotalCosts" class="w3-bar-item w3-button w3-dark-grey" onclick="openTAB('elementSelectedTotalCosts','aboutTotalSelections')">Costo totale</button>
+            <button id="elementSelectedSellCosts" class="w3-bar-item w3-button w3-dark-grey" onclick="openTAB('elementSelectedSellCosts','sellCost')">Costo di vendita</button>
+            <button id="elementSelectedTotalCosts" class="w3-bar-item w3-button " onclick="openTAB('elementSelectedTotalCosts','aboutTotalSelections')">Calcolo costi</button>
             <button id="costsMaterialElementSelectedInTheForm" class="w3-bar-item w3-button" onclick="openTAB('costsMaterialElementSelectedInTheForm','aboutCostSelections')">Costi materiali</button>
             <button id="costsProcessElementSelectedInTheForm" class="w3-bar-item w3-button" onclick="openTAB('costsProcessElementSelectedInTheForm','aboutProcessSelections')">Costi lavorazione</button>
             <button id="elementSelectedInTheForm" class="w3-bar-item w3-button " onclick="openTAB('elementSelectedInTheForm','aboutSelections')">Elementi selezionati</button>
@@ -87,25 +89,94 @@
             <div class="form-button">
               <button id="submit" onClick="generatePageCosts()" class="ibtn">Conferma preventivo</button>
             </div>
+
           </form>
+
+
+
           <div id="aboutSelections" class="w3-container formElementsSelected" style="display:none" >
 
           </div>
+
+
           <div id="aboutCostSelections" class="w3-container formElementsSelected" style="display:none">
 
           </div>
+
+
+
           <div id="aboutProcessSelections" class="w3-container formElementsSelected" style="display:none">
 
           </div>
 
-          <div id="aboutTotalSelections" class="w3-container formElementsSelected" >
+          <div id="aboutTotalSelections" class="w3-container formElementsSelected" style="display:none" >
+
 
           </div>
 
+          <div id="sellCost" class="w3-container formElementsSelected"  style="display:none">
+            <div class="steps-timeline" >
+
+
+              <div class="steps-one">
+                <img class="steps-img" src="http://icons.iconarchive.com/icons/iconshock/real-vista-business/48/industry-mail-icon.png" alt="" />
+                <h3 class="steps-name">
+                  Soglia minima di vendita (euro)
+                </h3>
+                <p id ="sogliaMinima" class="steps-description">
+
+                </p>
+              </div>
+
+              <div class="steps-one">
+                <img class="steps-img" src="http://icons.iconarchive.com/icons/iconshock/real-vista-general/48/administrator-icon.png" alt="" />
+                <h3 class="steps-name">
+                  Rivenditore/ Partner (euro)
+                </h3>
+                <p id ="rivenditore" class="steps-description">
+
+                </p>
+              </div>
+
+              <div class="steps-two">
+                <img class="steps-img" src="http://icons.iconarchive.com/icons/hopstarter/sleek-xp-basic/48/Administrator-icon.png" alt="" />
+                <h3 class="steps-name">
+                  Insegnista (euro)
+                </h3>
+                <p id="insegnista" class="steps-description">
+                </p>
+              </div>
+
+              <div class="steps-three">
+                <img class="steps-img" src="http://icons.iconarchive.com/icons/google/noto-emoji-people-profession/48/10526-woman-construction-worker-light-skin-tone-icon.png" alt="" />
+                <h3 class="steps-name">
+                  Installatore/ Agenzia (euro)
+                </h3>
+                <p id="installatore" class="steps-description">
+                </p>
+              </div>
+
+
+              <div class="steps-three">
+                <img class="steps-img" src="http://icons.iconarchive.com/icons/hopstarter/sleek-xp-basic/48/Clients-icon.png" alt="" />
+                <h3 class="steps-name">
+                  Cliente finale (prezzo di listino) (euro)
+                </h3>
+                <p id="clienteFinale" class="steps-description">
+                </p>
+              </div>
+
+            </div><!-- /.steps-timeline -->
+          </div>
 
         <div id="aboutSpecTecSelections" class="w3-container formElementsSelected" style="display:none">
 
         </div>
+
+
+
+
+
         </div>
         </div>
       </div>

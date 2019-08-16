@@ -9,6 +9,12 @@ let totalProcessCost = 0;
 
 
 const sfrido = 0.20; //20 percent on material costs
+const utiliAziendali = 0.35;// 30 percent utili aziendali
+const fixedCost = 0.35;// 30 percent costi fissi aziendali
+const clienteFinale = 0.70; //+70 percent
+const installatore = 0.15; // -15 percent
+const insegnista = 0.25; //-25 percent
+const rivenditore = 0.35; // -35 percent
 
 
 imported.src = "js/estimator-controller.js";
@@ -67,8 +73,21 @@ function generateAllCosts() {
   let idC = 2000;
 
   let costoSfrido = totalMaterialCost * sfrido;
-  let totalPrice = costoSfrido + totalProcessCost + totalMaterialCost;
+  let price = costoSfrido + totalProcessCost + totalMaterialCost;
+  let utili = (price * utiliAziendali) ;
+  let costiFissi = (price * fixedCost) ;
+  let totalPrice = (price + utili + costiFissi);
+  let costoClienteFinale = totalPrice + (totalPrice * clienteFinale);
+  let costoInstallatore = costoClienteFinale - (installatore * costoClienteFinale);
+  let costoInsegnista = costoClienteFinale - (insegnista * costoClienteFinale);
+  let costoRivenditore = costoClienteFinale - (rivenditore * costoClienteFinale);
+
+
   totalPrice = totalPrice.toFixed(2);
+  costoClienteFinale = costoClienteFinale.toFixed(2);
+  costoInstallatore = costoInstallatore.toFixed(2);
+  costoInsegnista = costoInsegnista.toFixed(2);
+  costoRivenditore = costoRivenditore.toFixed(2);
 
   $("<table/>", {
     id: 'allCosts'
@@ -86,39 +105,89 @@ function generateAllCosts() {
     text: totalMaterialCost
   }).appendTo("#" + idC);
 
-  idC ++;
-
-  $("<tr/>", {
-    id: idC
-  }).appendTo("#allCosts");
-  $("<td/>", {
-    text: "Costo totale lavorazione"
-  }).appendTo("#" + idC);
-  $("<td/>", {
-    text: totalProcessCost
-  }).appendTo("#" + idC);
 
   idC ++;
   $("<tr/>", {
     id: idC
   }).appendTo("#allCosts");
   $("<td/>", {
-    text: "Costo sfrido"
+    text: "+ Costo sfrido materiali"
   }).appendTo("#" + idC);
   $("<td/>", {
     text: costoSfrido
   }).appendTo("#" + idC);
 
+
+  idC ++;
+
+  $("<tr/>", {
+    id: idC
+  }).appendTo("#allCosts");
+  $("<td/>", {
+    text: "+ Costo totale lavorazione"
+  }).appendTo("#" + idC);
+  $("<td/>", {
+    text: totalProcessCost
+  }).appendTo("#" + idC);
+
+
+
+
+
+
   idC ++;
   $("<tr/>", {
     id: idC
   }).appendTo("#allCosts");
   $("<td/>", {
-    text: "Totale (euro) "
+    text: "+ Costi fissi (euro) "
+  }).appendTo("#" + idC);
+  $("<td/>", {
+    text: costiFissi
+  }).appendTo("#" + idC);
+
+  idC ++;
+  $("<tr/>", {
+    id: idC
+  }).appendTo("#allCosts");
+  $("<td/>", {
+    text: " + Utili aziendali(euro) "
+  }).appendTo("#" + idC);
+  $("<td/>", {
+    text: utili
+  }).appendTo("#" + idC);
+
+
+  idC ++;
+  $("<tr/>", {
+    id: idC
+  }).appendTo("#allCosts");
+  $("<td/>", {
+    text: "Soglia minima di vendita (euro) "
   }).appendTo("#" + idC);
   $("<td/>", {
     text: totalPrice
   }).appendTo("#" + idC);
+
+
+
+
+
+  $("#sogliaMinima").text(totalPrice);
+
+  $("#clienteFinale").text(costoClienteFinale);
+
+
+  $("#installatore").text(costoInstallatore);
+
+
+  $("#insegnista").text(costoInsegnista);
+
+
+  $("#rivenditore").text(costoRivenditore);
+
+  $("#sellCost").css("display","block");
+
 }
 
 function selectionGenerator() {

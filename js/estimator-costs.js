@@ -25,13 +25,13 @@ const alluminio = 0.013;
 const inox = 0.018;
 const ottone = 0.056;
 
-const lamieraZincata = 0.042;// ask to change
+const lamieraZincata = 0.007;// ask to change
+
 const costVernice = 10; // 10 euros for MQ
 
 
 const alluminioVerniciato = 0.014;
 
-const lamieraZincataVerniciata = 0.043;// ask to change
 
 
 
@@ -43,9 +43,9 @@ const lamieraZincataMQ = 12  // 12 euros for MQ
 
 // ask to change because are not in the functional requirements
 const processCostAlluminio = 0.5; // MT/MIN
-const processCostOttone = 0.8;
-const processCostInox = 0.9;
-const processCostLamieraZincata = 0.6;
+const processCostOttone = 0.5;
+const processCostInox = 0.5;
+const processCostLamieraZincata = 0.5;
 // until here.
 
 const letterForm37 = 3.25; // 3.25 euros for MT
@@ -276,7 +276,7 @@ function calculateCostaLateraleMaterialCost(material, depth, finitura, colore)
           }
 
 
-          costCostaLaterale = lamieraZincataVerniciata * depth;
+          costCostaLaterale = lamieraZincata * depth;
         }
         else {
 
@@ -409,6 +409,66 @@ function calculateFrontalino(material, depth)
 
 }
 
+
+function calculateFrontalinoLuceRiflessa(material, depth)
+{
+
+  removeLuceDirettaFrontalinoFields();
+
+  materialsCost["Step 3"] = [];
+  processCost["Step 3"] = [];
+
+
+  calculateFrontalinoLuceRiflessaMaterialsCost(material, depth);
+
+}
+
+
+
+function calculateFrontalinoLuceRiflessaMaterialsCost(material, depth)
+{
+
+  if(depth !== undefined)
+    depth = parseInt(depth);
+
+  let costFrontalino = 0;
+  switch(material)
+  {
+    case "Plexi glass opale":
+      costFrontalino = costPlexiGlassOpaleFrontalino ;
+      break;
+    case "Plexi glass opale (3MM)" :
+      costFrontalino =  costPlexiGlassOpaleFrontalino  ;
+      break;
+    case "Plexi glass colorato (3MM)" :
+      costFrontalino =  costPlexiGlassColoratoFrontalino  ;
+      break;
+    case "Alluminio":
+      costFrontalino = alluminioMQ ;
+      break;
+    case "Ottone":
+      costFrontalino =  ottoneMQ ;
+      break;
+    case "Inox":
+      costFrontalino = inoxMQ ;
+      break;
+    case "Lamiera zincata":
+      costFrontalino = lamieraZincataMQ;
+      break;
+  }
+
+  let stringMaterial = "Costo materiale " + material + " frontalino";
+  let obj = {};
+  obj[stringMaterial] =  costFrontalino * totalArea;
+  materialsCost["Step 3"].push(obj);
+  /* Calculate processing cost :
+  * 1. Taglio con fresa del frontalino (A1)
+  * 2. Incollaggio del frontalino su costa (B2) */
+  calculateTaglioConFresaDelFrontalinoLuceRiflessa(material, depth);
+  calculateIncollaggioDelFrontalino();
+}
+
+
 function calculateFrontalinoLuceDirettaMaterialsCost(material, depth)
 {
 
@@ -455,7 +515,7 @@ function calculateFrontalinoLuceDirettaMaterialsCost(material, depth)
 /* Incollaggio del frontalino su costa (B2) */
 function calculateIncollaggioDelFrontalino()
 {
-  processCost["Step 3"].push({"Incollaggio del frontalino sulla costa": (processCostIncollaggioFrontalino * totalPerimeter) * (machineCost + employerCost)});
+  processCost["Step 3"].push({"Incollaggio del frontalino sulla costa": (processCostIncollaggioFrontalino * totalPerimeter) * ( employerCost)});
 
 }
 
@@ -490,6 +550,36 @@ function calculateTaglioConFresaDelFrontalino(material, depth)
     processCost["Step 3"].push({"Taglio con fresa del frontalino" : (time * machineCost) + (time * employerCost)});
 }
 
+/* Taglio con fresa del frontalino (A1)*/
+function calculateTaglioConFresaDelFrontalinoLuceRiflessa(material, depth)
+{
+  let time ;
+  switch(material)
+  {
+    case "Plexi glass opale":
+      time = (totalPerimeter / processCostPlexiGlassOpaleFrontalino ) ;
+      break;
+    case "Plexi glass opale (3MM)":
+      time = (totalPerimeter / processCostPlexiGlassOpaleFrontalino ) ;
+      break;
+    case "Plexi glass colorato (3MM)" :
+      time =  (totalPerimeter / processCostPlexiGlassColoratoFrontalino  ) ;
+      break;
+    case "Alluminio":
+      time = (totalPerimeter / processCostAlluminio ) ;
+      break;
+    case "Ottone":
+      time = (totalPerimeter / processCostOttone ) ;
+      break;
+    case "Inox":
+      time = (totalPerimeter / processCostInox ) ;
+      break;
+    case "Lamiera zincata":
+      time = (totalPerimeter / processCostLamieraZincata ) ;
+      break;
+  }
+  processCost["Step 3"].push({"Taglio con fresa del frontalino" : (time * machineCost) + (time * employerCost)});
+}
 function removeLuceDirettaFrontalinoFields()
 {
 
