@@ -1,0 +1,38 @@
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 981px) and (max-width: 1250px) {
+  
+
+  .aifil {
+
+}
+  #aifil2 {
+float:right;
+  }
+    #aifil1 {
+		padding-left:30px;
+		padding-right:5px;
+  }
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 220px) and (max-width: 981px) {
+  
+#logo-city-vision {
+width:50px;
+height:45px;
+
+}
+  
+    .aifil {
+padding:10%;
+}
+}
