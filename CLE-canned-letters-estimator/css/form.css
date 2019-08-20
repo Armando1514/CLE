@@ -95,12 +95,23 @@
 }
 
 .form-content {
+
     background-color: #44C97D;
 }
 
 .form-content .form-group {
     color: #fff;
 }
+#estimatorLettereScatolateForm{
+			width: 100%;
+
+}
+input
+{
+				width: 100%;
+
+}
+
 
 .form-content .form-items {
     max-width: 340px;
