@@ -1,4 +1,3 @@
-
 <?php
 // Initialize the session
 session_start();
@@ -12,195 +11,278 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preventivo lettere scatolate</title>
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css">
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-  <link rel="stylesheet" type="text/css" href="css/form.css">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Preventivazione lettere scatolate.">
+  <meta name="author" content="Armando Ferrara">
+  <title>Form | Preventivazione lettere scatolate</title>
+
+  <!-- Favicons-->
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+  <!-- GOOGLE WEB FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600" rel="stylesheet">
+
+  <!-- BASE CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/menu.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/vendors.css" rel="stylesheet">
+
+  <!-- YOUR CUSTOM CSS -->
+  <link href="css/custom.css" rel="stylesheet">
+
+  <!-- MODERNIZR MENU -->
+  <script src="js/modernizr.js"></script>
 
 </head>
+
 <body>
-<div class="form-body" >
-  <div class="website-logo">
-    <a href="index.html">
-    </a>
-  </div>
-  <div class="row">
-    <div class="img-holder">
-      <div class="bg"></div>
-      <div class="info-holder">
-        <h3>Crea un preventivo per clienti per lettere scatolate.</h3>
-        <p>Compila il form a lato, ricorda che i campi indicati con asterisco (*) sono obbligatori.</p>
-        <img src="img/logo-cityvisionsrl.jpg" alt="">
+
+<div id="preloader">
+  <div data-loader="circle-side"></div>
+</div><!-- /Preload -->
+
+<div id="loader_form">
+  <div data-loader="circle-side-2"></div>
+</div><!-- /loader_form -->
+
+<nav>
+  <ul class="cd-primary-nav">
+    <li><a href="index.html" class="animated_link">Home</a></li>
+    <li><a href="quotation-wizard-version.html" class="animated_link">Crea utente</a></li>
+    <li><a href="review-wizard-version.html" class="animated_link">Lista utenti</a></li>
+    <li><a href="review-wizard-version.html" class="animated_link">Blocca utente</a></li>
+  </ul>
+</nav>
+<!-- /menu -->
+
+<div class="container-fluid full-height" >
+  <div class="row row-height">
+    <div class="col-lg-6 content-left">
+      <div class="content-left-wrapper">
+
+        <!-- /social -->
+
       </div>
+      <!-- /content-left-wrapper -->
+    </div>
+    <!-- /content-left -->
+
+    <div class="col-lg-6 content-right" id="start">
+      <div id="wizard_container">
+        <div id="top-wizard">
+          <div id="progressbar"></div>
+        </div>
+        <!-- /top-wizard -->
+        <form id="wrapped" method="POST">
+          <input id="website" name="website" type="text" value="">
+          <!-- Leave for security protection, read docs for details -->
+          <div id="middle-wizard">
+            <div class="step">
+              <h3 class="main_question"><strong>1/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step0" class="labelStep0" >Informazioni cliente</a>
+              </div>
+              <div class="form-group step0">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>2/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step1" class="labelStep1" >Informazioni lavorazione</a>
+              </div>
+              <div class="form-group step1">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>3/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step2" class="labelStep2" ></a>
+              </div>
+              <div class="form-group step2">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>4/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step3" class="labelStep3" ></a>
+              </div>
+              <div class="form-group step3">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>5/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step4" class="labelStep4" ></a>
+              </div>
+              <div class="form-group step4">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>6/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step5" class="labelStep5" ></a>
+              </div>
+              <div class="form-group step5">
+              </div>
+
+            </div>
+            <!-- /step-->
+
+            <div class="submit step">
+
+              <h3 class="main_question"><strong>-</strong>Calcolo costi</h3>
+              <div class="summary">
+                <ul>
+                  <li style="background-color:#9BFBC3; border-radius:8px"><strong>A</strong>
+                    <h5 id="sogliaMinima"></h5>
+                    <p id="question_1" style="font-weight:600">Appartieni aquesto gruppo, soglia minima di vendita.</p>
+
+                  </li>
+                  <li><strong>C</strong>
+                    <h5 id="rivenditore"></h5>
+                    <p id="question_2">Prezzo di vendita consigliato per il rivenditore.</p>
+
+                  </li>
+                  <li><strong>B</strong>
+                    <h5 id="insegnista"></h5>
+                    <p id="question_3">Prezzo di vendita consigliato per l'insegnista.</p>
+
+                  </li>
+
+                  <li><strong>D</strong>
+                    <h5 id="installatore"></h5>
+                    <p id="question_4">Prezzo di vendita consigliato per l'installatore.</p>
+
+                  </li>
+                  <li><strong>E</strong>
+                    <h5 id="clienteFinale"></h5>
+                    <p id="question_5">Prezzo di vendita consigliato al pubblico.</p>
+
+                  </li>
+
+                </ul>
+                <p id="additional_message">Prezzi esclusi di IVA.</p>
+
+                <h3 class="main_question">Informazioni Extra</h3>
+              <ul>
+                <li>
+                <h5 id="priceShow">Clicca per visualizzare il costo dei materiali</h5>
+                <div class="shownElements" id="aboutCostSelections" style="display:none" class="formElementsSelected" >
+                </div>
+                  </li>
+                  <li>
+
+                  <h5 id="elementShow">Clicca per visualizzare i costi di lavorazione.</h5>
+
+                <div  class="shownElements" id="aboutProcessSelections" style="display:none" class="formElementsSelected" >
+
+                </div>
+                  </li>
+                  <li>
+
+                  <h5 id="processCostShow">Clicca per visualizzare il calcolo dei costi.</h5>
+                <div class="shownElements" id="aboutTotalSelections" style ="display:none" class="formElementsSelected" >
+
+                </div>
+                  </li>
+
+                  <li>
+                <h5 id="materialCostShow">Clicca per visualizzare gli elementi selezionati.</h5>
+                <div class="shownElements" id="aboutSelections" style ="display:none" class="formElementsSelected" >
+
+                </div>
+                </li>
+                  <li>
+
+                  <h5 id="specTecShow" >Clicca per visualizzare le specifiche tecniche.</h5>
+                <div class="shownElements" id="aboutSpecTecSelections" style ="display:none" class="formElementsSelected" >
+
+                </div>
+
+                  </li>
+                </ul>
+
+              </div>
+
+
+            </div>
+            <!-- /step-->
+          </div>
+
+
+          <!-- /middle-wizard -->
+          <div id="bottom-wizard">
+            <button type="button" name="backward" class="backward">Indietro</button>
+            <button type="button" name="forward" class="forward">Avanti</button>
+            <button type="submit" name="process" class="submit">Invia</button>
+
+
+
+          </div>
+
+          <!-- /bottom-wizard -->
+        </form>
+
+      </div>
+      <!-- /Wizard container -->
     </div>
 
-    <div class="form-holder">
-      <div class="form-content">
-        <div class="form-items">
-          <div class="website-logo-inside">
-            <a href="index.html">
-
-            </a>
-
-          </div>
-          <div id ="headerInfo" class="w3-bar color-bar" style="display:none">
-            <button id="elementSelectedSellCosts" class="w3-bar-item w3-button w3-dark-grey" onclick="openTAB('elementSelectedSellCosts','sellCost')">Costo di vendita</button>
-            <button id="elementSelectedTotalCosts" class="w3-bar-item w3-button " onclick="openTAB('elementSelectedTotalCosts','aboutTotalSelections')">Calcolo costi</button>
-            <button id="costsMaterialElementSelectedInTheForm" class="w3-bar-item w3-button" onclick="openTAB('costsMaterialElementSelectedInTheForm','aboutCostSelections')">Costi materiali</button>
-            <button id="costsProcessElementSelectedInTheForm" class="w3-bar-item w3-button" onclick="openTAB('costsProcessElementSelectedInTheForm','aboutProcessSelections')">Costi lavorazione</button>
-            <button id="elementSelectedInTheForm" class="w3-bar-item w3-button " onclick="openTAB('elementSelectedInTheForm','aboutSelections')">Elementi selezionati</button>
-            <button id="specTecInTheForm" class="w3-bar-item w3-button " onclick="openTAB('specTecInTheForm','aboutSpecTecSelections')">Spec. tecniche</button>
-          </div>
-
-
-
-          <form id="estimatorLettereScatolateForm">
-
-            <!--  START STEP 0    -->
-
-            <div class="page-links">
-              <a  href="#step0" class="labelStep0" >Step 0, informazioni cliente</a>
-            </div>
-            <div class="form-group step0">
-            </div>
-
-            <div class="page-links">
-              <a href="#step1" class="labelStep1" >Step 1, informazioni lavorazione</a>
-            </div>
-            <div class="form-group step1">
-            </div>
-            <div class="page-links">
-              <a href="#step2" class="labelStep2" ></a>
-            </div>
-            <div class="form-group step2">
-            </div>
-
-
-            <div  class="page-links">
-              <a href="#step3" class="labelStep3" ></a>
-            </div>
-            <div class="form-group step3">
-            </div>
-
-            <div class="page-links">
-              <a href="#step4" class="labelStep4" ></a>
-            </div>
-            <div class="form-group step4">
-            </div>
-
-            <div class="page-links">
-              <a href="#step5" class="labelStep5" ></a>
-            </div>
-            <div class="form-group step5">
-            </div>
-            <div class="form-button">
-              <button id="submit" onClick="generatePageCosts()" class="ibtn">Conferma preventivo</button>
-            </div>
-
-          </form>
-
-
-
-          <div id="aboutSelections" class="w3-container formElementsSelected" style="display:none" >
-
-          </div>
-
-
-          <div id="aboutCostSelections" class="w3-container formElementsSelected" style="display:none">
-
-          </div>
-
-
-
-          <div id="aboutProcessSelections" class="w3-container formElementsSelected" style="display:none">
-
-          </div>
-
-          <div id="aboutTotalSelections" class="w3-container formElementsSelected" style="display:none" >
-
-
-          </div>
-
-          <div id="sellCost" class="w3-container formElementsSelected"  style="display:none">
-            <div class="steps-timeline" >
-
-
-              <div class="steps-one">
-                <img class="steps-img" src="http://icons.iconarchive.com/icons/iconshock/real-vista-business/48/industry-mail-icon.png" alt="" />
-                <h3 class="steps-name">
-                  Soglia minima di vendita (euro)
-                </h3>
-                <p id ="sogliaMinima" class="steps-description">
-
-                </p>
-              </div>
-
-              <div class="steps-one">
-                <img class="steps-img" src="http://icons.iconarchive.com/icons/iconshock/real-vista-general/48/administrator-icon.png" alt="" />
-                <h3 class="steps-name">
-                  Rivenditore/ Partner (euro)
-                </h3>
-                <p id ="rivenditore" class="steps-description">
-
-                </p>
-              </div>
-
-              <div class="steps-two">
-                <img class="steps-img" src="http://icons.iconarchive.com/icons/hopstarter/sleek-xp-basic/48/Administrator-icon.png" alt="" />
-                <h3 class="steps-name">
-                  Insegnista (euro)
-                </h3>
-                <p id="insegnista" class="steps-description">
-                </p>
-              </div>
-
-              <div class="steps-three">
-                <img class="steps-img" src="http://icons.iconarchive.com/icons/google/noto-emoji-people-profession/48/10526-woman-construction-worker-light-skin-tone-icon.png" alt="" />
-                <h3 class="steps-name">
-                  Installatore/ Agenzia (euro)
-                </h3>
-                <p id="installatore" class="steps-description">
-                </p>
-              </div>
-
-
-              <div class="steps-three">
-                <img class="steps-img" src="http://icons.iconarchive.com/icons/hopstarter/sleek-xp-basic/48/Clients-icon.png" alt="" />
-                <h3 class="steps-name">
-                  Cliente finale (prezzo di listino) (euro)
-                </h3>
-                <p id="clienteFinale" class="steps-description">
-                </p>
-              </div>
-
-            </div><!-- /.steps-timeline -->
-          </div>
-
-        <div id="aboutSpecTecSelections" class="w3-container formElementsSelected" style="display:none">
-
-        </div>
-
-
-
-
-
-        </div>
-        </div>
-      </div>
-    </div>
+    <!-- /content-right-->
   </div>
+  <!-- /row-->
 </div>
-<script type="text/javascript" src="js/vendor/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="js/vendor/popper.min.js"></script>
-<script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+<!-- /container-fluid -->
+<div class="copy" style="color:#000000; padding:20px;"><span>&nbsp;</span><span class="copyright-year">2019</span> All right reserved <a href="http://ferrara.link/">  - Form developed by Armando Ferrara</a></div>
+
+<div class="cd-overlay-nav">
+  <span></span>
+</div>
+<!-- /cd-overlay-nav -->
+
+<div class="cd-overlay-content">
+  <span></span>
+</div>
+<!-- /cd-overlay-content -->
+
+<a href="#0" class="cd-nav-trigger">Menu<span class="cd-icon"></span></a>
+<!-- /menu button -->
+
+<!-- /.modal -->
+
+<!-- COMMON SCRIPTS -->
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/common_scripts.min.js"></script>
+<script src="js/velocity.min.js"></script>
+<script src="js/functions.js"></script>
 <script type="text/javascript" src="js/estimator-controller.js"></script>
 <script type="text/javascript" src="js/generate-page-costs.js"></script>
+
+<!-- Wizard script -->
+<script src="js/wizard_func.js"></script>
+
+
+
 </body>
 </html>
-

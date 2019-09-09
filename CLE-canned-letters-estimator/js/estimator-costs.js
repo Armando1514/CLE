@@ -658,6 +658,10 @@ function calculateDistanziatoreFondelloExtraCost(extra, numberOfLetters)
     }
     else {
 
+      if(numberOfLetters === undefined || numbersOfLetters === null)
+        numberOfLetters = 1;
+
+
         materialsCost["Step 4"].push({"Costo Distanziatore Fondello" : costDistanziatoreFondello * numberOfLetters});
     }
 }
@@ -726,7 +730,7 @@ function calculationIlluminationLuceDirettaAndRiflessa(illumination)
     {
       case "Modulo led IP67 bianco freddo 6500 k":
       case "Modulo led IP67 bianco naturale 4000 k":
-      case "Modulo led IP67 bianco  caldo 3000 k":
+      case "Modulo led IP67 bianco caldo 3000 k":
         ledCost = costBiancoIlluminazioneLuceDiretta;
         break;
 
@@ -785,6 +789,15 @@ function removeIlluminationCost()
 
 
 }
+
+function removeIlluminationCostMassello()
+{
+
+  materialsCost["Step 4"] = [];
+  processCost["Step 4"] = [];
+
+
+}
 /* END ILLUMINATION CALCULATIONS */
 
 
@@ -815,12 +828,12 @@ function calculateMasselloCost(level, type, material, color, depth)
       processCost["Step 2"] = [];
 
       removeMasselloLivello2();
-      removeIlluminationCost();
-
+      removeIlluminationCostMassello();
       removeMasselloLivello1();
       calculateMasselloSemplice(1,material, color, depth);
 
     }
+
     else
     {
       materialsCost["Step 4"] = [];
@@ -831,9 +844,9 @@ function calculateMasselloCost(level, type, material, color, depth)
       {
         materialsCost["Step 2"] = [];
         processCost["Step 2"] = [];
-          removeIlluminationCost();
 
         removeMasselloLivello1();
+        removeIlluminationCostMassello();
 
         calculateIncollaggioDelFrontalino();
         calculateMasselloSemplice(1, material, color, depth);
@@ -953,13 +966,16 @@ function calculationIlluminationMassello(type, illumination)
 {
 
 
+removeIlluminationCostMassello();
+
 
   let ledCost;
   if(type === "Strip led IP67 (per esterno, waterproof)") {
     switch (illumination) {
       case "Bianco freddo 6500 k":
       case "Bianco naturale 4000 k":
-      case "Bianco  caldo 3000 k":
+      case "Bianco caldo 3000 k":
+      case "Bianco 3000 k":
         ledCost = costIP67BiancoStripLed;
         break;
 
@@ -972,6 +988,8 @@ function calculationIlluminationMassello(type, illumination)
       case "Colorato RGB":
         ledCost = costIP67RGBStripLed;
         break;
+      default:
+        ledCost = costIP67BiancoStripLed;
     }
 
     materialsCost["Step 4"].push({"Costo Modulo strip led IP67" : ledCost * totalPerimeter});
@@ -981,7 +999,8 @@ function calculationIlluminationMassello(type, illumination)
     switch (illumination) {
       case "Bianco freddo 6500 k":
       case "Bianco naturale 4000 k":
-      case "Bianco  caldo 3000 k":
+      case "Bianco caldo 3000 k":
+      case "Bianco 3000 k":
         ledCost = costIP20BiancoStripLed;
         break;
 
@@ -994,6 +1013,9 @@ function calculationIlluminationMassello(type, illumination)
       case "Colorato RGB":
         ledCost = costIP20RGBStripLed;
         break;
+      default:
+        ledCost = costIP20BiancoStripLed;
+
     }
     materialsCost["Step 4"].push({"Costo Modulo strip led IP20" : ledCost * totalPerimeter});
 

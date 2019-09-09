@@ -1,12 +1,20 @@
 
 const selectionsSelector = $("#aboutSelections");
-const selectionsCostSelector = $("#aboutCostSelections");;
+const selectionsCostSelector = $("#aboutCostSelections");
 const selectionsProcessSelector = $("#aboutProcessSelections");
 const selectionTotalSelector = $("#aboutTotalSelections");
 const selectSpecTecn = $("#aboutSpecTecSelections");
-let totalMaterialCost = 0;
-let totalProcessCost = 0;
+let totalMaterialCost ;
+let totalProcessCost ;
 
+
+// to send via FORM
+let selectedFieldsToSend= "" ;
+let costToSend= "";
+let processCostToSend= "" ;
+let totalCostToSend= "" ;
+let specTecToSend= "" ;
+let pricesToSend = "";
 
 const sfrido = 0.20; //20 percent on material costs
 const utiliAziendali = 0.35;// 30 percent utili aziendali
@@ -17,15 +25,54 @@ const insegnista = 0.25; //-25 percent
 const rivenditore = 0.35; // -35 percent
 
 
-imported.src = "js/estimator-controller.js";
+imported.src = "js/estimator-conuloller.js";
 document.getElementsByTagName("head")[0].appendChild(imported);
 imported.src = "js/estimator-costs.js";
 document.getElementsByTagName("head")[0].appendChild(imported);
 
 
+$("#priceShow").on("click", function() {
+
+  $("#aboutCostSelections").toggle("slow");
+
+});
+
+$("#elementShow").on("click", function(){
+  $("#aboutProcessSelections").toggle("slow");
+});
+
+$("#processCostShow").on("click", function(){
+  $("#aboutTotalSelections").toggle("slow");
+});
+$("#materialCostShow").on("click", function(){
+  $("#aboutSelections").toggle("slow");
+});
+$("#specTecShow").on("click", function(){
+  $("#aboutSpecTecSelections").toggle("slow");
+});
+
 function generatePageCosts()
 {
-  $("#estimatorLettereScatolateForm").remove();
+
+
+  console.log("sdadsadassdads");
+
+  selectedFieldsToSend = "";
+  costToSend = "";
+  processCostToSend = "";
+  totalCostToSend = "";
+  specTecToSend = "";
+  pricesToSend = "";
+
+  totalMaterialCost = 0;
+  totalProcessCost = 0;
+
+
+
+  $(".shownElements").empty();
+
+  $("#step4Costs").remove();
+
   selectionGenerator();
   costMaterialGenerator();
   costProcessGenerator();
@@ -38,33 +85,34 @@ function generatePageCosts()
 function generateSpecTec()
 {
   idC = 3000;
-  $("<table/>", {
+  $("<div/>", {
     id: 'allSpec'
 
   }).appendTo(selectSpecTecn);
 
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allSpec");
 
-  $("<td/>", {
+  $("<li/>", {
     text: "Perimetro"
   }).appendTo("#" + idC);
-  $("<td/>", {
+  $("<li/>", {
     text: totalPerimeter
   }).appendTo("#" + idC);
-
+  specTecToSend+= "\nPerimetro: "+ totalPerimeter;
   idC ++;
 
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allSpec");
-  $("<td/>", {
+  $("<li/>", {
     text: "Area"
   }).appendTo("#" + idC);
-  $("<td/>", {
+  $("<li/>", {
     text: totalArea
   }).appendTo("#" + idC);
+  specTecToSend+= "\nArea: "+ totalArea;
 
   idC ++;
 }
@@ -89,102 +137,117 @@ function generateAllCosts() {
   costoInsegnista = costoInsegnista.toFixed(2);
   costoRivenditore = costoRivenditore.toFixed(2);
 
-  $("<table/>", {
+  $("<div/>", {
     id: 'allCosts'
 
   }).appendTo(selectionTotalSelector);
 
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allCosts");
 
-  $("<td/>", {
-    text: "Costo totale materiali"
+  $("<li/>", {
+    text: "+ Costo totale materiali"
   }).appendTo("#" + idC);
-  $("<td/>", {
-    text: totalMaterialCost
+  $("<li/>", {
+    text: "€ "+ totalMaterialCost
   }).appendTo("#" + idC);
 
+  totalCostToSend+= "\n + Costo totale materiali: " + "€ "+ totalMaterialCost;
 
   idC ++;
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allCosts");
-  $("<td/>", {
+  $("<li/>", {
     text: "+ Costo sfrido materiali"
   }).appendTo("#" + idC);
-  $("<td/>", {
-    text: costoSfrido
+  $("<li/>", {
+    text:  "€ "+ costoSfrido
   }).appendTo("#" + idC);
 
+  totalCostToSend+= "\n + Costo sfrido materiali: " + "€ "+ costoSfrido;
 
   idC ++;
 
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allCosts");
-  $("<td/>", {
+  $("<li/>", {
     text: "+ Costo totale lavorazione"
   }).appendTo("#" + idC);
-  $("<td/>", {
-    text: totalProcessCost
+  $("<li/>", {
+    text:  "€ "+ totalProcessCost
   }).appendTo("#" + idC);
 
+  totalCostToSend+= "\n + Costo totale lavorazione: " + "€ "+ totalProcessCost;
 
 
 
 
 
   idC ++;
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allCosts");
-  $("<td/>", {
+  $("<li/>", {
     text: "+ Costi fissi (euro) "
   }).appendTo("#" + idC);
-  $("<td/>", {
-    text: costiFissi
+  $("<li/>", {
+    text:  "€ "+ costiFissi
   }).appendTo("#" + idC);
 
+
+  totalCostToSend+= "\n + Costi fissi: " + "€ "+ costiFissi;
+
+
   idC ++;
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allCosts");
-  $("<td/>", {
+  $("<li/>", {
     text: " + Utili aziendali(euro) "
   }).appendTo("#" + idC);
-  $("<td/>", {
-    text: utili
+  $("<li/>", {
+    text:  "€ "+ utili
   }).appendTo("#" + idC);
+
+  totalCostToSend+= "\n + Utili: " + "€ "+ utili;
 
 
   idC ++;
-  $("<tr/>", {
+  $("<ul/>", {
     id: idC
   }).appendTo("#allCosts");
-  $("<td/>", {
-    text: "Soglia minima di vendita (euro) "
+  $("<li/>", {
+    text: "= Soglia minima di vendita (euro) "
   }).appendTo("#" + idC);
-  $("<td/>", {
-    text: totalPrice
+  $("<li/>", {
+    text:  "€ "+ totalPrice
   }).appendTo("#" + idC);
 
+  totalCostToSend+= "\n = Soglia minima di vendita (euro): " + "€ "+ totalPrice;
+
+  pricesToSend +="\n SOGLIA MINIMA DI VENDITA (CATEGORIA DI APPARTENENZA): " + "€" + totalPrice;
+  pricesToSend +="\n PREZZO RIVENDITORE: " + "€" + costoRivenditore;
+  pricesToSend +="\n PREZZO INSEGNISTA: " + "€" + costoInsegnista;
+  pricesToSend +="\n PREZZO INSTALLATORE: " + "€" + costoInstallatore;
+  pricesToSend +="\n PREZZO AL PUBBLICO: " + "€" + costoClienteFinale;
 
 
 
+  $("#sogliaMinima").text("€" + totalPrice);
 
-  $("#sogliaMinima").text(totalPrice);
-
-  $("#clienteFinale").text(costoClienteFinale);
-
-
-  $("#installatore").text(costoInstallatore);
+  $("#clienteFinale").text("€" + costoClienteFinale);
 
 
-  $("#insegnista").text(costoInsegnista);
+  $("#installatore").text("€" + costoInstallatore);
 
 
-  $("#rivenditore").text(costoRivenditore);
+  $("#insegnista").text("€" + costoInsegnista);
+
+
+  $("#rivenditore").text("€" + costoRivenditore);
 
   $("#sellCost").css("display","block");
 
@@ -192,177 +255,191 @@ function generateAllCosts() {
 
 function selectionGenerator() {
 
-  $("<table/>", {
+  $("<div/>", {
     id: 'step0'
 
   }).appendTo(selectionsSelector);
 
 
-
-    let idC = 0;
-
-
-    for (x in step0Storage) {
-
-        idC++;
-        $("<tr/>", {
-          id: idC
-        }).appendTo("#step0");
-
-        $("<td/>", {
-          text: x
-        }).appendTo("#" + idC);
-        $("<td/>", {
-          text: step0Storage[x]
-        }).appendTo("#" + idC);
+  let idC = 0;
 
 
+  for (x in step0Storage) {
 
+    if (step0Storage[x] !== undefined && step0Storage[x] !== null) {
+
+      idC++;
+      $("<ul/>", {
+        id: idC
+      }).appendTo("#step0");
+
+      $("<li/>", {
+        text: x
+      }).appendTo("#" + idC);
+      $("<li/>", {
+        text: step0Storage[x]
+      }).appendTo("#" + idC);
+
+
+      selectedFieldsToSend += "\n" + x + ":  " + step0Storage[x];
     }
-  $("<table/>", {
+  }
+  $("<div/>", {
     id: 'step1'
 
   }).appendTo(selectionsSelector);
+
   for (x in step1Storage) {
+    if (step1Storage[x] !== undefined && step1Storage[x] !== null) {
+      idC++;
+      $("<ul/>", {
+        id: idC
+      }).appendTo("#step1");
 
-    idC++;
-    $("<tr/>", {
-      id: idC
-    }).appendTo("#step1");
-
-    $("<td/>", {
-      text: x
-    }).appendTo("#" + idC);
-    $("<td/>", {
-      text: step1Storage[x]
-    }).appendTo("#" + idC);
+      $("<li/>", {
+        text: x
+      }).appendTo("#" + idC);
+      $("<li/>", {
+        text: step1Storage[x]
+      }).appendTo("#" + idC);
 
 
-
+      selectedFieldsToSend += "\n" + x + ":  " + step1Storage[x];
+    }
   }
-  $("<table/>", {
+
+
+  $("<div/>", {
     id: 'step2'
 
   }).appendTo(selectionsSelector);
+
+
   for (x in step2Storage) {
+    if (step2Storage[x] !== undefined && step2Storage[x] !== null) {
+      idC++;
+      $("<ul/>", {
+        id: idC
+      }).appendTo("#step2");
 
-    idC++;
-    $("<tr/>", {
-      id: idC
-    }).appendTo("#step2");
-
-    $("<td/>", {
-      text: x
-    }).appendTo("#" + idC);
-    $("<td/>", {
-      text: step2Storage[x]
-    }).appendTo("#" + idC);
+      $("<li/>", {
+        text: x
+      }).appendTo("#" + idC);
+      $("<li/>", {
+        text: step2Storage[x]
+      }).appendTo("#" + idC);
 
 
+      selectedFieldsToSend += "\n" + x + ":  " + step2Storage[x];
+    }
 
   }
 
-  $("<table/>", {
+  $("<div/>", {
     id: 'step3'
 
   }).appendTo(selectionsSelector);
 
 
   for (x in step3Storage) {
+    if (step3Storage[x] !== undefined && step3Storage[x] !== null) {
+      idC++;
+      $("<ul/>", {
+        id: idC
+      }).appendTo("#step3");
 
-    idC++;
-    $("<tr/>", {
-      id: idC
-    }).appendTo("#step3");
-
-    $("<td/>", {
-      text: x
-    }).appendTo("#" + idC);
-    $("<td/>", {
-      text: step3Storage[x]
-    }).appendTo("#" + idC);
-
-
+      $("<li/>", {
+        text: x
+      }).appendTo("#" + idC);
+      $("<li/>", {
+        text: step3Storage[x]
+      }).appendTo("#" + idC);
+      selectedFieldsToSend += "\n" + x + ":  " + step3Storage[x];
+    }
 
   }
 
-  $("<table/>", {
+  $("<div/>", {
     id: 'step4'
 
   }).appendTo(selectionsSelector);
   for (x in step4Storage) {
+    if (step4Storage[x] !== undefined && step4Storage[x] !== null ) {
+      idC++;
+      $("<ul/>", {
+        id: idC
+      }).appendTo("#step4");
 
-    idC++;
-    $("<tr/>", {
-      id: idC
-    }).appendTo("#step4");
+      $("<li/>", {
+        text: x
+      }).appendTo("#" + idC);
+      $("<li/>", {
+        text: step4Storage[x]
+      }).appendTo("#" + idC);
 
-    $("<td/>", {
-      text: x
-    }).appendTo("#" + idC);
-    $("<td/>", {
-      text: step4Storage[x]
-    }).appendTo("#" + idC);
-
-
-
+      selectedFieldsToSend += "\n" + x + ":  " + step4Storage[x];
+    }
   }
 
-  $("<table/>", {
+  $("<div/>", {
     id: 'step5'
 
   }).appendTo(selectionsSelector);
   for (x in step5Storage) {
+    if (step5Storage[x] !== undefined && step5Storage[x] !== null) {
+      idC++;
+      $("<ul/>",  {
+        id: idC
+      }).appendTo("#step5");
 
-    idC++;
-    $("<tr/>", {
-      id: idC
-    }).appendTo("#step5");
+      $("<li/>", {
+        text: x
+      }).appendTo("#" + idC);
+      $("<li/>", {
+        text: step5Storage[x]
+      }).appendTo("#" + idC);
 
-    $("<td/>", {
-      text: x
-    }).appendTo("#" + idC);
-    $("<td/>", {
-      text: step5Storage[x]
-    }).appendTo("#" + idC);
-
-
-
+      selectedFieldsToSend += "\n" + x + ":  " + step5Storage[x];
+    }
   }
+
 }
 
 function costMaterialGenerator() {
 
   let idC = 500;
-  $("<table/>", {
+  $("<div/>", {
     id: 'step2Costs'
 
   }).appendTo(selectionsCostSelector);
 
-
   if(materialsCost["Step 2"]!== undefined && materialsCost["Step 2"].length !== 0) {
 
-    $("<h4/>", {
-      text: "Costo materiali step 2"
+    $("<p/>", {
+      text: "\nCosto materiali step 2",
+      css: {"font-weight" : "600"}
+
     }).appendTo("#step2Costs");
+
+    costToSend += "\nCosto materiali step 2";
 
     for (l in materialsCost["Step 2"]) {
 
 
       if (materialsCost["Step 2"] !== undefined) {
+
         let p = Object.keys(materialsCost["Step 2"][l])[0];
 
         idC++;
-        $("<tr/>", {
+        $("<ul/>", {
           id: idC
         }).appendTo("#step2Costs");
 
-        $("<td/>", {
-          text: p
+        $("<li/>", {
+          text: p + ": € " + materialsCost["Step 2"][l][p]
         }).appendTo("#" + idC);
-        $("<td/>", {
-          text: materialsCost["Step 2"][l][p]
-        }).appendTo("#" + idC);
+
+        costToSend += "\n"+ p + ": € " + materialsCost["Step 2"][l][p];
 
 
         totalMaterialCost += parseFloat(materialsCost["Step 2"][l][p]);
@@ -376,30 +453,33 @@ function costMaterialGenerator() {
 
   if(materialsCost["Step 3"]!== undefined && materialsCost["Step 3"].length !== 0) {
 
-    $("<table/>", {
+    $("<div/>", {
       id: 'step3Costs'
 
     }).appendTo(selectionsCostSelector);
 
-    $("<h4/>", {
-      text: "Costo materiali step 3"
+    $("<p/>", {
+      text: "Costo materiali step 3",
+      css: {"font-weight" : "600"}
+
     }).appendTo("#step3Costs");
+    costToSend += "\nCosto materiali step 3";
 
     for (l in materialsCost["Step 3"]) {
 
       let p = Object.keys(materialsCost["Step 3"][l])[0];
 
       idC++;
-      $("<tr/>", {
+      $("<ul/>", {
         id: idC
       }).appendTo("#step3Costs");
 
-      $("<td/>", {
-        text: p
+      $("<li/>", {
+        text: p + ": € " + materialsCost["Step 3"][l][p]
       }).appendTo("#" + idC);
-      $("<td/>", {
-        text: materialsCost["Step 3"][l][p]
-      }).appendTo("#" + idC);
+
+      costToSend += "\n"+ p + ": € " + materialsCost["Step 3"][l][p];
+
       totalMaterialCost += parseFloat(materialsCost["Step 3"][l][p]);
 
     }
@@ -407,29 +487,34 @@ function costMaterialGenerator() {
   }
 
   if(materialsCost["Step 4"]!== undefined && materialsCost["Step 4"].length !== 0) {
-    $("<table/>", {
+    $("<div/>", {
       id: 'step4Costs'
 
     }).appendTo(selectionsCostSelector);
-    $("<h4/>", {
-      text: "Costo materiali step 4"
+    $("<p/>", {
+      text: "Costo materiali step 4",
+      css: {"font-weight" : "600"}
+
     }).appendTo("#step4Costs");
+
+    costToSend += "\nCosto materiali step 4";
 
     for (l in materialsCost["Step 4"]) {
 
       let p = Object.keys(materialsCost["Step 4"][l])[0];
 
       idC++;
-      $("<tr/>", {
+      $("<ul/>", {
         id: idC
       }).appendTo("#step4Costs");
 
-      $("<td/>", {
-        text: p
+      $("<li/>", {
+        text: p  + ": € " + materialsCost["Step 4"][l][p]
       }).appendTo("#" + idC);
-      $("<td/>", {
-        text: materialsCost["Step 4"][l][p]
-      }).appendTo("#" + idC);
+
+      costToSend += "\n"+  p  + ": € " + materialsCost["Step 4"][l][p];
+
+
       totalMaterialCost += parseFloat(materialsCost["Step 4"][l][p]);
 
     }
@@ -437,30 +522,35 @@ function costMaterialGenerator() {
 
   if(materialsCost["Step 5"]!== undefined && materialsCost["Step 5"].length !== 0) {
 
-    $("<table/>", {
+    $("<div/>", {
       id: 'step5Costs'
 
     }).appendTo(selectionsCostSelector);
 
-    $("<h4/>", {
-      text: "Costo materiali step 5"
+    $("<p/>", {
+      text: "Costo materiali step 5",
+      css: {"font-weight" : "600"}
     }).appendTo("#step5Costs");
+
+    costToSend += "\nCosto materiali step 4";
+
 
     for (l in materialsCost["Step 5"]) {
 
       let p = Object.keys(materialsCost["Step 5"][l])[0];
 
       idC++;
-      $("<tr/>", {
+      $("<ul/>", {
         id: idC
       }).appendTo("#step5Costs");
 
-      $("<td/>", {
-        text: p
+      $("<li/>", {
+        text: p  + ": € " + materialsCost["Step 5"][l][p]
       }).appendTo("#" + idC);
-      $("<td/>", {
-        text: materialsCost["Step 5"][l][p]
-      }).appendTo("#" + idC);
+
+      costToSend += "\n"+  p  + ": € " + materialsCost["Step 5"][l][p];
+
+
       totalMaterialCost += parseFloat(materialsCost["Step 5"][l][p]);
 
     }
@@ -470,64 +560,71 @@ function costMaterialGenerator() {
 function costProcessGenerator() {
 
   let idC = 1000;
-  $("<table/>", {
+  $("<div/>", {
     id: 'step2PCosts'
 
   }).appendTo(selectionsProcessSelector);
 
 
 
-  $("<h4/>", {
-    text: "Costo lavorazione step 2"
+  $("<p/>", {
+    text: "Costo lavorazione step 2",
+    css: {"font-weight" : "600"}
   }).appendTo("#step2PCosts");
 
+  processCostToSend += "\n Costo lavorazione step 2";
+
   for(l in processCost["Step 2"]) {
-   if(processCost["Step 2"]!== undefined) {
-     let p = Object.keys(processCost["Step 2"][l])[0];
+    if(processCost["Step 2"]!== undefined) {
+      let p = Object.keys(processCost["Step 2"][l])[0];
 
-     idC++;
-     $("<tr/>", {
-       id: idC
-     }).appendTo("#step2PCosts");
+      idC++;
+      $("<ul/>", {
+        id: idC
+      }).appendTo("#step2PCosts");
 
-     $("<td/>", {
-       text: p
-     }).appendTo("#" + idC);
-     $("<td/>", {
-       text: processCost["Step 2"][l][p]
-     }).appendTo("#" + idC);
-     totalProcessCost += parseFloat(processCost["Step 2"][l][p]);
-   }
+      $("<li/>", {
+        text: p  + ": € " + processCost["Step 2"][l][p]
+      }).appendTo("#" + idC);
+
+
+      processCostToSend += "\n"+ p  + ": € " + processCost["Step 2"][l][p];
+
+
+      totalProcessCost += parseFloat(processCost["Step 2"][l][p]);
+    }
   }
 
 
 
   if(processCost["Step 3"]!== undefined && processCost["Step 3"].length !== 0) {
 
-    $("<table/>", {
+    $("<div/>", {
       id: 'step3PCosts'
 
     }).appendTo(selectionsProcessSelector);
 
-    $("<h4/>", {
-      text: "Costo lavorazione step 3"
+    $("<p/>", {
+      text: "Costo lavorazione step 3",
+      css: {"font-weight" : "600"}
     }).appendTo("#step3PCosts");
+    processCostToSend += "\n Costo lavorazione step 3";
 
     for (l in processCost["Step 3"]) {
 
       let p = Object.keys(processCost["Step 3"][l])[0];
 
       idC++;
-      $("<tr/>", {
+      $("<ul/>", {
         id: idC
       }).appendTo("#step3PCosts");
 
-      $("<td/>", {
-        text: p
+      $("<li/>", {
+        text: p  + ": € " + processCost["Step 3"][l][p]
       }).appendTo("#" + idC);
-      $("<td/>", {
-        text: processCost["Step 3"][l][p]
-      }).appendTo("#" + idC);
+
+
+      processCostToSend += "\n"+ p  + ": € " + processCost["Step 3"][l][p];
 
       totalProcessCost += parseFloat(processCost["Step 3"][l][p]);
 
@@ -536,30 +633,35 @@ function costProcessGenerator() {
 
   if(processCost["Step 4"]!== undefined && processCost["Step 4"].length !== 0) {
 
-    $("<table/>", {
+    $("<div/>", {
       id: 'step4PCosts'
 
     }).appendTo(selectionsProcessSelector);
 
-    $("<h4/>", {
-      text: "Costo lavorazione step 4"
+    $("<p/>", {
+      text: "Costo lavorazione step 4",
+      css: {"font-weight" : "600"}
     }).appendTo("#step4PCosts");
+
+    processCostToSend += "\n Costo lavorazione step 4";
+
 
     for (l in processCost["Step 4"]) {
 
       let p = Object.keys(processCost["Step 4"][l])[0];
 
       idC++;
-      $("<tr/>", {
+      $("<ul/>", {
         id: idC
       }).appendTo("#step4PCosts");
 
-      $("<td/>", {
-        text: p
+      $("<li/>", {
+        text: p  + ": € " + processCost["Step 4"][l][p]
       }).appendTo("#" + idC);
-      $("<td/>", {
-        text: processCost["Step 4"][l][p]
-      }).appendTo("#" + idC);
+
+      processCostToSend += "\n"+ p  + ": € " + processCost["Step 4"][l][p];
+
+
       totalProcessCost += parseFloat(processCost["Step 4"][l][p]);
 
     }
@@ -568,30 +670,35 @@ function costProcessGenerator() {
 
   if(processCost["Step 5"]!== undefined && processCost["Step 5"].length !== 0) {
 
-    $("<table/>", {
+    $("<div/>", {
       id: 'step5PCosts'
 
     }).appendTo(selectionsProcessSelector);
 
-    $("<h4/>", {
-      text: "Costo lavorazione step 5"
+
+    $("<p/>", {
+      text: "Costo lavorazione step 5",
+      css: {"font-weight" : "600"}
     }).appendTo("#step5PCosts");
+
+    processCostToSend += "\n Costo lavorazione step 4";
+
 
     for (l in processCost["Step 5"]) {
 
       let p = Object.keys(processCost["Step 5"][l])[0];
 
       idC++;
-      $("<tr/>", {
+      $("<ul/>", {
         id: idC
       }).appendTo("#step5PCosts");
 
-      $("<td/>", {
-        text: p
+      $("<li>", {
+        text: p + ": € " + processCost["Step 5"][l][p]
       }).appendTo("#" + idC);
-      $("<td/>", {
-        text: processCost["Step 5"][l][p]
-      }).appendTo("#" + idC);
+
+      processCostToSend += "\n"+ p + ": € " + processCost["Step 5"][l][p];
+
 
       totalProcessCost += parseFloat(processCost["Step 5"][l][p]);
 
