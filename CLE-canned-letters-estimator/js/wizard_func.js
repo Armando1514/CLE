@@ -10,7 +10,7 @@ jQuery(function ($) {
 
     $.post('formContact.php', { rifLavoro: step0Storage["Riferimento lavoro"],elementSelected: selectedFieldsToSend, materialCost: costToSend, processCost: processCostToSend, totalCost: totalCostToSend, specTec:specTecToSend, prices:pricesToSend }).done(function() {
       // data.redirect contains the string URL to redirect to
-      window.location.href = "formContact.html";
+      window.location.href = "done.html";
 
     });
 
