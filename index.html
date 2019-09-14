@@ -1,0 +1,277 @@
+<?php
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Preventivazione lettere scatolate.">
+  <meta name="author" content="Armando Ferrara">
+  <title>Form | Preventivazione lettere scatolate</title>
+
+  <!-- Favicons-->
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+  <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+  <!-- GOOGLE WEB FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600" rel="stylesheet">
+
+  <!-- BASE CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/menu.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/vendors.css" rel="stylesheet">
+
+  <!-- YOUR CUSTOM CSS -->
+  <link href="css/custom.css" rel="stylesheet">
+
+  <!-- MODERNIZR MENU -->
+  <script src="js/modernizr.js"></script>
+
+</head>
+
+<body>
+
+<div id="preloader">
+  <div data-loader="circle-side"></div>
+</div><!-- /Preload -->
+
+<div id="loader_form">
+  <div data-loader="circle-side-2"></div>
+</div><!-- /loader_form -->
+
+
+
+<div class="container-fluid full-height" >
+  <div class="row row-height">
+    <div class="col-lg-6 content-left">
+      <div class="content-left-wrapper">
+
+
+      </div>
+      <!-- /content-left-wrapper -->
+    </div>
+    <!-- /content-left -->
+
+    <div class="col-lg-6 content-right" id="start">
+      <div id="wizard_container">
+        <div id="top-wizard">
+          <div id="progressbar"></div>
+        </div>
+        <!-- /top-wizard -->
+        <form id="wrapped" method="POST">
+          <input id="website" name="website" type="text" value="">
+          <!-- Leave for security protection, read docs for details -->
+          <div id="middle-wizard">
+            <div class="step">
+              <h3 class="main_question"><strong>1/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step0" class="labelStep0" >Informazioni cliente</a>
+              </div>
+              <div class="form-group step0">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>2/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step1" class="labelStep1" >Informazioni lavorazione</a>
+              </div>
+              <div class="form-group step1">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>3/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step2" class="labelStep2" ></a>
+              </div>
+              <div class="form-group step2">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>4/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step3" class="labelStep3" ></a>
+              </div>
+              <div class="form-group step3">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>5/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step4" class="labelStep4" ></a>
+              </div>
+              <div class="form-group step4">
+              </div>
+
+            </div>
+            <!-- /step-->
+            <!-- /step-->
+            <div class="step">
+              <h3 class="main_question"><strong>6/6</strong></h3>
+              <div class="page-links">
+                <a  href="#step5" class="labelStep5" ></a>
+              </div>
+              <div class="form-group step5">
+              </div>
+
+            </div>
+            <!-- /step-->
+
+            <div class="submit step">
+
+              <h3 class="main_question"><strong>-</strong>Calcolo costi</h3>
+              <div class="summary">
+                <ul>
+                  <li style="background-color:#9BFBC3; border-radius:8px"><strong>A</strong>
+                    <h5 id="sogliaMinima"></h5>
+                    <p id="question_1" style="font-weight:600">Appartieni aquesto gruppo, soglia minima di vendita.</p>
+
+                  </li>
+                  <li><strong>B</strong>
+                    <h5 id="rivenditore"></h5>
+                    <p id="question_2">Prezzo di vendita consigliato per il rivenditore.</p>
+
+                  </li>
+                  <li><strong>C</strong>
+                    <h5 id="insegnista"></h5>
+                    <p id="question_3">Prezzo di vendita consigliato per l'insegnista.</p>
+
+                  </li>
+
+                  <li><strong>D</strong>
+                    <h5 id="installatore"></h5>
+                    <p id="question_4">Prezzo di vendita consigliato per l'installatore.</p>
+
+                  </li>
+                  <li><strong>E</strong>
+                    <h5 id="clienteFinale"></h5>
+                    <p id="question_5">Prezzo di vendita consigliato al pubblico.</p>
+
+                  </li>
+
+                </ul>
+
+                <h3 class="main_question">Informazioni Extra</h3>
+              <ul>
+                <li>
+                <h5 id="priceShow">Clicca per visualizzare il costo dei materiali</h5>
+                <div class="shownElements" id="aboutCostSelections" style="display:none" class="formElementsSelected" >
+                </div>
+                  </li>
+                  <li>
+
+                  <h5 id="elementShow">Clicca per visualizzare i costi di lavorazione.</h5>
+
+                <div  class="shownElements" id="aboutProcessSelections" style="display:none" class="formElementsSelected" >
+
+                </div>
+                  </li>
+                  <li>
+
+                  <h5 id="processCostShow">Clicca per visualizzare il calcolo dei costi.</h5>
+                <div class="shownElements" id="aboutTotalSelections" style ="display:none" class="formElementsSelected" >
+
+                </div>
+                  </li>
+
+                  <li>
+                <h5 id="materialCostShow">Clicca per visualizzare gli elementi selezionati.</h5>
+                <div class="shownElements" id="aboutSelections" style ="display:none" class="formElementsSelected" >
+
+                </div>
+                </li>
+                  <li>
+
+                  <h5 id="specTecShow" >Clicca per visualizzare le specifiche tecniche.</h5>
+                <div class="shownElements" id="aboutSpecTecSelections" style ="display:none" class="formElementsSelected" >
+
+                </div>
+
+                  </li>
+                </ul>
+
+              </div>
+
+
+            </div>
+            <!-- /step-->
+          </div>
+
+
+          <!-- /middle-wizard -->
+          <div id="bottom-wizard">
+            <button type="button" name="backward" class="backward">Indietro</button>
+            <button type="button" name="forward" class="forward">Avanti</button>
+            <button type="submit" name="process" class="submit">Invia</button>
+
+
+
+          </div>
+
+          <!-- /bottom-wizard -->
+        </form>
+
+      </div>
+      <!-- /Wizard container -->
+    </div>
+
+    <!-- /content-right-->
+  </div>
+  <!-- /row-->
+</div>
+<!-- /container-fluid -->
+<div class="copy" style="color:#000000; padding:20px;"><span>&nbsp;</span><span class="copyright-year">2019</span> All right reserved <a href="http://ferrara.link/">  - Form developed by Armando Ferrara</a></div>
+
+<div class="cd-overlay-nav">
+  <span></span>
+</div>
+<!-- /cd-overlay-nav -->
+
+<div class="cd-overlay-content">
+  <span></span>
+</div>
+<!-- /cd-overlay-content -->
+
+<!-- /menu button -->
+
+<!-- /.modal -->
+
+<!-- COMMON SCRIPTS -->
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/common_scripts.min.js"></script>
+<script src="js/velocity.min.js"></script>
+<script src="js/functions.js"></script>
+<script type="text/javascript" src="js/estimator-controller.js"></script>
+<script type="text/javascript" src="js/generate-page-costs.js"></script>
+
+<!-- Wizard script -->
+<script src="js/wizard_func.js"></script>
+
+
+
+</body>
+</html>

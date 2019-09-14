@@ -1,0 +1,19 @@
+/*============================================================================================*/
+/*custom style for form*/
+/*============================================================================================*/
+.content-right {
+  overflow: auto;
+  width:100%;
+  display:inline-grid;
+  margin: 0 auto;
+}
+
+.content-left {
+  display:none;
+}
+
+
+button[type="button"]
+{
+margin-bottom: 0;
+}
